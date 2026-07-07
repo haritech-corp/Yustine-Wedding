@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   YUSTINE WEDDING — Design Tokens & Styles (Tidak Ada Perubahan)
+   YUSTINE WEDDING — Design Tokens & Base
    ============================================================ */
 :root{
   --c-white:#FFFFFF;
@@ -33,9 +33,22 @@
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+/* FIX HORIZONTAL SCROLL BUG */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0; padding: 0;
+}
+.site-wrapper {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
 body{
-  margin:0; background:var(--c-white); color:var(--c-ink); font-family:var(--font-body);
-  font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  background:var(--c-white); color:var(--c-ink); font-family:var(--font-body);
+  font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased;
 }
 img{ max-width:100%; display:block; }
 a{ color:inherit; text-decoration:none; }
@@ -43,32 +56,34 @@ button{ font-family:inherit; cursor:pointer; background:none; border:none; color
 ul{ list-style:none; margin:0; padding:0; }
 h1,h2,h3,h4,p{ margin:0; }
 ::selection{ background:var(--c-champagne); color:var(--c-ink); }
-::-webkit-scrollbar{ width:9px; }
+::-webkit-scrollbar{ width:7px; }
 ::-webkit-scrollbar-track{ background:var(--c-ivory); }
-::-webkit-scrollbar-thumb{ background:var(--c-champagne); border-radius:6px; }
+::-webkit-scrollbar-thumb{ background:var(--c-champagne); border-radius:10px; }
 :focus-visible{ outline:2px solid var(--c-gold-deep); outline-offset:4px; border-radius:2px; }
-.container{ max-width:1240px; margin:0 auto; padding:0 clamp(24px,5vw,64px); }
+.container{ max-width:1240px; margin:0 auto; padding:0 clamp(20px,5vw,64px); }
+
+/* Typography & Headers */
 .eyebrow{
   font-family:var(--font-body); font-size:.72rem; font-weight:600; letter-spacing:.32em;
   text-transform:uppercase; color:var(--c-gold-deep); display:flex; align-items:center; gap:14px;
 }
 .eyebrow::before{ content:''; width:34px; height:1px; background:var(--c-gold-deep); display:inline-block; }
-.section-head{ max-width:640px; margin-bottom:clamp(48px,7vw,88px); }
+.section-head{ max-width:640px; margin-bottom:clamp(40px,7vw,88px); }
 .section-head.center{ margin-left:auto; margin-right:auto; text-align:center; }
 .section-head h2{
-  font-family:var(--font-display); font-weight:500; font-size:clamp(2.4rem,4.6vw,3.7rem);
+  font-family:var(--font-display); font-weight:500; font-size:clamp(2.2rem,5vw,3.7rem);
   line-height:1.12; margin-top:18px; color:var(--c-ink); letter-spacing:.005em;
 }
 .section-head h2 em{ font-style:italic; font-weight:400; color:var(--c-gold-deep); }
-.section-head p{ margin-top:20px; color:var(--c-ink-soft); font-size:1.02rem; max-width:520px; }
+.section-head p{ margin-top:20px; color:var(--c-ink-soft); font-size:clamp(.95rem, 2vw, 1.02rem); max-width:520px; }
 .section-head.center p{ margin-left:auto; margin-right:auto; }
 section{ position:relative; }
-.pad{ padding:clamp(80px,10vw,150px) 0; }
+.pad{ padding:clamp(70px,10vw,150px) 0; }
 .bg-ivory{ background:var(--c-ivory); }
 .bg-white{ background:var(--c-white); }
 .bg-ink{ background:var(--c-ink); color:var(--c-beige); }
-.ornament{ width:64px; height:22px; margin:0 auto 22px; opacity:.9; }
-.ornament.left-align{ margin:0 0 22px; }
+
+/* Buttons */
 .btn{
   position:relative; display:inline-flex; align-items:center; justify-content:center; gap:10px;
   padding:17px 38px; font-family:var(--font-body); font-size:.82rem; font-weight:600;
@@ -83,13 +98,15 @@ section{ position:relative; }
   transform:translateX(-120%); transition:transform .8s var(--ease-lux); z-index:1;
 }
 .btn-primary:hover::before{ transform:translateX(120%); }
-.btn-primary:hover{ box-shadow:0 14px 30px -10px rgba(0,0,0,.45); transform:translateY(-2px); }
+.btn-primary:hover{ box-shadow:0 14px 30px -10px rgba(0,0,0,.45); transform:translateY(-4px) scale(1.02); }
 .btn-ghost{ border:1px solid rgba(255,255,255,.65); color:#fff; background:rgba(255,255,255,.04); backdrop-filter:blur(6px); }
-.btn-ghost:hover{ background:rgba(255,255,255,.16); transform:translateY(-2px); }
+.btn-ghost:hover{ background:rgba(255,255,255,.16); transform:translateY(-4px) scale(1.02); }
 .btn-dark-ghost{ border:1px solid rgba(42,37,33,.3); color:var(--c-ink); }
-.btn-dark-ghost:hover{ background:var(--c-ink); color:var(--c-ivory); transform:translateY(-2px); }
+.btn-dark-ghost:hover{ background:var(--c-ink); color:var(--c-ivory); transform:translateY(-4px) scale(1.02); }
 .btn-block{ width:100%; }
 .magnetic{ display:inline-block; }
+
+/* Loader */
 #loader{
   position:fixed; inset:0; z-index:9999; background:var(--c-white); display:flex; align-items:center;
   justify-content:center; flex-direction:column; transition:opacity 1.1s var(--ease-lux), visibility 1.1s;
@@ -113,6 +130,8 @@ section{ position:relative; }
   100%{ transform:translateY(110vh) translateX(var(--drift,40px)) rotate(340deg); opacity:0; }
 }
 @keyframes loaderFade{ to{ opacity:1; } }
+
+/* Entrance Overlay */
 #entrance{
   position:fixed; inset:0; z-index:9998; background-size:cover; background-position:center;
   transform:scale(1.12); filter:blur(0px); opacity:1; transition:opacity 3.2s var(--ease-lux), filter 3.2s var(--ease-lux), transform 4s var(--ease-lux);
@@ -120,14 +139,16 @@ section{ position:relative; }
 #entrance::after{ content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,16,14,.25), rgba(20,16,14,.55)); }
 #entrance.zoomed{ transform:scale(1); }
 #entrance.dissolve{ opacity:0; filter:blur(18px); transform:scale(1.05); pointer-events:none; }
+
+/* Navigation */
 #nav{
   position:fixed; top:0; left:0; right:0; z-index:500; height:var(--nav-h); display:flex; align-items:center;
   background:rgba(255,255,255,0); border-bottom:1px solid rgba(255,255,255,0); backdrop-filter:blur(0px);
   transition:background .6s var(--ease-lux), border-color .6s var(--ease-lux), backdrop-filter .6s var(--ease-lux), height .5s var(--ease-lux);
 }
-#nav.scrolled{ background:rgba(255,255,255,.92); border-bottom:1px solid var(--c-line); backdrop-filter:blur(16px) saturate(140%); height:78px; }
-.nav-inner{ width:100%; max-width:1320px; margin:0 auto; padding:0 clamp(24px,4vw,56px); display:flex; align-items:center; justify-content:space-between; }
-.nav-logo{ font-family:var(--font-display); font-size:1.28rem; letter-spacing:.24em; font-weight:600; color:#fff; transition:color .6s var(--ease-lux); }
+#nav.scrolled{ background:rgba(255,255,255,.95); border-bottom:1px solid var(--c-line); backdrop-filter:blur(16px) saturate(140%); height:78px; box-shadow:0 10px 30px rgba(0,0,0,0.03); }
+.nav-inner{ width:100%; max-width:1320px; margin:0 auto; padding:0 clamp(20px,4vw,56px); display:flex; align-items:center; justify-content:space-between; }
+.nav-logo{ font-family:var(--font-display); font-size:1.28rem; letter-spacing:.24em; font-weight:600; color:#fff; transition:color .6s var(--ease-lux); position:relative; z-index:601; }
 #nav.scrolled .nav-logo{ color:var(--c-ink); }
 .nav-links{ display:flex; align-items:center; gap:clamp(18px,2vw,34px); }
 .nav-links a{
@@ -149,25 +170,35 @@ section{ position:relative; }
 .nav-cta:hover{ background:#fff; color:var(--c-ink); }
 #nav.scrolled .nav-cta:hover{ background:var(--c-ink); color:var(--c-ivory); }
 .nav-toggle{ display:none; }
+
+/* Mobile Menu Adjustments */
 @media (max-width:960px){
   .nav-links{
-    position:fixed; inset:0 0 0 auto; width:min(78vw,340px); height:100vh; background:var(--c-ivory);
-    flex-direction:column; align-items:flex-start; justify-content:center; padding:0 44px; gap:26px;
-    transform:translateX(100%); transition:transform .6s var(--ease-lux);
+    position:fixed; inset:0 0 0 auto; width:min(80vw,360px); height:100vh; background:rgba(249, 247, 243, 0.98); backdrop-filter: blur(20px);
+    flex-direction:column; align-items:flex-start; justify-content:center; padding:0 44px; gap:30px;
+    transform:translateX(100%); transition:transform .6s var(--ease-lux), box-shadow .6s var(--ease-lux);
+    z-index:600;
   }
-  .nav-links.open{ transform:translateX(0); box-shadow:-10px 0 30px rgba(0,0,0,0.1); }
-  .nav-links a, .nav-links .nav-cta{ color:var(--c-ink) !important; border-color:var(--c-ink) !important; }
-  .nav-toggle{ display:flex; flex-direction:column; gap:5px; width:30px; z-index:600; }
-  .nav-toggle span{ height:2px; background:#fff; width:100%; transition:all .5s var(--ease-lux); }
+  .nav-links.open{ transform:translateX(0); box-shadow:-10px 0 50px rgba(0,0,0,0.15); }
+  .nav-links a, .nav-links .nav-cta{ color:var(--c-ink) !important; border-color:var(--c-ink) !important; font-size:.9rem; }
+  .nav-toggle{ display:flex; flex-direction:column; gap:6px; width:30px; z-index:601; background:none; border:none; padding:10px 0;}
+  .nav-toggle span{ height:2px; background:#fff; width:100%; transition:all .4s var(--ease-lux); border-radius:2px;}
   #nav.scrolled .nav-toggle span{ background:var(--c-ink); }
-  .nav-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); background:var(--c-ink) !important; }
+  
+  /* Saat menu terbuka, logo dan toggle wajib jadi gelap */
+  #nav.menu-open .nav-logo { color: var(--c-ink) !important; }
+  #nav.menu-open .nav-toggle span { background: var(--c-ink) !important; }
+
+  .nav-toggle.open span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
   .nav-toggle.open span:nth-child(2){ opacity:0; }
-  .nav-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); background:var(--c-ink) !important; }
+  .nav-toggle.open span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
 }
+
+/* Hero Section */
 #hero{ position:relative; height:100vh; min-height:640px; display:flex; align-items:center; justify-content:center; overflow:hidden; background:var(--c-ink); }
-.hero-bg{ position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1708569176850-9de9aa6b179b?q=80&w=2000&auto=format&fit=crop'); background-size:cover; background-position:center 30%; transform:scale(1.08); animation:heroDrift 22s ease-in-out infinite alternate; }
-@keyframes heroDrift{ 0%{ transform:scale(1.08) translate(0,0); } 100%{ transform:scale(1.14) translate(-1%,-1%); } }
-.hero-scrim{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,17,14,.42) 0%, rgba(20,17,14,.25) 32%, rgba(20,17,14,.5) 78%, rgba(15,12,10,.72) 100%); }
+.hero-bg{ position:absolute; inset:-5%; width:110%; height:110%; background-image:url('https://images.unsplash.com/photo-1708569176850-9de9aa6b179b?q=80&w=2000&auto=format&fit=crop'); background-size:cover; background-position:center; transform:scale(1.05); animation:heroDrift 25s ease-in-out infinite alternate; will-change:transform; }
+@keyframes heroDrift{ 0%{ transform:scale(1.05) translate(0,0); } 100%{ transform:scale(1.1) translate(-2%,-2%); } }
+.hero-scrim{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(20,17,14,.4) 0%, rgba(20,17,14,.25) 32%, rgba(20,17,14,.5) 78%, rgba(15,12,10,.8) 100%); z-index:1; }
 .hero-florals{ position:absolute; inset:0; pointer-events:none; z-index:2; }
 .hero-floral{ position:absolute; filter:drop-shadow(0 8px 18px rgba(0,0,0,.25)); }
 .hero-floral.f1{ top:-4%; left:-3%; width:min(30vw,320px); animation:floatSlow 9s ease-in-out infinite; }
@@ -175,81 +206,89 @@ section{ position:relative; }
 .hero-floral.f3{ top:6%; right:2%; width:min(13vw,150px); opacity:.85; animation:floatSlow 8s ease-in-out infinite .4s; }
 .hero-floral.f4{ bottom:10%; left:3%; width:min(11vw,120px); opacity:.8; animation:floatSlow 10s ease-in-out infinite .8s; }
 @keyframes floatSlow{ 0%,100%{ transform:translateY(0) rotate(0deg); } 50%{ transform:translateY(-16px) rotate(2deg); } }
-.hero-content{ position:relative; z-index:5; text-align:center; color:#fff; padding:0 24px; max-width:820px; }
+.hero-content{ position:relative; z-index:5; text-align:center; color:#fff; padding:0 20px; max-width:820px; width: 100%; }
 .hero-emblem{ width:46px; height:46px; margin:0 auto 22px; opacity:0; animation:heroUp 1.2s var(--ease-lux) forwards 3.4s; }
-.hero-content h1{ font-family:var(--font-display); font-weight:500; font-size:clamp(2.8rem,8vw,6.4rem); letter-spacing:.06em; text-transform:uppercase; line-height:1; opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 3.6s; }
-.hero-sub{ margin-top:16px; font-size:.86rem; letter-spacing:.42em; text-transform:uppercase; font-weight:500; color:var(--c-champagne); opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 3.85s; }
-.hero-tagline{ margin-top:30px; font-family:var(--font-display); font-style:italic; font-weight:400; font-size:clamp(1.2rem,2vw,1.6rem); color:rgba(255,255,255,.92); opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 4.1s; }
+.hero-content h1{ font-family:var(--font-display); font-weight:500; font-size:clamp(2.4rem,8vw,6.4rem); letter-spacing:.06em; text-transform:uppercase; line-height:1; opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 3.6s; }
+.hero-sub{ margin-top:16px; font-size:clamp(.75rem, 2vw, .86rem); letter-spacing:.42em; text-transform:uppercase; font-weight:500; color:var(--c-champagne); opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 3.85s; }
+.hero-tagline{ margin-top:30px; font-family:var(--font-display); font-style:italic; font-weight:400; font-size:clamp(1.1rem,2vw,1.6rem); color:rgba(255,255,255,.92); opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 4.1s; }
 .hero-actions{ margin-top:44px; display:flex; gap:18px; justify-content:center; flex-wrap:wrap; opacity:0; animation:heroUp 1.3s var(--ease-lux) forwards 4.4s; }
-@keyframes heroUp{ from{ opacity:0; transform:translateY(22px); } to{ opacity:1; transform:translateY(0); } }
+@keyframes heroUp{ from{ opacity:0; transform:translateY(25px); filter:blur(4px); } to{ opacity:1; transform:translateY(0); filter:blur(0); } }
 .scroll-cue{ position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:5; color:#fff; opacity:0; display:flex; flex-direction:column; align-items:center; gap:10px; animation:heroUp 1.2s var(--ease-lux) forwards 4.8s; }
 .scroll-cue span{ font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; color:rgba(255,255,255,.75); }
 .scroll-cue .line{ width:1px; height:38px; background:rgba(255,255,255,.5); position:relative; overflow:hidden; }
 .scroll-cue .line::after{ content:''; position:absolute; left:0; top:-100%; width:100%; height:50%; background:#fff; animation:scrollDrop 2s ease-in-out infinite; }
 @keyframes scrollDrop{ 0%{ top:-50%; } 100%{ top:100%; } }
+
+/* Decor Vine */
 #vine-wrap{ position:fixed; left:26px; top:0; bottom:0; width:60px; z-index:40; pointer-events:none; display:flex; justify-content:center; }
-#vine-svg{ height:100%; width:100%; overflow:visible; }
+#vine-svg{ height:100%; width:100%; overflow:visible; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.05)); }
 #vine-path{ fill:none; stroke:var(--c-gold); stroke-width:1.4; stroke-linecap:round; vector-effect:non-scaling-stroke; stroke-dasharray: 3000; stroke-dashoffset: 3000; transition: stroke-dashoffset 0.1s linear; }
 .vine-bloom{ opacity:0; transform:scale(.3); transform-origin:center; transition:opacity .8s var(--ease-lux), transform .8s var(--ease-lux); fill:var(--c-champagne); }
 .vine-bloom.bloomed{ opacity:1; transform:scale(1); }
 @media (max-width:1180px){ #vine-wrap{ display:none; } }
-.glass{ background:rgba(255,255,255,.55); backdrop-filter:blur(18px) saturate(160%); border:1px solid rgba(255,255,255,.7); box-shadow:0 30px 60px -30px rgba(42,37,33,.18); }
-[data-reveal]{ opacity:0; transition:opacity var(--dur-reveal) var(--ease-lux), transform var(--dur-reveal) var(--ease-lux), filter var(--dur-reveal) var(--ease-lux); transition-delay:calc(var(--d, 0) * 1ms); }
-[data-reveal="up"]{ transform:translateY(46px); }
-[data-reveal="fade"]{ }
+
+/* Scroll Animations */
+[data-reveal]{ opacity:0; transition:opacity var(--dur-reveal) var(--ease-lux), transform var(--dur-reveal) var(--ease-lux), filter var(--dur-reveal) var(--ease-lux); transition-delay:calc(var(--d, 0) * 1ms); will-change: opacity, transform; }
+[data-reveal="up"]{ transform:translateY(50px); }
 [data-reveal="blur"]{ filter:blur(14px); transform:translateY(20px); }
 [data-reveal="scale"]{ transform:scale(.92); }
-[data-reveal="mask"]{ clip-path:inset(0 0 100% 0); transition:clip-path var(--dur-reveal) var(--ease-lux); }
+[data-reveal="mask-up"]{ clip-path:inset(100% 0 0 0); transform:translateY(30px); transition: clip-path 1.2s var(--ease-lux), transform 1.2s var(--ease-lux), opacity 1.2s; }
 [data-reveal].in-view{ opacity:1; transform:none; filter:blur(0); }
-[data-reveal="mask"].in-view{ clip-path:inset(0 0 0% 0); }
-@media (prefers-reduced-motion: reduce){
-  [data-reveal]{ opacity:1 !important; transform:none !important; filter:none !important; clip-path:none !important; transition:none !important; }
-  .hero-content *, .hero-actions, .scroll-cue, .hero-emblem{ animation:none !important; opacity:1 !important; }
-  .hero-bg{ animation:none !important; }
-  .hero-floral{ animation:none !important; }
-  #entrance{ transition:none !important; }
-}
+[data-reveal="mask-up"].in-view{ clip-path:inset(0 0 0 0); }
+
+/* About Section */
 #about .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,90px); align-items:center; }
-.about-media{ position:relative; }
-.about-media img{ width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:4px; }
+.about-media{ position:relative; overflow: hidden; border-radius: 4px; }
+.about-media img{ width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:4px; transform: scale(1.1); will-change: transform; transition: transform 0.1s linear; }
 .about-media-frame{ position:absolute; inset:-18px auto auto -18px; width:100%; height:100%; border:1px solid var(--c-gold); border-radius:4px; z-index:-1; }
-.about-floral{ position:absolute; width:120px; bottom:-38px; right:-38px; z-index:2; animation:floatSlow 8s ease-in-out infinite; }
-.about-copy p{ color:var(--c-ink-soft); font-size:1.04rem; margin-top:22px; }
-.about-stats{ display:flex; gap:clamp(24px,4vw,48px); margin-top:40px; padding-top:32px; border-top:1px solid var(--c-line); }
-.about-stats div b{ display:block; font-family:var(--font-display); font-size:2.1rem; font-weight:600; color:var(--c-gold-deep); }
-.about-stats div span{ font-size:.76rem; letter-spacing:.06em; color:var(--c-ink-soft); text-transform:uppercase; }
-@media (max-width:900px){ #about .about-grid{ grid-template-columns:1fr; } .about-media{ order:2; } .about-copy{ order:1; } }
+.about-floral{ position:absolute; width:120px; bottom:-20px; right:-20px; z-index:2; animation:floatSlow 8s ease-in-out infinite; }
+.about-copy p{ color:var(--c-ink-soft); font-size:clamp(.95rem, 2vw, 1.04rem); margin-top:22px; }
+.about-stats{ display:flex; gap:clamp(20px,4vw,48px); margin-top:40px; padding-top:32px; border-top:1px solid var(--c-line); }
+.about-stats div b{ display:block; font-family:var(--font-display); font-size:clamp(1.6rem, 4vw, 2.1rem); font-weight:600; color:var(--c-gold-deep); }
+.about-stats div span{ font-size:clamp(.65rem, 1.5vw, .76rem); letter-spacing:.06em; color:var(--c-ink-soft); text-transform:uppercase; }
+@media (max-width:900px){ #about .about-grid{ grid-template-columns:1fr; } .about-media{ order:2; max-width: 500px; margin: 0 auto; width: 100%; } .about-copy{ order:1; } }
+
+/* Services Section */
 .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--c-line); border:1px solid var(--c-line); }
-.service-card{ background:var(--c-white); padding:44px 34px; position:relative; transition:background .5s var(--ease-lux); }
-.service-card:hover{ background:var(--c-ivory); }
-.service-card .icon{ width:40px; height:40px; margin-bottom:22px; color:var(--c-gold-deep); }
+.service-card{ background:var(--c-white); padding:44px 34px; position:relative; transition:background .5s var(--ease-lux), transform .5s var(--ease-lux), z-index 0s; z-index: 1; }
+.service-card:hover{ background:var(--c-ivory); transform: scale(1.02); z-index: 2; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border-radius: 4px; }
+.service-card .icon{ width:40px; height:40px; margin-bottom:22px; color:var(--c-gold-deep); transition: transform .5s var(--ease-lux); }
+.service-card:hover .icon{ transform: translateY(-5px) scale(1.1); }
 .service-card h3{ font-family:var(--font-display); font-weight:600; font-size:1.4rem; margin-bottom:10px; }
 .service-card p{ color:var(--c-ink-soft); font-size:.94rem; }
 .service-card::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--c-gold-deep); transform:scaleX(0); transform-origin:left; transition:transform .5s var(--ease-lux); }
 .service-card:hover::after{ transform:scaleX(1); }
 @media (max-width:900px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px){ .services-grid{ grid-template-columns:1fr; } }
+
+/* Gallery */
 .gallery-grid{ column-count:3; column-gap:18px; }
 .gallery-item{ break-inside:avoid; margin-bottom:18px; position:relative; overflow:hidden; border-radius:4px; cursor:pointer; }
 .gallery-item img{ width:100%; display:block; transition:transform 1.1s var(--ease-lux), filter .6s var(--ease-lux); }
 .gallery-item:hover img{ transform:scale(1.07); filter:brightness(.8) saturate(1.05); }
-.gallery-overlay{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:22px; background:linear-gradient(180deg, transparent 50%, rgba(20,17,14,.72) 100%); opacity:0; transition:opacity .5s var(--ease-lux); }
+.gallery-overlay{ position:absolute; inset:0; display:flex; align-items:flex-end; padding:22px; background:linear-gradient(180deg, transparent 50%, rgba(20,17,14,.8) 100%); opacity:0; transition:opacity .5s var(--ease-lux); }
 .gallery-item:hover .gallery-overlay{ opacity:1; }
 .gallery-overlay span{ color:#fff; font-family:var(--font-display); font-style:italic; font-size:1.1rem; transform:translateY(10px); transition:transform .5s var(--ease-lux) .05s; }
 .gallery-item:hover .gallery-overlay span{ transform:translateY(0); }
 @media (max-width:900px){ .gallery-grid{ column-count:2; } }
 @media (max-width:560px){ .gallery-grid{ column-count:1; } }
-#lightbox{ position:fixed; inset:0; z-index:2000; background:rgba(15,12,10,.94); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:opacity .5s var(--ease-lux), visibility .5s; }
+
+/* Lightbox Modal */
+#lightbox{ position:fixed; inset:0; z-index:2000; background:rgba(15,12,10,.96); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:opacity .5s var(--ease-lux), visibility .5s; backdrop-filter: blur(10px); }
 #lightbox.open{ opacity:1; visibility:visible; }
-#lightbox img{ max-width:88vw; max-height:82vh; border-radius:4px; box-shadow:0 40px 90px -20px rgba(0,0,0,.6); }
-#lightbox .lb-caption{ position:absolute; bottom:8vh; left:0; right:0; text-align:center; color:#fff; font-family:var(--font-display); font-style:italic; font-size:1.2rem; }
-.lb-btn{ position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.3); color:#fff; display:flex; align-items:center; justify-content:center; transition:background .4s var(--ease-lux); cursor:pointer; }
-.lb-btn:hover{ background:rgba(255,255,255,.22); }
+#lightbox img{ max-width:88vw; max-height:82vh; border-radius:4px; box-shadow:0 40px 90px -20px rgba(0,0,0,.8); }
+#lightbox .lb-caption{ position:absolute; bottom:6vh; left:0; right:0; text-align:center; color:#fff; font-family:var(--font-display); font-style:italic; font-size:clamp(1rem, 3vw, 1.3rem); }
+.lb-btn{ position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.2); color:#fff; display:flex; align-items:center; justify-content:center; transition:background .4s var(--ease-lux), transform .4s var(--ease-lux); cursor:pointer; }
+.lb-btn:hover{ background:rgba(255,255,255,.2); transform:translateY(-50%) scale(1.1); }
 #lb-prev{ left:24px; } #lb-next{ right:24px; }
-#lb-close{ position:absolute; top:24px; right:24px; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.3); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;}
+#lb-close{ position:absolute; top:24px; right:24px; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.2); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; transition: transform .4s ease;}
+#lb-close:hover{ transform: rotate(90deg); background:rgba(255,255,255,.2); }
+@media(max-width:600px){ .lb-btn{ width:36px; height:36px; } #lb-prev{ left:10px; } #lb-next{ right:10px; } }
+
+/* Packages */
 .packages-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:stretch; }
-.package-card{ padding:48px 36px; border-radius:6px; display:flex; flex-direction:column; position:relative; transition:transform .6s var(--ease-lux), box-shadow .6s var(--ease-lux); }
-.package-card:hover{ transform:translateY(-8px); }
+.package-card{ padding:48px 36px; border-radius:6px; display:flex; flex-direction:column; position:relative; transition:transform .6s var(--ease-lux), box-shadow .6s var(--ease-lux); background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); }
+.package-card:hover{ transform:translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
 .package-card .tier{ font-size:.72rem; letter-spacing:.28em; text-transform:uppercase; color:var(--c-gold-deep); font-weight:600; }
 .package-card h3{ font-family:var(--font-display); font-weight:500; font-size:2rem; margin-top:14px; }
 .package-card .price{ font-family:var(--font-display); font-size:2.6rem; font-weight:600; margin-top:18px; color:var(--c-ink); }
@@ -258,42 +297,67 @@ section{ position:relative; }
 .package-card li{ display:flex; gap:12px; align-items:flex-start; font-size:.92rem; color:var(--c-ink-soft); }
 .package-card li svg{ flex-shrink:0; width:16px; height:16px; margin-top:3px; color:var(--c-gold-deep); }
 .package-card .btn{ margin-top:32px; }
-.package-card.popular{ background:var(--c-ink); color:var(--c-beige); box-shadow:0 40px 80px -30px rgba(42,37,33,.4); }
+.package-card.popular{ background:var(--c-ink); color:var(--c-beige); box-shadow:0 40px 80px -30px rgba(42,37,33,.5); animation: subtleFloat 6s ease-in-out infinite; }
+@keyframes subtleFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+.package-card.popular:hover{ animation-play-state: paused; transform:translateY(-12px); }
 .package-card.popular .tier{ color:var(--c-champagne); }
 .package-card.popular h3{ color:#fff; }
 .package-card.popular .price{ color:#fff; }
 .package-card.popular .price span{ color:rgba(255,255,255,.6); }
 .package-card.popular li{ color:rgba(255,255,255,.78); }
 .package-card.popular li svg{ color:var(--c-champagne); }
-.badge-popular{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--c-gold-deep); color:#fff; font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; font-weight:600; padding:8px 18px; border-radius:20px; white-space:nowrap; }
-@media (max-width:960px){ .packages-grid{ grid-template-columns:1fr; max-width:460px; margin:0 auto; } }
+.badge-popular{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--c-gold-deep); color:#fff; font-size:.66rem; letter-spacing:.18em; text-transform:uppercase; font-weight:600; padding:8px 18px; border-radius:20px; white-space:nowrap; animation: pulseGlow 2s infinite; }
+@keyframes pulseGlow{ 0%{ box-shadow: 0 0 0 0 rgba(168, 130, 63, 0.4); } 70%{ box-shadow: 0 0 0 10px rgba(168, 130, 63, 0); } 100%{ box-shadow: 0 0 0 0 rgba(168, 130, 63, 0); } }
+@media (max-width:960px){ .packages-grid{ grid-template-columns:1fr; max-width:460px; margin:0 auto; gap: 40px; } .package-card.popular{ animation: none; } }
+
+/* Stats */
 .stats-row{ display:grid; grid-template-columns:repeat(4,1fr); }
 .stat{ text-align:center; padding:0 20px; position:relative; }
 .stat:not(:last-child)::after{ content:''; position:absolute; right:0; top:10%; bottom:10%; width:1px; background:rgba(255,255,255,.14); }
-.stat .num{ font-family:var(--font-display); font-weight:600; font-size:clamp(2.6rem,5vw,3.6rem); color:var(--c-champagne); display:flex; align-items:baseline; justify-content:center; gap:2px; }
-.stat .label{ margin-top:10px; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(239,233,226,.75); }
+.stat .num{ font-family:var(--font-display); font-weight:600; font-size:clamp(2.4rem,5vw,3.6rem); color:var(--c-champagne); display:flex; align-items:baseline; justify-content:center; gap:2px; }
+.stat .label{ margin-top:10px; font-size:clamp(.65rem, 1.5vw, .78rem); letter-spacing:.14em; text-transform:uppercase; color:rgba(239,233,226,.75); }
 @media (max-width:760px){ .stats-row{ grid-template-columns:repeat(2,1fr); row-gap:44px; } .stat:nth-child(2)::after{ display:none; } }
+
+/* Testimonials */
 .testi-wrap{ position:relative; max-width:840px; margin:0 auto; }
-.testi-track{ overflow:hidden; }
-.testi-slides{ display:flex; transition:transform .8s var(--ease-lux); }
-.testi-slide{ flex:0 0 100%; padding:0 8px; }
-.testi-card{ padding:clamp(36px,5vw,64px); text-align:center; border-radius:6px; }
-.testi-quote-mark{ font-family:var(--font-display); font-size:3.4rem; color:var(--c-gold); line-height:1; opacity:.7; }
-.testi-card p{ font-family:var(--font-display); font-style:italic; font-size:clamp(1.15rem,2.2vw,1.5rem); line-height:1.55; color:var(--c-ink); margin-top:10px; }
+.testi-track{ overflow:hidden; border-radius: 6px; padding: 20px 0; }
+.testi-slides{ display:flex; transition:transform .8s var(--ease-lux); will-change: transform; cursor: grab; }
+.testi-slides:active{ cursor: grabbing; }
+.testi-slide{ flex:0 0 100%; padding:0 15px; }
+.testi-card{ padding:clamp(30px,6vw,64px); text-align:center; border-radius:6px; background: rgba(255,255,255,0.6); backdrop-filter: blur(15px); border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 20px 40px rgba(0,0,0,0.02); }
+.testi-quote-mark{ font-family:var(--font-display); font-size:3.4rem; color:var(--c-gold); line-height:1; opacity:.7; margin-bottom: -10px;}
+.testi-card p{ font-family:var(--font-display); font-style:italic; font-size:clamp(1.1rem,2.5vw,1.5rem); line-height:1.55; color:var(--c-ink); margin-top:10px; }
 .testi-person{ margin-top:28px; display:flex; align-items:center; justify-content:center; gap:14px; }
 .testi-avatar{ width:46px; height:46px; border-radius:50%; background:linear-gradient(135deg, var(--c-champagne), var(--c-gold-deep)); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:600; font-size:1.05rem; }
 .testi-person div{ text-align:left; }
 .testi-person b{ display:block; font-size:.92rem; }
 .testi-person span{ font-size:.78rem; color:var(--c-ink-soft); }
-.testi-dots{ display:flex; justify-content:center; gap:10px; margin-top:36px; }
+.testi-dots{ display:flex; justify-content:center; gap:10px; margin-top:20px; }
 .testi-dots button{ width:10px; height:10px; border-radius:50%; background:var(--c-line); transition:background .4s var(--ease-lux), transform .4s var(--ease-lux); }
 .testi-dots button.active{ background:var(--c-gold-deep); transform:scale(1.3); }
-.testi-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; border:1px solid var(--c-line); display:flex; align-items:center; justify-content:center; color:var(--c-ink); transition:background .4s var(--ease-lux), color .4s var(--ease-lux); background:#fff; cursor:pointer;}
-.testi-arrow:hover{ background:var(--c-ink); color:#fff; }
-#testi-prev{ left:-64px; } #testi-next{ right:-64px; }
-@media (max-width:920px){ #testi-prev{ left:-8px; } #testi-next{ right:-8px; } }
+
+/* Fix Arrows to stay inside */
+.testi-arrow{ position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%; border:1px solid var(--c-line); display:flex; align-items:center; justify-content:center; color:var(--c-ink); transition:background .4s var(--ease-lux), color .4s var(--ease-lux), transform .4s var(--ease-lux); background:#fff; cursor:pointer; z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+.testi-arrow:hover{ background:var(--c-ink); color:#fff; transform:translateY(-50%) scale(1.1); }
+#testi-prev{ left: 0px; } #testi-next{ right: 0px; }
+/* Di mobile layar sangat kecil, sembunyikan panah agar layout bersih, andalkan SWIPE */
+@media (max-width:768px){ .testi-arrow{ display: none; } }
+
+/* FAQ */
+.faq-item{ border-bottom:1px solid var(--c-line); }
+.faq-q{ width:100%; display:flex; justify-content:space-between; align-items:center; padding:24px 4px; text-align:left; font-family:var(--font-display); font-size:clamp(1.05rem, 2vw, 1.15rem); font-weight:500; color:var(--c-ink); cursor:pointer;}
+.faq-plus{ position:relative; width:16px; height:16px; flex-shrink:0; margin-left:20px; }
+.faq-plus::before, .faq-plus::after{ content:''; position:absolute; background:var(--c-gold-deep); transition:transform .4s var(--ease-lux); }
+.faq-plus::before{ left:0; top:50%; width:100%; height:1px; transform:translateY(-50%); }
+.faq-plus::after{ top:0; left:50%; width:1px; height:100%; transform:translateX(-50%); }
+.faq-item.open .faq-plus::after{ transform:translateX(-50%) rotate(90deg); opacity:0; }
+.faq-item.open .faq-q { color: var(--c-gold-deep); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease-lux); }
+.faq-a p{ padding:0 4px 24px; color:var(--c-ink-soft); font-size:.96rem; max-width:640px; margin:0; }
+
+/* Contact */
 .contact-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(30px,5vw,70px); }
-.contact-form{ padding:clamp(32px,4vw,54px); border-radius:6px; }
+.contact-form{ padding:clamp(30px,4vw,54px); border-radius:6px; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); }
 .field{ position:relative; margin-bottom:26px; }
 .field input, .field textarea{ width:100%; padding:18px 4px 10px; border:none; border-bottom:1px solid rgba(42,37,33,.25); background:transparent; font-family:var(--font-body); font-size:1rem; color:var(--c-ink); transition:border-color .4s var(--ease-lux); }
 .field textarea{ resize:vertical; min-height:100px; }
@@ -301,51 +365,46 @@ section{ position:relative; }
 .field label{ position:absolute; left:4px; top:18px; color:var(--c-ink-soft); font-size:1rem; transition:all .3s var(--ease-lux); pointer-events:none; }
 .field input:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label{ top:-2px; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--c-gold-deep); }
 .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-@media (max-width:520px){ .field-row{ grid-template-columns:1fr; } }
-.form-toast{ margin-top:18px; padding:14px 18px; background:var(--c-ink); color:var(--c-ivory); border-radius:3px; font-size:.85rem; opacity:0; transform:translateY(6px); transition:all .5s var(--ease-lux); }
+@media (max-width:600px){ .field-row{ grid-template-columns:1fr; } }
+.form-toast{ margin-top:18px; padding:14px 18px; background:var(--c-ink); color:var(--c-ivory); border-radius:3px; font-size:.85rem; opacity:0; transform:translateY(6px); transition:all .5s var(--ease-lux); text-align: center; }
 .form-toast.show{ opacity:1; transform:translateY(0); }
 .contact-side{ display:flex; flex-direction:column; gap:22px; }
 .contact-map{ border-radius:6px; overflow:hidden; height:230px; filter:grayscale(.25) contrast(1.05); border:1px solid var(--c-line); }
 .contact-map iframe{ width:100%; height:100%; border:0; }
-.contact-info{ padding:28px; border-radius:6px; }
+.contact-info{ padding:28px; border-radius:6px; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.05); }
 .contact-info .row{ display:flex; gap:14px; align-items:flex-start; margin-bottom:16px; }
 .contact-info .row:last-child{ margin-bottom:0; }
 .contact-info svg{ width:18px; height:18px; color:var(--c-gold-deep); margin-top:3px; flex-shrink:0; }
 .contact-info b{ display:block; font-size:.9rem; }
 .contact-info span{ font-size:.86rem; color:var(--c-ink-soft); }
 .whatsapp-cta{ display:flex; align-items:center; gap:12px; justify-content:center; padding:16px; border-radius:6px; background:#25D366; color:#fff; font-size:.85rem; font-weight:600; letter-spacing:.05em; transition:transform .4s var(--ease-lux), box-shadow .4s var(--ease-lux); }
-.whatsapp-cta:hover{ transform:translateY(-3px); box-shadow:0 16px 30px -12px rgba(37,211,102,.5); }
+.whatsapp-cta:hover{ transform:translateY(-4px); box-shadow:0 16px 30px -12px rgba(37,211,102,.5); }
 .whatsapp-cta svg{ width:20px; height:20px; }
 @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr; } }
+
+/* Footer */
 footer{ padding:80px 0 34px; }
 .footer-top{ display:flex; flex-direction:column; align-items:center; text-align:center; padding-bottom:50px; }
 .footer-logo{ font-family:var(--font-display); font-size:1.9rem; letter-spacing:.2em; font-weight:600; }
 .footer-tag{ margin-top:10px; font-family:var(--font-display); font-style:italic; color:var(--c-champagne); font-size:1.05rem; }
 .footer-vine{ width:min(500px,80vw); margin:34px auto; opacity:.8; }
 .footer-links{ display:flex; gap:30px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
-.footer-links a{ font-size:.8rem; letter-spacing:.05em; color:rgba(239,233,226,.8); transition:color .3s; }
-.footer-links a:hover{ color:var(--c-champagne); }
+.footer-links a{ font-size:.8rem; letter-spacing:.05em; color:rgba(239,233,226,.8); transition:color .3s, transform .3s; display: inline-block; }
+.footer-links a:hover{ color:var(--c-champagne); transform: translateY(-2px); }
 .footer-social{ display:flex; gap:16px; margin-top:30px; }
-.footer-social a{ width:40px; height:40px; border-radius:50%; border:1px solid rgba(239,233,226,.25); display:flex; align-items:center; justify-content:center; transition:background .4s, border-color .4s; }
-.footer-social a:hover{ background:rgba(239,233,226,.1); border-color:var(--c-champagne); }
+.footer-social a{ width:40px; height:40px; border-radius:50%; border:1px solid rgba(239,233,226,.25); display:flex; align-items:center; justify-content:center; transition:background .4s, border-color .4s, transform .4s; }
+.footer-social a:hover{ background:rgba(239,233,226,.1); border-color:var(--c-champagne); transform: scale(1.1); }
 .footer-social svg{ width:17px; height:17px; }
 .footer-bottom{ border-top:1px solid rgba(239,233,226,.14); padding-top:26px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:.76rem; color:rgba(239,233,226,.55); }
+
+/* Custom Cursor */
 .cursor-dot, .cursor-ring{ position:fixed; top:0; left:0; pointer-events:none; z-index:9997; border-radius:50%; transform:translate(-50%,-50%); }
 .cursor-dot{ width:6px; height:6px; background:var(--c-gold-deep); }
 .cursor-ring{ width:34px; height:34px; border:1px solid var(--c-gold); transition:width .3s var(--ease-lux), height .3s var(--ease-lux), opacity .3s var(--ease-lux), border-color .3s; }
-.cursor-ring.hover{ width:54px; height:54px; border-color:var(--c-rosegold); }
+.cursor-ring.hover{ width:54px; height:54px; border-color:var(--c-rosegold); background: rgba(192, 138, 131, 0.1); }
 body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:none; }
-@media (hover:none), (pointer:coarse){ .cursor-dot, .cursor-ring{ display:none !important; } body.has-cursor{ cursor:auto; } }
+@media (hover:none), (pointer:coarse){ .cursor-dot, .cursor-ring{ display:none !important; } body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:auto; } }
 .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-.faq-item{ border-bottom:1px solid var(--c-line); }
-.faq-q{ width:100%; display:flex; justify-content:space-between; align-items:center; padding:24px 4px; text-align:left; font-family:var(--font-display); font-size:1.15rem; font-weight:500; color:var(--c-ink); cursor:pointer;}
-.faq-plus{ position:relative; width:16px; height:16px; flex-shrink:0; margin-left:20px; }
-.faq-plus::before, .faq-plus::after{ content:''; position:absolute; background:var(--c-gold-deep); transition:transform .4s var(--ease-lux); }
-.faq-plus::before{ left:0; top:50%; width:100%; height:1px; transform:translateY(-50%); }
-.faq-plus::after{ top:0; left:50%; width:1px; height:100%; transform:translateX(-50%); }
-.faq-item.open .faq-plus::after{ transform:translateX(-50%) rotate(90deg); opacity:0; }
-.faq-a{ max-height:0; overflow:hidden; transition:max-height .5s var(--ease-lux); }
-.faq-a p{ padding:0 4px 24px; color:var(--c-ink-soft); font-size:.96rem; max-width:640px; margin:0; }
 </style>
 </head>
 <body>
@@ -373,411 +432,414 @@ body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:none; }
   </svg>
 </div>
 
-<header id="nav">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo">Yustine</a>
-    <nav class="nav-links" id="navLinks">
-      <a href="#hero" class="nav-link">Home</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#services" class="nav-link">Services</a>
-      <a href="#gallery" class="nav-link">Gallery</a>
-      <a href="#packages" class="nav-link">Packages</a>
-      <a href="#testimonials" class="nav-link">Testimonials</a>
-      <a href="#faq" class="nav-link">FAQ</a>
-      <a href="#contact" class="nav-link">Contact</a>
-      <a href="#contact" class="nav-cta">Book Consultation</a>
-    </nav>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+<div class="site-wrapper">
 
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-scrim"></div>
-  <div class="hero-florals" aria-hidden="true">
-    <svg class="hero-floral f1" viewBox="0 0 300 300" fill="none"><path d="M0 40 C40 10 90 0 140 20" stroke="#EFE9E2" stroke-width="1" opacity=".5"/><path d="M-10 90 C 40 70 70 110 60 150 C 50 190 0 190 -10 160" stroke="#D8C7A3" stroke-width="1.1"/><circle cx="46" cy="46" r="26" stroke="#EFE9E2" stroke-width="1.1"/><path d="M46 24 C58 30 62 42 46 46 C30 42 34 30 46 24 Z" stroke="#D8C7A3" stroke-width="1"/><path d="M46 46 C60 50 60 62 46 68 C32 62 32 50 46 46 Z" stroke="#D8C7A3" stroke-width="1"/><path d="M46 46 C40 58 28 60 22 46 C28 32 40 34 46 46 Z" stroke="#D8C7A3" stroke-width="1"/><path d="M100 20 C120 8 140 18 132 40 C124 58 100 54 96 36 C94 26 96 22 100 20Z" stroke="#EFE9E2" stroke-width="1.1"/><path d="M108 30 C116 26 122 32 116 42" stroke="#D8C7A3" stroke-width=".8"/><path d="M20 110 C10 130 20 150 40 140" stroke="#BC9A62" stroke-width="1" opacity=".8"/><path d="M10 140 C-4 150 -4 168 12 172" stroke="#BC9A62" stroke-width="1" opacity=".8"/><circle cx="150" cy="10" r="3" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="168" cy="26" r="2.4" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="130" cy="60" r="2.2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="180" cy="8" r="2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><path d="M60 6 C74 -6 96 -2 100 14" stroke="#EFE9E2" stroke-width="1"/><path d="M-6 60 C4 46 20 44 26 58 C30 70 16 78 6 70" stroke="#D8C7A3" stroke-width="1"/></svg>
-    <svg class="hero-floral f2" viewBox="0 0 340 320" fill="none"><path d="M340 300 C 300 270 260 280 250 250 C 240 220 270 200 290 210" stroke="#D8C7A3" stroke-width="1.1"/><circle cx="286" cy="266" r="30" stroke="#EFE9E2" stroke-width="1.1"/><path d="M286 240 C300 246 304 260 286 266 C268 260 272 246 286 240Z" stroke="#D8C7A3" stroke-width="1"/><path d="M286 266 C302 270 302 284 286 292 C270 284 270 270 286 266Z" stroke="#D8C7A3" stroke-width="1"/><path d="M286 266 C280 280 264 282 258 266 C264 250 280 252 286 266Z" stroke="#D8C7A3" stroke-width="1"/><path d="M220 230 C238 212 262 220 258 244 C254 264 228 262 220 246 C216 238 216 234 220 230Z" stroke="#EFE9E2" stroke-width="1.1"/><path d="M230 236 C240 230 250 238 244 250" stroke="#D8C7A3" stroke-width=".8"/><path d="M320 220 C334 236 328 256 306 252" stroke="#BC9A62" stroke-width="1" opacity=".8"/><path d="M330 250 C344 258 346 276 330 284" stroke="#BC9A62" stroke-width="1" opacity=".8"/><circle cx="205" cy="200" r="3" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="188" cy="216" r="2.4" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="222" cy="180" r="2.2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><path d="M180 260 C 160 250 150 262 156 280 C 162 296 182 294 186 278" stroke="#D8C7A3" stroke-width="1"/><path d="M300 180 C 314 166 336 172 336 192 C336 210 314 214 306 200" stroke="#EFE9E2" stroke-width="1"/></svg>
-    <svg class="hero-floral f3" viewBox="0 0 140 140" fill="none"><path d="M70 20 C90 24 96 46 74 54 C52 46 58 24 70 20Z" stroke="#EFE9E2" stroke-width="1.1"/><path d="M70 54 C86 58 86 78 70 86 C54 78 54 58 70 54Z" stroke="#D8C7A3" stroke-width="1"/><circle cx="70" cy="54" r="5" fill="#D8C7A3" opacity=".5"/><path d="M40 90 C 24 100 22 118 40 124" stroke="#BC9A62" stroke-width="1" opacity=".7"/></svg>
-    <svg class="hero-floral f4" viewBox="0 0 120 120" fill="none"><path d="M10 110 C 30 90 40 60 30 30" stroke="#D8C7A3" stroke-width="1"/><circle cx="30" cy="30" r="2.6" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="44" cy="46" r="2.2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="20" cy="58" r="2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="52" cy="20" r="2.4" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="14" cy="86" r="2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/></svg>
-  </div>
-  <div class="hero-content">
-    <svg class="hero-emblem" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28.5" stroke="#D8C7A3" stroke-width="1"/><path d="M30 16 C40 20 42 30 30 34 C18 30 20 20 30 16Z" stroke="#F9F7F3" stroke-width="1"/><path d="M30 34 C40 38 40 46 30 48 C20 46 20 38 30 34Z" stroke="#D8C7A3" stroke-width="1"/></svg>
-    <h1>Yustine Wedding</h1>
-    <div class="hero-sub">Luxury Wedding Organizer</div>
-    <p class="hero-tagline">"Crafting Timeless Love Stories."</p>
-    <div class="hero-actions">
-      <div class="magnetic"><a href="#contact" class="btn btn-primary">Start Your Journey</a></div>
-      <div class="magnetic"><a href="#gallery" class="btn btn-ghost">View Portfolio</a></div>
+  <header id="nav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Yustine</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#gallery" class="nav-link">Gallery</a>
+        <a href="#packages" class="nav-link">Packages</a>
+        <a href="#testimonials" class="nav-link">Testimonials</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#contact" class="nav-cta">Book Consultation</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-  </div>
-  <div class="scroll-cue">
-    <span>Scroll</span>
-    <div class="line"></div>
-  </div>
-</section>
+  </header>
 
-<section id="about" class="pad bg-white">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-media" data-reveal="scale">
-        <div class="about-media-frame"></div>
-        <img src="https://images.unsplash.com/photo-1513262834354-6b2bca9b5b8d?q=80&w=1200&auto=format&fit=crop" alt="Bride and groom holding hands, captured in soft natural light" loading="lazy">
-        <svg class="about-floral" viewBox="0 0 120 120" fill="none" aria-hidden="true"><circle cx="60" cy="60" r="20" stroke="#D8C7A3" stroke-width="1.1"/><path d="M60 40 C72 44 76 56 60 60 C44 56 48 44 60 40Z" stroke="#EFE9E2" stroke-width="1"/><path d="M60 60 C74 64 74 78 60 84 C46 78 46 64 60 60Z" stroke="#D8C7A3" stroke-width="1"/><path d="M20 100 C10 90 12 74 28 76" stroke="#BC9A62" stroke-width="1" opacity=".7"/></svg>
+  <section id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-scrim"></div>
+    <div class="hero-florals" aria-hidden="true">
+      <svg class="hero-floral f1" viewBox="0 0 300 300" fill="none"><path d="M0 40 C40 10 90 0 140 20" stroke="#EFE9E2" stroke-width="1" opacity=".5"/><path d="M-10 90 C 40 70 70 110 60 150 C 50 190 0 190 -10 160" stroke="#D8C7A3" stroke-width="1.1"/><circle cx="46" cy="46" r="26" stroke="#EFE9E2" stroke-width="1.1"/><path d="M46 24 C58 30 62 42 46 46 C30 42 34 30 46 24 Z" stroke="#D8C7A3" stroke-width="1"/><path d="M46 46 C60 50 60 62 46 68 C32 62 32 50 46 46 Z" stroke="#D8C7A3" stroke-width="1"/><path d="M46 46 C40 58 28 60 22 46 C28 32 40 34 46 46 Z" stroke="#D8C7A3" stroke-width="1"/><path d="M100 20 C120 8 140 18 132 40 C124 58 100 54 96 36 C94 26 96 22 100 20Z" stroke="#EFE9E2" stroke-width="1.1"/><path d="M108 30 C116 26 122 32 116 42" stroke="#D8C7A3" stroke-width=".8"/><path d="M20 110 C10 130 20 150 40 140" stroke="#BC9A62" stroke-width="1" opacity=".8"/><path d="M10 140 C-4 150 -4 168 12 172" stroke="#BC9A62" stroke-width="1" opacity=".8"/><circle cx="150" cy="10" r="3" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="168" cy="26" r="2.4" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="130" cy="60" r="2.2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="180" cy="8" r="2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><path d="M60 6 C74 -6 96 -2 100 14" stroke="#EFE9E2" stroke-width="1"/><path d="M-6 60 C4 46 20 44 26 58 C30 70 16 78 6 70" stroke="#D8C7A3" stroke-width="1"/></svg>
+      <svg class="hero-floral f2" viewBox="0 0 340 320" fill="none"><path d="M340 300 C 300 270 260 280 250 250 C 240 220 270 200 290 210" stroke="#D8C7A3" stroke-width="1.1"/><circle cx="286" cy="266" r="30" stroke="#EFE9E2" stroke-width="1.1"/><path d="M286 240 C300 246 304 260 286 266 C268 260 272 246 286 240Z" stroke="#D8C7A3" stroke-width="1"/><path d="M286 266 C302 270 302 284 286 292 C270 284 270 270 286 266Z" stroke="#D8C7A3" stroke-width="1"/><path d="M286 266 C280 280 264 282 258 266 C264 250 280 252 286 266Z" stroke="#D8C7A3" stroke-width="1"/><path d="M220 230 C238 212 262 220 258 244 C254 264 228 262 220 246 C216 238 216 234 220 230Z" stroke="#EFE9E2" stroke-width="1.1"/><path d="M230 236 C240 230 250 238 244 250" stroke="#D8C7A3" stroke-width=".8"/><path d="M320 220 C334 236 328 256 306 252" stroke="#BC9A62" stroke-width="1" opacity=".8"/><path d="M330 250 C344 258 346 276 330 284" stroke="#BC9A62" stroke-width="1" opacity=".8"/><circle cx="205" cy="200" r="3" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="188" cy="216" r="2.4" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="222" cy="180" r="2.2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><path d="M180 260 C 160 250 150 262 156 280 C 162 296 182 294 186 278" stroke="#D8C7A3" stroke-width="1"/><path d="M300 180 C 314 166 336 172 336 192 C336 210 314 214 306 200" stroke="#EFE9E2" stroke-width="1"/></svg>
+      <svg class="hero-floral f3" viewBox="0 0 140 140" fill="none"><path d="M70 20 C90 24 96 46 74 54 C52 46 58 24 70 20Z" stroke="#EFE9E2" stroke-width="1.1"/><path d="M70 54 C86 58 86 78 70 86 C54 78 54 58 70 54Z" stroke="#D8C7A3" stroke-width="1"/><circle cx="70" cy="54" r="5" fill="#D8C7A3" opacity=".5"/><path d="M40 90 C 24 100 22 118 40 124" stroke="#BC9A62" stroke-width="1" opacity=".7"/></svg>
+      <svg class="hero-floral f4" viewBox="0 0 120 120" fill="none"><path d="M10 110 C 30 90 40 60 30 30" stroke="#D8C7A3" stroke-width="1"/><circle cx="30" cy="30" r="2.6" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="44" cy="46" r="2.2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="20" cy="58" r="2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="52" cy="20" r="2.4" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/><circle cx="14" cy="86" r="2" fill="#F9F7F3" stroke="#D8C7A3" stroke-width=".6"/></svg>
+    </div>
+    <div class="hero-content">
+      <svg class="hero-emblem" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28.5" stroke="#D8C7A3" stroke-width="1"/><path d="M30 16 C40 20 42 30 30 34 C18 30 20 20 30 16Z" stroke="#F9F7F3" stroke-width="1"/><path d="M30 34 C40 38 40 46 30 48 C20 46 20 38 30 34Z" stroke="#D8C7A3" stroke-width="1"/></svg>
+      <h1>Yustine Wedding</h1>
+      <div class="hero-sub">Luxury Wedding Organizer</div>
+      <p class="hero-tagline">"Crafting Timeless Love Stories."</p>
+      <div class="hero-actions">
+        <div class="magnetic"><a href="#contact" class="btn btn-primary">Start Your Journey</a></div>
+        <div class="magnetic"><a href="#gallery" class="btn btn-ghost">View Portfolio</a></div>
       </div>
-      <div class="about-copy">
-        <div class="eyebrow" data-reveal="up">Our Story</div>
-        <h2 data-reveal="up" style="--d:80">A Vow to Craft <em>Timeless</em> Celebrations</h2>
-        <p data-reveal="up" style="--d:160">Yustine Wedding specializes in creating unforgettable wedding experiences through elegant planning, timeless decoration, and exceptional hospitality. Every detail, from the first consultation to the final farewell, is composed with the quiet precision of a couture atelier.</p>
-        <p data-reveal="up" style="--d:220">We believe a wedding day should feel less like an event and more like a chapter — one that is beautifully written, gently paced, and remembered for a lifetime.</p>
-        <div class="about-stats" data-reveal="up" style="--d:280">
-          <div><b>10+</b><span>Years of Craft</span></div>
-          <div><b>500+</b><span>Couples Honored</span></div>
-          <div><b>99%</b><span>Satisfaction</span></div>
+    </div>
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <section id="about" class="pad bg-white">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-media" data-reveal="mask-up">
+          <div class="about-media-frame"></div>
+          <img src="https://images.unsplash.com/photo-1513262834354-6b2bca9b5b8d?q=80&w=1200&auto=format&fit=crop" alt="Bride and groom holding hands, captured in soft natural light" loading="lazy" id="aboutImg">
+          <svg class="about-floral" viewBox="0 0 120 120" fill="none" aria-hidden="true"><circle cx="60" cy="60" r="20" stroke="#D8C7A3" stroke-width="1.1"/><path d="M60 40 C72 44 76 56 60 60 C44 56 48 44 60 40Z" stroke="#EFE9E2" stroke-width="1"/><path d="M60 60 C74 64 74 78 60 84 C46 78 46 64 60 60Z" stroke="#D8C7A3" stroke-width="1"/><path d="M20 100 C10 90 12 74 28 76" stroke="#BC9A62" stroke-width="1" opacity=".7"/></svg>
+        </div>
+        <div class="about-copy">
+          <div class="eyebrow" data-reveal="up">Our Story</div>
+          <h2 data-reveal="up" style="--d:80">A Vow to Craft <br><em>Timeless</em> Celebrations</h2>
+          <p data-reveal="up" style="--d:160">Yustine Wedding specializes in creating unforgettable wedding experiences through elegant planning, timeless decoration, and exceptional hospitality. Every detail, from the first consultation to the final farewell, is composed with the quiet precision of a couture atelier.</p>
+          <p data-reveal="up" style="--d:220">We believe a wedding day should feel less like an event and more like a chapter — one that is beautifully written, gently paced, and remembered for a lifetime.</p>
+          <div class="about-stats" data-reveal="up" style="--d:280">
+            <div><b>10+</b><span>Years of Craft</span></div>
+            <div><b>500+</b><span>Couples Honored</span></div>
+            <div><b>99%</b><span>Satisfaction</span></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="services" class="pad bg-ivory">
-  <div class="container">
-    <div class="section-head center" data-reveal="up">
-      <div class="eyebrow" style="justify-content:center;">What We Offer</div>
-      <h2>A Full Suite of <em>Bespoke</em> Services</h2>
-      <p>From the first sketch of your vision to the final dance, every discipline is held to one standard: quiet, uncompromising excellence.</p>
+  <section id="services" class="pad bg-ivory">
+    <div class="container">
+      <div class="section-head center" data-reveal="up">
+        <div class="eyebrow" style="justify-content:center;">What We Offer</div>
+        <h2>A Full Suite of <em>Bespoke</em> Services</h2>
+        <p>From the first sketch of your vision to the final dance, every discipline is held to one standard: quiet, uncompromising excellence.</p>
+      </div>
+      <div class="services-grid" data-reveal="up" style="--d:60">
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="24" r="11" stroke="currentColor" stroke-width="1.4"/><path d="M14 16 L20 6 L26 16" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <h3>Wedding Planning</h3>
+          <p>End-to-end planning that transforms your vision into a fully realized celebration, timeline, and budget.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 8 C28 12 30 22 20 28 C10 22 12 12 20 8Z" stroke="currentColor" stroke-width="1.4"/><path d="M8 32 C14 28 26 28 32 32" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Decoration</h3>
+          <p>Floral direction, tablescapes, and ambient styling designed around your palette and story.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="14" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M14 14 V9 M26 14 V9" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Bridal Consultation</h3>
+          <p>Private sessions to define your gown, styling, and presence for every moment of the day.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 30 V16 L20 8 L32 16 V30" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M16 30 V20 H24 V30" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Wedding Organizer</h3>
+          <p>A single point of contact orchestrating vendors, logistics, and every moving part with calm precision.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="1.4"/><path d="M20 14 V20 L24 24" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Wedding Coordination</h3>
+          <p>Day-of coordination that keeps every cue, vendor, and guest moment perfectly on time.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 32 L14 18 L20 26 L26 12 L32 32" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <h3>Venue Styling</h3>
+          <p>Transforming any space — estate, ballroom, or garden — into an atmosphere of quiet grandeur.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M14 26 V12 C14 9 17 8 19 10 L26 16" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="28" r="3.4" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Entertainment</h3>
+          <p>Curated music, string quartets, and performances that set the emotional tone of the evening.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="7" y="13" width="26" height="18" rx="2" stroke="currentColor" stroke-width="1.4"/><circle cx="20" cy="22" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M14 13 L16 9 H24 L26 13" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Photography</h3>
+          <p>Editorial photographers who capture the day as an unfolding story, not a checklist of poses.</p>
+        </div>
+        <div class="service-card">
+          <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M9 12 L24 20 L9 28 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M24 20 H31" stroke="currentColor" stroke-width="1.4"/></svg>
+          <h3>Videography</h3>
+          <p>Cinematic films that let you relive the day's emotion, light, and sound for years to come.</p>
+        </div>
+      </div>
     </div>
-    <div class="services-grid" data-reveal="up" style="--d:60">
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="24" r="11" stroke="currentColor" stroke-width="1.4"/><path d="M14 16 L20 6 L26 16" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        <h3>Wedding Planning</h3>
-        <p>End-to-end planning that transforms your vision into a fully realized celebration, timeline, and budget.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 8 C28 12 30 22 20 28 C10 22 12 12 20 8Z" stroke="currentColor" stroke-width="1.4"/><path d="M8 32 C14 28 26 28 32 32" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Decoration</h3>
-        <p>Floral direction, tablescapes, and ambient styling designed around your palette and story.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="14" width="24" height="18" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M14 14 V9 M26 14 V9" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Bridal Consultation</h3>
-        <p>Private sessions to define your gown, styling, and presence for every moment of the day.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 30 V16 L20 8 L32 16 V30" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M16 30 V20 H24 V30" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Wedding Organizer</h3>
-        <p>A single point of contact orchestrating vendors, logistics, and every moving part with calm precision.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="12" stroke="currentColor" stroke-width="1.4"/><path d="M20 14 V20 L24 24" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Wedding Coordination</h3>
-        <p>Day-of coordination that keeps every cue, vendor, and guest moment perfectly on time.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 32 L14 18 L20 26 L26 12 L32 32" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        <h3>Venue Styling</h3>
-        <p>Transforming any space — estate, ballroom, or garden — into an atmosphere of quiet grandeur.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M14 26 V12 C14 9 17 8 19 10 L26 16" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="28" r="3.4" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Entertainment</h3>
-        <p>Curated music, string quartets, and performances that set the emotional tone of the evening.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="7" y="13" width="26" height="18" rx="2" stroke="currentColor" stroke-width="1.4"/><circle cx="20" cy="22" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M14 13 L16 9 H24 L26 13" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Photography</h3>
-        <p>Editorial photographers who capture the day as an unfolding story, not a checklist of poses.</p>
-      </div>
-      <div class="service-card">
-        <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M9 12 L24 20 L9 28 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M24 20 H31" stroke="currentColor" stroke-width="1.4"/></svg>
-        <h3>Videography</h3>
-        <p>Cinematic films that let you relive the day's emotion, light, and sound for years to come.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section id="gallery" class="pad bg-white">
-  <div class="container">
-    <div class="section-head center" data-reveal="up">
-      <div class="eyebrow" style="justify-content:center;">Portfolio</div>
-      <h2>Moments We've Had the <em>Honor</em> to Hold</h2>
-      <p>A glimpse into the celebrations we've been trusted to craft, from intimate ceremonies to grand estate affairs.</p>
+  <section id="gallery" class="pad bg-white">
+    <div class="container">
+      <div class="section-head center" data-reveal="up">
+        <div class="eyebrow" style="justify-content:center;">Portfolio</div>
+        <h2>Moments We've Had the <em>Honor</em> to Hold</h2>
+        <p>A glimpse into the celebrations we've been trusted to craft, from intimate ceremonies to grand estate affairs.</p>
+      </div>
+      <div class="gallery-grid" data-reveal="up" style="--d:60">
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1712314947761-a8d718bd8c32?q=80&w=1600&auto=format&fit=crop" data-caption="An Evening Beneath the Chandeliers">
+          <img src="https://images.unsplash.com/photo-1712314947761-a8d718bd8c32?q=80&w=800&auto=format&fit=crop" alt="Elegant banquet hall styled with chandeliers" loading="lazy">
+          <div class="gallery-overlay"><span>The Grand Reception</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1727425383452-2be55354f06e?q=80&w=1600&auto=format&fit=crop" data-caption="Vows Beneath the Open Sky">
+          <img src="https://images.unsplash.com/photo-1727425383452-2be55354f06e?q=80&w=800&auto=format&fit=crop" alt="Outdoor ceremony setup" loading="lazy">
+          <div class="gallery-overlay"><span>The Ceremony</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1719410876441-48357b53e6fd?q=80&w=1600&auto=format&fit=crop" data-caption="A Kiss to Begin Forever">
+          <img src="https://images.unsplash.com/photo-1719410876441-48357b53e6fd?q=80&w=800&auto=format&fit=crop" alt="Bride and groom sharing a kiss" loading="lazy">
+          <div class="gallery-overlay"><span>First Kiss</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?q=80&w=1600&auto=format&fit=crop" data-caption="An Estate Overlooking the Sea">
+          <img src="https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?q=80&w=800&auto=format&fit=crop" alt="Ocean estate setup" loading="lazy">
+          <div class="gallery-overlay"><span>Ocean Estate</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1719786624838-b5d9a9e3f378?q=80&w=1600&auto=format&fit=crop" data-caption="Set for an Evening of Celebration">
+          <img src="https://images.unsplash.com/photo-1719786624838-b5d9a9e3f378?q=80&w=800&auto=format&fit=crop" alt="Elegant table setting" loading="lazy">
+          <div class="gallery-overlay"><span>The Tablescape</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1683795694316-5a5eab2b6795?q=80&w=1600&auto=format&fit=crop" data-caption="A Quiet Toast Before the Evening Begins">
+          <img src="https://images.unsplash.com/photo-1683795694316-5a5eab2b6795?q=80&w=800&auto=format&fit=crop" alt="Bride toasting" loading="lazy">
+          <div class="gallery-overlay"><span>A Quiet Toast</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1724847664831-27b55fef3121?q=80&w=1600&auto=format&fit=crop" data-caption="Florals Chosen for Their Story">
+          <img src="https://images.unsplash.com/photo-1724847664831-27b55fef3121?q=80&w=800&auto=format&fit=crop" alt="Soft floral arrangements" loading="lazy">
+          <div class="gallery-overlay"><span>Floral Direction</span></div>
+        </div>
+        <div class="gallery-item" data-full="https://images.unsplash.com/photo-1727420517799-19be7ad1ed83?q=80&w=1600&auto=format&fit=crop" data-caption="Two Becoming One, By the Water">
+          <img src="https://images.unsplash.com/photo-1727420517799-19be7ad1ed83?q=80&w=800&auto=format&fit=crop" alt="Bride and groom near river" loading="lazy">
+          <div class="gallery-overlay"><span>By the Water</span></div>
+        </div>
+      </div>
     </div>
-    <div class="gallery-grid" data-reveal="up" style="--d:60">
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1712314947761-a8d718bd8c32?q=80&w=1600&auto=format&fit=crop" data-caption="An Evening Beneath the Chandeliers">
-        <img src="https://images.unsplash.com/photo-1712314947761-a8d718bd8c32?q=80&w=800&auto=format&fit=crop" alt="Elegant banquet hall styled with chandeliers" loading="lazy">
-        <div class="gallery-overlay"><span>The Grand Reception</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1727425383452-2be55354f06e?q=80&w=1600&auto=format&fit=crop" data-caption="Vows Beneath the Open Sky">
-        <img src="https://images.unsplash.com/photo-1727425383452-2be55354f06e?q=80&w=800&auto=format&fit=crop" alt="Outdoor ceremony setup" loading="lazy">
-        <div class="gallery-overlay"><span>The Ceremony</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1719410876441-48357b53e6fd?q=80&w=1600&auto=format&fit=crop" data-caption="A Kiss to Begin Forever">
-        <img src="https://images.unsplash.com/photo-1719410876441-48357b53e6fd?q=80&w=800&auto=format&fit=crop" alt="Bride and groom sharing a kiss" loading="lazy">
-        <div class="gallery-overlay"><span>First Kiss</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?q=80&w=1600&auto=format&fit=crop" data-caption="An Estate Overlooking the Sea">
-        <img src="https://images.unsplash.com/photo-1700062069869-0c59ff21fa3b?q=80&w=800&auto=format&fit=crop" alt="Ocean estate setup" loading="lazy">
-        <div class="gallery-overlay"><span>Ocean Estate</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1719786624838-b5d9a9e3f378?q=80&w=1600&auto=format&fit=crop" data-caption="Set for an Evening of Celebration">
-        <img src="https://images.unsplash.com/photo-1719786624838-b5d9a9e3f378?q=80&w=800&auto=format&fit=crop" alt="Elegant table setting" loading="lazy">
-        <div class="gallery-overlay"><span>The Tablescape</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1683795694316-5a5eab2b6795?q=80&w=1600&auto=format&fit=crop" data-caption="A Quiet Toast Before the Evening Begins">
-        <img src="https://images.unsplash.com/photo-1683795694316-5a5eab2b6795?q=80&w=800&auto=format&fit=crop" alt="Bride toasting" loading="lazy">
-        <div class="gallery-overlay"><span>A Quiet Toast</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1724847664831-27b55fef3121?q=80&w=1600&auto=format&fit=crop" data-caption="Florals Chosen for Their Story">
-        <img src="https://images.unsplash.com/photo-1724847664831-27b55fef3121?q=80&w=800&auto=format&fit=crop" alt="Soft floral arrangements" loading="lazy">
-        <div class="gallery-overlay"><span>Floral Direction</span></div>
-      </div>
-      <div class="gallery-item" data-full="https://images.unsplash.com/photo-1727420517799-19be7ad1ed83?q=80&w=1600&auto=format&fit=crop" data-caption="Two Becoming One, By the Water">
-        <img src="https://images.unsplash.com/photo-1727420517799-19be7ad1ed83?q=80&w=800&auto=format&fit=crop" alt="Bride and groom near river" loading="lazy">
-        <div class="gallery-overlay"><span>By the Water</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <section id="packages" class="pad bg-ivory">
+    <div class="container">
+      <div class="section-head center" data-reveal="up">
+        <div class="eyebrow" style="justify-content:center;">Investment</div>
+        <h2>Wedding <em>Packages</em></h2>
+        <p>Three thoughtfully composed tiers — each fully customizable to your story, guest count, and venue.</p>
+      </div>
+      <div class="packages-grid">
+        <div class="package-card" data-reveal="up" style="--d:0">
+          <div class="tier">Intimate</div>
+          <h3>The Elopement</h3>
+          <div class="price">Rp 45<span>jt / event</span></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Up to 60 guests</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Day-of coordination</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Essential floral styling</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>4-hour photography</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>One planning consultation</li>
+          </ul>
+          <div class="magnetic btn-block"><a href="#contact" class="btn btn-dark-ghost btn-block">Enquire</a></div>
+        </div>
+        
+        <div class="package-card popular" data-reveal="up" style="--d:150">
+          <div class="badge-popular">Most Popular</div>
+          <div class="tier">Signature</div>
+          <h3>The Celebration</h3>
+          <div class="price">Rp 120<span>jt / event</span></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Up to 250 guests</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Full planning & coordination</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Signature floral & venue styling</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Full-day photo & video</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Entertainment curation</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Custom invitation suite</li>
+          </ul>
+          <div class="magnetic btn-block"><a href="#contact" class="btn btn-primary btn-block" style="background:#fff;color:var(--c-ink);">Enquire</a></div>
+        </div>
+
+        <div class="package-card" data-reveal="up" style="--d:300">
+          <div class="tier">Grand</div>
+          <h3>The Estate Affair</h3>
+          <div class="price">Rp 250<span>jt / event</span></div>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Unlimited guests</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Dedicated lead planner + team</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Bespoke florals & venue transformation</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Multi-day photo & cinematic film</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Live entertainment & string quartet</li>
+            <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Guest travel & accommodation concierge</li>
+          </ul>
+          <div class="magnetic btn-block"><a href="#contact" class="btn btn-dark-ghost btn-block">Enquire</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad bg-ink" style="padding-top:70px;padding-bottom:70px;">
+    <div class="container">
+      <div class="stats-row">
+        <div class="stat" data-reveal="up"><div class="num"><span class="counter" data-target="500">0</span>+</div><div class="label">Happy Couples</div></div>
+        <div class="stat" data-reveal="up" style="--d:100"><div class="num"><span class="counter" data-target="10">0</span>+</div><div class="label">Years Experience</div></div>
+        <div class="stat" data-reveal="up" style="--d:200"><div class="num"><span class="counter" data-target="1000">0</span>+</div><div class="label">Events Organized</div></div>
+        <div class="stat" data-reveal="up" style="--d:300"><div class="num"><span class="counter" data-target="99">0</span>%</div><div class="label">Client Satisfaction</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="pad bg-white">
+    <div class="container">
+      <div class="section-head center" data-reveal="up">
+        <div class="eyebrow" style="justify-content:center;">Testimonials</div>
+        <h2>Words From Our <em>Couples</em></h2>
+      </div>
+      <div class="testi-wrap" data-reveal="up" style="--d:80">
+        <button class="testi-arrow" id="testi-prev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M15 5 L8 12 L15 19" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        <div class="testi-track">
+          <div class="testi-slides" id="testiSlides">
+            <div class="testi-slide">
+              <div class="testi-card">
+                <div class="testi-quote-mark">"</div>
+                <p>Yustine Wedding didn't just plan our day — they translated our relationship into a space, a menu, a playlist. Every guest said it felt like us, only more beautiful.</p>
+                <div class="testi-person"><div class="testi-avatar">A&R</div><div><b>Aline & Raka</b><span>Married, June 2025</span></div></div>
+              </div>
+            </div>
+            <div class="testi-slide">
+              <div class="testi-card">
+                <div class="testi-quote-mark">"</div>
+                <p>From the first call, we felt held. No detail was too small, no request too large. The team carried the weight of the planning so we could simply be present.</p>
+                <div class="testi-person"><div class="testi-avatar">D&M</div><div><b>Dinda & Marco</b><span>Married, October 2025</span></div></div>
+              </div>
+            </div>
+            <div class="testi-slide">
+              <div class="testi-card">
+                <div class="testi-quote-mark">"</div>
+                <p>Elegant, calm, and endlessly attentive. The florals alone brought our mothers to tears before the ceremony even began. Worth every rupiah.</p>
+                <div class="testi-person"><div class="testi-avatar">S&B</div><div><b>Sasha & Bimo</b><span>Married, February 2026</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="testi-arrow" id="testi-next" aria-label="Next testimonial"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M9 5 L16 12 L9 19" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        <div class="testi-dots" id="testiDots"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="pad bg-ivory">
+    <div class="container" style="max-width:820px;">
+      <div class="section-head center" data-reveal="up">
+        <div class="eyebrow" style="justify-content:center;">Good to Know</div>
+        <h2>Frequently Asked <em>Questions</em></h2>
+      </div>
+      <div id="faqList" data-reveal="up" style="--d:80">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">How far in advance should we book?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>We recommend reaching out 9–12 months before your date, especially for the Signature and Grand tiers, as our calendar for peak season fills quickly.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Can packages be customized?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>Always. Each package is a starting composition — we tailor guest count, floral scale, and add-ons to fit your venue and vision.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Do you travel outside Bogor?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>Yes, our team regularly travels across Java and beyond for destination celebrations. Travel and accommodation are scoped during consultation.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">What is included in the initial consultation?<span class="faq-plus"></span></button>
+          <div class="faq-a"><p>A private session to walk through your story, style references, budget, and timeline — the foundation for a proposal tailored entirely to you.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="pad bg-white">
+    <div class="container">
+      <div class="section-head center" data-reveal="up">
+        <div class="eyebrow" style="justify-content:center;">Get in Touch</div>
+        <h2>Begin Your <em>Journey</em> With Us</h2>
+        <p>Tell us a little about your celebration, and our team will reach out within 24 hours to arrange your consultation.</p>
+      </div>
+      <div class="contact-grid">
+        <form class="contact-form" id="contactForm" data-reveal="up">
+          <div class="field-row">
+            <div class="field">
+              <input type="text" id="cf-name" placeholder=" " required>
+              <label for="cf-name">Full Name</label>
+            </div>
+            <div class="field">
+              <input type="tel" id="cf-phone" placeholder=" " required>
+              <label for="cf-phone">Phone / WhatsApp</label>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <input type="email" id="cf-email" placeholder=" " required>
+              <label for="cf-email">Email Address</label>
+            </div>
+            <div class="field">
+              <input type="text" id="cf-date" placeholder=" ">
+              <label for="cf-date">Wedding Date</label>
+            </div>
+          </div>
+          <div class="field">
+            <textarea id="cf-message" rows="4" placeholder=" "></textarea>
+            <label for="cf-message">Tell us about your vision</label>
+          </div>
+          <div class="magnetic btn-block"><button type="submit" class="btn btn-primary btn-block">Send Enquiry</button></div>
+          <div class="form-toast" id="formToast">Thank you — your enquiry has been received. We'll be in touch within 24 hours.</div>
+        </form>
+        <div class="contact-side">
+          <div class="contact-map" data-reveal="up" style="--d:100">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126829.40728956692!2d106.72147385!3d-6.59508935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5e53308e017%3A0xb35a09e05baeb3d8!2sBogor%2C%20Bogor%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" loading="lazy" title="Yustine Wedding studio location map" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="contact-info" data-reveal="up" style="--d:160">
+            <div class="row">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 21 C12 21 5 14.5 5 9.5 A7 7 0 0 1 19 9.5 C19 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.4"/></svg>
+              <div><b>Studio</b><span>Jl. Pakuan No. 12, Bogor, West Java, Indonesia</span></div>
+            </div>
+            <div class="row">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M3 7 L12 13 L21 7" stroke="currentColor" stroke-width="1.4"/></svg>
+              <div><b>Email</b><span>hello@yustinewedding.id</span></div>
+            </div>
+            <div class="row">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M12 7 V12 L15.5 14" stroke="currentColor" stroke-width="1.4"/></svg>
+              <div><b>Studio Hours</b><span>Tuesday – Sunday, 10am – 6pm</span></div>
+            </div>
+          </div>
+          <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="whatsapp-cta" data-reveal="up" style="--d:220">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 9.27 20.92 6.79 19.05 4.92C17.18 3.05 14.68 2 12.04 2Z"/></svg>
+            Chat With Us on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-ink">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-logo">Yustine Wedding</div>
+        <div class="footer-tag">Crafting Timeless Love Stories</div>
+        <svg class="footer-vine" viewBox="0 0 500 60" fill="none" aria-hidden="true">
+          <path d="M0 30 C 80 10 120 50 200 30 C 280 10 320 50 400 30 C 440 20 470 30 500 30" stroke="#BC9A62" stroke-width="1"/>
+          <circle cx="120" cy="46" r="4" stroke="#D8C7A3" stroke-width="1"/>
+          <circle cx="250" cy="14" r="4" stroke="#D8C7A3" stroke-width="1"/>
+          <circle cx="380" cy="46" r="4" stroke="#D8C7A3" stroke-width="1"/>
+        </svg>
+        <nav class="footer-links">
+          <a href="#hero">Home</a>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#packages">Packages</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="#EFE9E2" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+          <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="#EFE9E2" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 18 C10.5 14 10.2 9 13 9 C15.5 9 15.5 12 14 13.5 C12.5 15 15 15.5 16 13.5"/></svg></a>
+          <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="#EFE9E2"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 9.27 20.92 6.79 19.05 4.92C17.18 3.05 14.68 2 12.04 2Z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Yustine Wedding. All rights reserved.</span>
+        <span>Crafting Timeless Love Stories</span>
+      </div>
+    </div>
+  </footer>
+
+</div> <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lb-btn" id="lb-prev" aria-label="Previous image"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M15 5 L8 12 L15 19" stroke="currentColor" stroke-width="1.6"/></svg></button>
   <img id="lb-img" src="" alt="">
   <div class="lb-caption" id="lb-caption"></div>
   <button class="lb-btn" id="lb-next" aria-label="Next image"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M9 5 L16 12 L9 19" stroke="currentColor" stroke-width="1.6"/></svg></button>
   <button id="lb-close" aria-label="Close image viewer"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M6 6 L18 18 M18 6 L6 18" stroke="currentColor" stroke-width="1.6"/></svg></button>
 </div>
-
-<section id="packages" class="pad bg-ivory">
-  <div class="container">
-    <div class="section-head center" data-reveal="up">
-      <div class="eyebrow" style="justify-content:center;">Investment</div>
-      <h2>Wedding <em>Packages</em></h2>
-      <p>Three thoughtfully composed tiers — each fully customizable to your story, guest count, and venue.</p>
-    </div>
-    <div class="packages-grid">
-      <div class="package-card glass" data-reveal="up" style="--d:0">
-        <div class="tier">Intimate</div>
-        <h3>The Elopement</h3>
-        <div class="price">Rp 45<span>jt / event</span></div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Up to 60 guests</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Day-of coordination</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Essential floral styling</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>4-hour photography</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>One planning consultation</li>
-        </ul>
-        <div class="magnetic btn-block"><a href="#contact" class="btn btn-dark-ghost btn-block">Enquire</a></div>
-      </div>
-      <div class="package-card popular" data-reveal="up" style="--d:100">
-        <div class="badge-popular">Most Popular</div>
-        <div class="tier">Signature</div>
-        <h3>The Celebration</h3>
-        <div class="price">Rp 120<span>jt / event</span></div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Up to 250 guests</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Full planning & coordination</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Signature floral & venue styling</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Full-day photo & video</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Entertainment curation</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Custom invitation suite</li>
-        </ul>
-        <div class="magnetic btn-block"><a href="#contact" class="btn btn-primary btn-block" style="background:#fff;color:var(--c-ink);">Enquire</a></div>
-      </div>
-      <div class="package-card glass" data-reveal="up" style="--d:200">
-        <div class="tier">Grand</div>
-        <h3>The Estate Affair</h3>
-        <div class="price">Rp 250<span>jt / event</span></div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Unlimited guests</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Dedicated lead planner + team</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Bespoke florals & venue transformation</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Multi-day photo & cinematic film</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Live entertainment & string quartet</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12 L10 18 L20 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>Guest travel & accommodation concierge</li>
-        </ul>
-        <div class="magnetic btn-block"><a href="#contact" class="btn btn-dark-ghost btn-block">Enquire</a></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pad bg-ink" style="padding-top:70px;padding-bottom:70px;">
-  <div class="container">
-    <div class="stats-row">
-      <div class="stat" data-reveal="up"><div class="num"><span class="counter" data-target="500">0</span>+</div><div class="label">Happy Couples</div></div>
-      <div class="stat" data-reveal="up" style="--d:100"><div class="num"><span class="counter" data-target="10">0</span>+</div><div class="label">Years Experience</div></div>
-      <div class="stat" data-reveal="up" style="--d:200"><div class="num"><span class="counter" data-target="1000">0</span>+</div><div class="label">Events Organized</div></div>
-      <div class="stat" data-reveal="up" style="--d:300"><div class="num"><span class="counter" data-target="99">0</span>%</div><div class="label">Client Satisfaction</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="testimonials" class="pad bg-white">
-  <div class="container">
-    <div class="section-head center" data-reveal="up">
-      <div class="eyebrow" style="justify-content:center;">Testimonials</div>
-      <h2>Words From Our <em>Couples</em></h2>
-    </div>
-    <div class="testi-wrap" data-reveal="up" style="--d:80">
-      <button class="testi-arrow" id="testi-prev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M15 5 L8 12 L15 19" stroke="currentColor" stroke-width="1.6"/></svg></button>
-      <div class="testi-track">
-        <div class="testi-slides" id="testiSlides">
-          <div class="testi-slide">
-            <div class="testi-card glass">
-              <div class="testi-quote-mark">"</div>
-              <p>Yustine Wedding didn't just plan our day — they translated our relationship into a space, a menu, a playlist. Every guest said it felt like us, only more beautiful.</p>
-              <div class="testi-person"><div class="testi-avatar">A&R</div><div><b>Aline & Raka</b><span>Married, June 2025</span></div></div>
-            </div>
-          </div>
-          <div class="testi-slide">
-            <div class="testi-card glass">
-              <div class="testi-quote-mark">"</div>
-              <p>From the first call, we felt held. No detail was too small, no request too large. The team carried the weight of the planning so we could simply be present.</p>
-              <div class="testi-person"><div class="testi-avatar">D&M</div><div><b>Dinda & Marco</b><span>Married, October 2025</span></div></div>
-            </div>
-          </div>
-          <div class="testi-slide">
-            <div class="testi-card glass">
-              <div class="testi-quote-mark">"</div>
-              <p>Elegant, calm, and endlessly attentive. The florals alone brought our mothers to tears before the ceremony even began. Worth every rupiah.</p>
-              <div class="testi-person"><div class="testi-avatar">S&B</div><div><b>Sasha & Bimo</b><span>Married, February 2026</span></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="testi-arrow" id="testi-next" aria-label="Next testimonial"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M9 5 L16 12 L9 19" stroke="currentColor" stroke-width="1.6"/></svg></button>
-      <div class="testi-dots" id="testiDots">
-        </div>
-    </div>
-  </div>
-</section>
-
-<section id="faq" class="pad bg-ivory">
-  <div class="container" style="max-width:820px;">
-    <div class="section-head center" data-reveal="up">
-      <div class="eyebrow" style="justify-content:center;">Good to Know</div>
-      <h2>Frequently Asked <em>Questions</em></h2>
-    </div>
-    <div id="faqList" data-reveal="up" style="--d:80">
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">How far in advance should we book?<span class="faq-plus"></span></button>
-        <div class="faq-a"><p>We recommend reaching out 9–12 months before your date, especially for the Signature and Grand tiers, as our calendar for peak season fills quickly.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Can packages be customized?<span class="faq-plus"></span></button>
-        <div class="faq-a"><p>Always. Each package is a starting composition — we tailor guest count, floral scale, and add-ons to fit your venue and vision.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Do you travel outside Bogor?<span class="faq-plus"></span></button>
-        <div class="faq-a"><p>Yes, our team regularly travels across Java and beyond for destination celebrations. Travel and accommodation are scoped during consultation.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What is included in the initial consultation?<span class="faq-plus"></span></button>
-        <div class="faq-a"><p>A private session to walk through your story, style references, budget, and timeline — the foundation for a proposal tailored entirely to you.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="pad bg-white">
-  <div class="container">
-    <div class="section-head center" data-reveal="up">
-      <div class="eyebrow" style="justify-content:center;">Get in Touch</div>
-      <h2>Begin Your <em>Journey</em> With Us</h2>
-      <p>Tell us a little about your celebration, and our team will reach out within 24 hours to arrange your consultation.</p>
-    </div>
-    <div class="contact-grid">
-      <form class="contact-form glass" id="contactForm" data-reveal="up">
-        <div class="field-row">
-          <div class="field">
-            <input type="text" id="cf-name" placeholder=" " required>
-            <label for="cf-name">Full Name</label>
-          </div>
-          <div class="field">
-            <input type="tel" id="cf-phone" placeholder=" " required>
-            <label for="cf-phone">Phone / WhatsApp</label>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <input type="email" id="cf-email" placeholder=" " required>
-            <label for="cf-email">Email Address</label>
-          </div>
-          <div class="field">
-            <input type="text" id="cf-date" placeholder=" ">
-            <label for="cf-date">Wedding Date</label>
-          </div>
-        </div>
-        <div class="field">
-          <textarea id="cf-message" rows="4" placeholder=" "></textarea>
-          <label for="cf-message">Tell us about your vision</label>
-        </div>
-        <div class="magnetic btn-block"><button type="submit" class="btn btn-primary btn-block">Send Enquiry</button></div>
-        <div class="form-toast" id="formToast">Thank you — your enquiry has been received. We'll be in touch within 24 hours.</div>
-      </form>
-      <div class="contact-side">
-        <div class="contact-map" data-reveal="up" style="--d:100">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126829.35245842525!2d106.74233762692257!3d-6.595191599818816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c5e7b579169d%3A0x1034f7f6f1f46b41!2sBogor%2C%20Bogor%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" loading="lazy" title="Yustine Wedding studio location map" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <div class="contact-info glass" data-reveal="up" style="--d:160">
-          <div class="row">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21 C12 21 5 14.5 5 9.5 A7 7 0 0 1 19 9.5 C19 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.4"/></svg>
-            <div><b>Studio</b><span>Jl. Pakuan No. 12, Bogor, West Java, Indonesia</span></div>
-          </div>
-          <div class="row">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M3 7 L12 13 L21 7" stroke="currentColor" stroke-width="1.4"/></svg>
-            <div><b>Email</b><span>hello@yustinewedding.id</span></div>
-          </div>
-          <div class="row">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M12 7 V12 L15.5 14" stroke="currentColor" stroke-width="1.4"/></svg>
-            <div><b>Studio Hours</b><span>Tuesday – Sunday, 10am – 6pm</span></div>
-          </div>
-        </div>
-        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="whatsapp-cta" data-reveal="up" style="--d:220">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 9.27 20.92 6.79 19.05 4.92C17.18 3.05 14.68 2 12.04 2Z"/></svg>
-          Chat With Us on WhatsApp
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="bg-ink">
-  <div class="container">
-    <div class="footer-top">
-      <div class="footer-logo">Yustine Wedding</div>
-      <div class="footer-tag">Crafting Timeless Love Stories</div>
-      <svg class="footer-vine" viewBox="0 0 500 60" fill="none" aria-hidden="true">
-        <path d="M0 30 C 80 10 120 50 200 30 C 280 10 320 50 400 30 C 440 20 470 30 500 30" stroke="#BC9A62" stroke-width="1"/>
-        <circle cx="120" cy="46" r="4" stroke="#D8C7A3" stroke-width="1"/>
-        <circle cx="250" cy="14" r="4" stroke="#D8C7A3" stroke-width="1"/>
-        <circle cx="380" cy="46" r="4" stroke="#D8C7A3" stroke-width="1"/>
-      </svg>
-      <nav class="footer-links">
-        <a href="#hero">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#packages">Packages</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <div class="footer-social">
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="#EFE9E2" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
-        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="#EFE9E2" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M9 18 C10.5 14 10.2 9 13 9 C15.5 9 15.5 12 14 13.5 C12.5 15 15 15.5 16 13.5"/></svg></a>
-        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="#EFE9E2"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.82 12.04 21.82C17.5 21.82 21.95 17.37 21.95 11.91C21.95 9.27 20.92 6.79 19.05 4.92C17.18 3.05 14.68 2 12.04 2Z"/></svg></a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Yustine Wedding. All rights reserved.</span>
-      <span>Crafting Timeless Love Stories</span>
-    </div>
-  </div>
-</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -790,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loader.classList.add('hide');
       entrance.classList.add('dissolve');
       document.body.classList.add('has-cursor');
-    }, 1500); 
+    }, 1200); 
   });
 
   // 2. Navigation Scroll & Mobile Toggle
@@ -806,6 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
   navToggle.addEventListener('click', () => {
     navLinks.classList.toggle('open');
     navToggle.classList.toggle('open');
+    nav.classList.toggle('menu-open');
     const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
     navToggle.setAttribute('aria-expanded', !isExpanded);
   });
@@ -815,13 +878,15 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('open');
       navToggle.classList.remove('open');
+      nav.classList.remove('menu-open');
       navToggle.setAttribute('aria-expanded', 'false');
     });
   });
 
-  // 3. Scroll Reveal & Numbers Counter (Intersection Observer)
+  // 3. Scroll Reveal, Numbers Counter & Parallax
   const revealElements = document.querySelectorAll('[data-reveal]');
-  const counterElements = document.querySelectorAll('.counter');
+  const aboutImg = document.getElementById('aboutImg');
+  const heroBg = document.getElementById('heroBg');
   
   const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
   const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -853,6 +918,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   revealElements.forEach(el => revealObserver.observe(el));
   
+  // Parallax Effect on Scroll
+  window.addEventListener('scroll', () => {
+      let scrollY = window.scrollY;
+      if(heroBg) heroBg.style.transform = `scale(1.05) translateY(${scrollY * 0.3}px)`;
+      if(aboutImg) aboutImg.style.transform = `scale(1.1) translateY(${scrollY * -0.05}px)`;
+  });
+
   // 4. Vine Growth Animation (Kiri Layar)
   const vinePath = document.getElementById('vine-path');
   const vineBlooms = document.querySelectorAll('.vine-bloom');
@@ -862,12 +934,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let drawLength = 3000 * scrollPercent;
         vinePath.style.strokeDashoffset = 3000 - drawLength;
         
-        // Memunculkan bunga di path yang sudah dilalui
         vineBlooms.forEach((bloom) => {
            let cy = parseInt(bloom.getAttribute('cy'));
-           if (drawLength > cy) {
-               bloom.classList.add('bloomed');
-           }
+           if (drawLength > cy) bloom.classList.add('bloomed');
         });
       });
   }
@@ -881,7 +950,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.addEventListener('mousemove', (e) => {
         cursorDot.style.left = `${e.clientX}px`;
         cursorDot.style.top = `${e.clientY}px`;
-        // Delay slight untuk cincin cursor (lux feel)
         cursorRing.style.left = `${e.clientX}px`;
         cursorRing.style.top = `${e.clientY}px`;
       });
@@ -891,7 +959,6 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
       });
       
-      // Magnetic effect on Buttons
       document.querySelectorAll('.magnetic').forEach(mag => {
           mag.addEventListener('mousemove', function(e) {
               const bounds = mag.getBoundingClientRect();
@@ -933,18 +1000,17 @@ document.addEventListener('DOMContentLoaded', () => {
     currentImgIndex = (currentImgIndex === galleryItems.length - 1) ? 0 : currentImgIndex + 1;
     openLightbox(currentImgIndex);
   });
-  // Tutup bila klik background luar gambar
+  
   lightbox.addEventListener('click', (e) => {
       if(e.target === lightbox) lightbox.classList.remove('open');
   });
 
-  // 7. Testimonial Slider
+  // 7. Testimonial Slider with Swipe Gesture
   const testiSlides = document.getElementById('testiSlides');
   const slides = document.querySelectorAll('.testi-slide');
   const dotContainer = document.getElementById('testiDots');
   let slideIndex = 0;
 
-  // Generate dots
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.setAttribute('aria-label', `Slide ${i+1}`);
@@ -955,9 +1021,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const dots = document.querySelectorAll('.testi-dots button');
 
   function goToSlide(index) {
+    if(index < 0) index = slides.length - 1;
+    if(index >= slides.length) index = 0;
     slideIndex = index;
-    if(slideIndex < 0) slideIndex = slides.length - 1;
-    if(slideIndex >= slides.length) slideIndex = 0;
     testiSlides.style.transform = `translateX(-${slideIndex * 100}%)`;
     dots.forEach(d => d.classList.remove('active'));
     dots[slideIndex].classList.add('active');
@@ -965,6 +1031,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('testi-prev').addEventListener('click', () => goToSlide(slideIndex - 1));
   document.getElementById('testi-next').addEventListener('click', () => goToSlide(slideIndex + 1));
+
+  // Touch Swipe Events for Mobile Slider
+  let touchStartX = 0;
+  let touchEndX = 0;
+  testiSlides.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+  }, {passive: true});
+  
+  testiSlides.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+  }, {passive: true});
+
+  function handleSwipe() {
+      if (touchStartX - touchEndX > 50) goToSlide(slideIndex + 1); // Swipe Kiri
+      if (touchEndX - touchStartX > 50) goToSlide(slideIndex - 1); // Swipe Kanan
+  }
 
   // 8. FAQ Accordion
   const faqItems = document.querySelectorAll('.faq-item');
@@ -974,13 +1057,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     btn.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
-      // Tutup semua dulu (opsional, jika ingin hanya 1 yang terbuka)
       faqItems.forEach(i => {
           i.classList.remove('open');
           i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
           i.querySelector('.faq-a').style.maxHeight = null;
       });
-      // Toggle
       if(!isOpen) {
         item.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
@@ -989,13 +1070,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 9. Contact Form Feedback (Toast)
+  // 9. Contact Form Feedback
   const contactForm = document.getElementById('contactForm');
   const formToast = document.getElementById('formToast');
   if(contactForm) {
       contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        // Animasi feedback form
         formToast.classList.add('show');
         contactForm.reset();
         setTimeout(() => { formToast.classList.remove('show'); }, 4000);
