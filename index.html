@@ -30,285 +30,410 @@
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                         serif: ['"Playfair Display"', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Custom Utilities */
-        .glass-search {
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .bg-gradient-card {
-            background: linear-gradient(90deg, rgba(249,247,243,1) 40%, rgba(249,247,243,0.3) 100%);
-        }
+        .glass-search { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .bg-gradient-card { background: linear-gradient(90deg, rgba(249,247,243,1) 40%, rgba(249,247,243,0.3) 100%); }
+        /* Masonry Layout for Mood Board */
+        .masonry { column-count: 1; column-gap: 1.5rem; }
+        @media (min-width: 768px) { .masonry { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry { column-count: 3; } }
+        .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
     </style>
 </head>
-<body class="font-sans text-textDark bg-white antialiased selection:bg-primary selection:text-white">
+<body class="font-sans text-textDark bg-white antialiased selection:bg-primary selection:text-white flex flex-col min-h-screen">
 
     <!-- Navbar -->
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-borderLight px-6 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <!-- Logo -->
-            <div class="flex flex-col items-center cursor-pointer">
+            <div class="flex flex-col items-center cursor-pointer nav-link" data-target="home">
                 <span class="font-serif text-2xl tracking-widest text-primary font-semibold">YUSTINE</span>
                 <span class="text-[10px] tracking-[0.3em] text-textMuted uppercase">Wedding</span>
             </div>
 
             <!-- Nav Links -->
             <div class="hidden lg:flex items-center space-x-8 text-sm font-medium text-textMuted">
-                <a href="#" class="text-textDark border-b-2 border-primary pb-1">Home</a>
-                <a href="#" class="hover:text-primary transition-colors">Wedding Mood</a>
-                <a href="#" class="hover:text-primary transition-colors">Vendor</a>
-                <a href="#" class="hover:text-primary transition-colors">Event & Promo</a>
-                <a href="#" class="hover:text-primary transition-colors">Wedding Blog</a>
-                <a href="#" class="hover:text-primary flex items-center gap-1 transition-colors">
+                <a href="#" data-target="home" class="nav-link text-textDark border-b-2 border-primary pb-1 transition-colors">Home</a>
+                <a href="#" data-target="mood" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Wedding Mood</a>
+                <a href="#" data-target="vendor" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Vendor</a>
+                <a href="#" data-target="event" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Event & Promo</a>
+                <a href="#" class="hover:text-primary flex items-center gap-1 transition-colors pb-1">
                     Wedding Tools <i class="fa-solid fa-chevron-down text-[10px]"></i>
                 </a>
             </div>
 
             <!-- Search & Auth -->
             <div class="flex items-center space-x-4">
-                <div class="hidden md:flex items-center bg-gray-50 border border-borderLight rounded-full px-4 py-2">
+                <div class="hidden md:flex items-center bg-gray-50 border border-borderLight rounded-full px-4 py-2 focus-within:border-primary transition-colors">
                     <input type="text" placeholder="Cari vendor, artikel, dll" class="bg-transparent text-sm focus:outline-none w-48 text-textDark placeholder-gray-400">
-                    <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm cursor-pointer"></i>
+                    <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm cursor-pointer hover:text-primary transition-colors"></i>
                 </div>
                 <button class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors">Masuk</button>
-                <button class="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primaryHover transition-colors shadow-md">Daftar</button>
+                <button class="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primaryHover transition-colors shadow-md hover:shadow-lg">Daftar</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative bg-bgCream pt-16 pb-32 lg:pt-24 lg:pb-40 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-            <!-- Hero Text -->
-            <div class="max-w-xl">
-                <h1 class="text-4xl lg:text-[54px] leading-tight text-textDark font-serif mb-6">
-                    Wujudkan Pernikahan <br>
-                    <span class="italic text-primary">Impianmu Bersama Yustine</span>
-                </h1>
-                <p class="text-textMuted text-lg mb-8 leading-relaxed">
-                    Temukan vendor terbaik, inspirasi terkurasi, dan kelola pernikahanmu dengan mudah.
-                </p>
-                <div class="flex flex-wrap items-center gap-4">
-                    <button class="px-8 py-3.5 bg-primary text-white font-medium rounded-lg hover:bg-primaryHover transition-all shadow-lg shadow-primary/20">
-                        Temukan Vendor
-                    </button>
-                    <button class="px-8 py-3.5 text-primary font-medium border border-primary rounded-lg hover:bg-primary/5 transition-all">
-                        Buat Wedding Mood
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Image (Right Side Absolute) -->
-        <div class="absolute top-0 right-0 w-full lg:w-[60%] h-full opacity-30 lg:opacity-100 pointer-events-none" style="background: linear-gradient(to right, #F9F7F3 0%, transparent 100%); z-index: 0;">
-            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Wedding Bride" class="w-full h-full object-cover object-left mask-image-linear-left">
-            <!-- Overlay gradient to blend image with background -->
-            <div class="absolute inset-0 bg-gradient-to-r from-bgCream via-transparent to-transparent"></div>
-        </div>
-    </header>
-
-    <!-- Floating Search Bar -->
-    <section class="max-w-6xl mx-auto px-6 relative z-20 -mt-12 lg:-mt-16">
-        <div class="bg-white rounded-2xl glass-search p-3 flex flex-col lg:flex-row items-center gap-3 border border-gray-100">
-            <div class="flex-1 w-full flex items-center px-4 py-3 bg-gray-50 rounded-xl">
-                <i class="fa-solid fa-magnifying-glass text-gray-400 mr-3"></i>
-                <input type="text" placeholder="Cari vendor atau layanan..." class="w-full bg-transparent focus:outline-none text-sm">
-            </div>
-            <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
-            
-            <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
-                <option>Semua Kategori</option>
-                <option>Venue</option>
-                <option>Catering</option>
-            </select>
-            <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
-            
-            <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
-                <option>Semua Lokasi</option>
-                <option>Jakarta</option>
-                <option>Bali</option>
-            </select>
-            <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
-            
-            <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
-                <option>Semua Harga</option>
-                <option>< Rp 10 Juta</option>
-                <option>> Rp 10 Juta</option>
-            </select>
-
-            <button class="w-full lg:w-auto px-8 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primaryHover transition-colors shrink-0">
-                Cari Sekarang
-            </button>
-        </div>
-    </section>
-
-    <!-- Popular Categories -->
-    <section class="max-w-7xl mx-auto px-6 py-20 text-center">
-        <h2 class="text-2xl font-serif font-medium text-textDark mb-10">Jelajahi Kategori Populer</h2>
+    <!-- Main Content Container (SPA Router targets these sections) -->
+    <main class="flex-grow">
         
-        <div class="flex overflow-x-auto lg:flex-wrap justify-start lg:justify-center gap-4 pb-4 hide-scrollbar">
-            <!-- Category Item -->
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-building text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Venue</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-utensils text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Catering</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-camera text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Photography</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-leaf text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Decoration</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-shirt text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Wedding Dress</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-wand-magic-sparkles text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Make Up</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-music text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Entertainment</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
-                <i class="fa-solid fa-envelope-open-text text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100"></i>
-                <span class="text-xs font-medium text-textDark">Undangan</span>
-            </a>
-            <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:bg-gray-50 transition-all group">
-                <i class="fa-solid fa-border-all text-2xl text-gray-400 mb-3 group-hover:text-primary"></i>
-                <span class="text-xs font-medium text-textDark">Lihat Semua</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- Feature Cards Section -->
-    <section class="max-w-7xl mx-auto px-6 pb-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Card 1 -->
-            <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group">
-                <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wedding Mood" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0">
-                <div class="absolute inset-0 bg-gradient-card z-10"></div>
-                <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
-                    <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Wedding Mood</h3>
-                    <p class="text-xs text-textMuted mb-4 leading-relaxed">Kumpulkan inspirasi dan ciptakan mood pernikahan impianmu.</p>
-                    <button class="self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Mulai Mendesain</button>
+        <!-- ================= PAGE: HOME ================= -->
+        <section id="page-home" class="page-section block animate-fade-in">
+            <!-- Hero Section -->
+            <header class="relative bg-bgCream pt-16 pb-32 lg:pt-24 lg:pb-40 overflow-hidden">
+                <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+                    <div class="max-w-xl">
+                        <h1 class="text-4xl lg:text-[54px] leading-tight text-textDark font-serif mb-6">
+                            Wujudkan Pernikahan <br>
+                            <span class="italic text-primary">Impianmu Bersama Yustine</span>
+                        </h1>
+                        <p class="text-textMuted text-lg mb-8 leading-relaxed">
+                            Temukan vendor terbaik, inspirasi terkurasi, dan kelola pernikahanmu dengan mudah.
+                        </p>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <button data-target="vendor" class="btn-navigate px-8 py-3.5 bg-primary text-white font-medium rounded-lg hover:bg-primaryHover transition-all shadow-lg shadow-primary/20 hover:-translate-y-0.5">
+                                Temukan Vendor
+                            </button>
+                            <button data-target="mood" class="btn-navigate px-8 py-3.5 text-primary font-medium border border-primary rounded-lg hover:bg-primary/5 transition-all hover:-translate-y-0.5">
+                                Buat Wedding Mood
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="absolute top-0 right-0 w-full lg:w-[60%] h-full opacity-30 lg:opacity-100 pointer-events-none" style="background: linear-gradient(to right, #F9F7F3 0%, transparent 100%); z-index: 0;">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Wedding Bride" class="w-full h-full object-cover object-left mask-image-linear-left">
+                    <div class="absolute inset-0 bg-gradient-to-r from-bgCream via-transparent to-transparent"></div>
+                </div>
+            </header>
 
-            <!-- Card 2 -->
-            <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group">
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Event & Promo" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0">
-                <div class="absolute inset-0 bg-gradient-card z-10"></div>
-                <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
-                    <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Event & Promo</h3>
-                    <p class="text-xs text-textMuted mb-4 leading-relaxed">Temukan wedding fair, event seru, dan promo menarik dari vendor.</p>
-                    <button class="self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Lihat Event</button>
+            <!-- Floating Search Bar -->
+            <div class="max-w-6xl mx-auto px-6 relative z-20 -mt-12 lg:-mt-16">
+                <div class="bg-white rounded-2xl glass-search p-3 flex flex-col lg:flex-row items-center gap-3 border border-gray-100">
+                    <div class="flex-1 w-full flex items-center px-4 py-3 bg-gray-50 rounded-xl focus-within:bg-white focus-within:ring-1 focus-within:ring-primary transition-all">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400 mr-3"></i>
+                        <input type="text" placeholder="Cari vendor atau layanan..." class="w-full bg-transparent focus:outline-none text-sm">
+                    </div>
+                    <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
+                    
+                    <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
+                        <option>Semua Kategori</option>
+                        <option>Venue</option>
+                        <option>Catering</option>
+                        <option>Decoration</option>
+                    </select>
+                    <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
+                    
+                    <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
+                        <option>Semua Lokasi</option>
+                        <option>Jakarta</option>
+                        <option>Bali</option>
+                        <option>Bandung</option>
+                    </select>
+                    
+                    <button data-target="vendor" class="btn-navigate w-full lg:w-auto px-8 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primaryHover transition-colors shrink-0 shadow-md">
+                        Cari Sekarang
+                    </button>
                 </div>
             </div>
 
-            <!-- Card 3 -->
-            <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group">
-                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wedding Blog" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0">
-                <div class="absolute inset-0 bg-gradient-card z-10"></div>
-                <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
-                    <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Wedding Blog</h3>
-                    <p class="text-xs text-textMuted mb-4 leading-relaxed">Tips, tren terbaru, dan inspirasi untuk hari spesialmu.</p>
-                    <button class="self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Baca Artikel</button>
+            <!-- Popular Categories -->
+            <div class="max-w-7xl mx-auto px-6 py-20 text-center">
+                <h2 class="text-2xl font-serif font-medium text-textDark mb-10">Jelajahi Kategori Populer</h2>
+                <div class="flex overflow-x-auto lg:flex-wrap justify-start lg:justify-center gap-4 pb-4 hide-scrollbar">
+                    <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
+                        <i class="fa-solid fa-building text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-medium text-textDark">Venue</span>
+                    </a>
+                    <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
+                        <i class="fa-solid fa-utensils text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-medium text-textDark">Catering</span>
+                    </a>
+                    <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
+                        <i class="fa-solid fa-camera text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-medium text-textDark">Photography</span>
+                    </a>
+                    <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
+                        <i class="fa-solid fa-leaf text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-medium text-textDark">Decoration</span>
+                    </a>
+                    <a href="#" class="min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:border-primary hover:shadow-lg hover:-translate-y-1 transition-all group">
+                        <i class="fa-solid fa-shirt text-2xl text-primary mb-3 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-medium text-textDark">Wedding Dress</span>
+                    </a>
+                    <a href="#" data-target="vendor" class="btn-navigate min-w-[100px] flex flex-col items-center justify-center p-5 bg-white border border-borderLight rounded-2xl hover:bg-gray-50 transition-all group">
+                        <i class="fa-solid fa-border-all text-2xl text-gray-400 mb-3 group-hover:text-primary transition-colors"></i>
+                        <span class="text-xs font-medium text-textDark">Lihat Semua</span>
+                    </a>
                 </div>
             </div>
 
-            <!-- Card 4 -->
-            <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group">
-                <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wedding Tools" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0">
-                <div class="absolute inset-0 bg-gradient-card z-10"></div>
-                <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
-                    <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Wedding Tools</h3>
-                    <p class="text-xs text-textMuted mb-4 leading-relaxed">Kelola checklist, tamu, dan budget pernikahan dengan praktis.</p>
-                    <button class="self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Gunakan Tools</button>
+            <!-- Feature Cards Section -->
+            <div class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card 1 -->
+                    <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wedding Mood" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0 group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-card z-10"></div>
+                        <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
+                            <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Wedding Mood</h3>
+                            <p class="text-xs text-textMuted mb-4 leading-relaxed">Kumpulkan inspirasi dan ciptakan mood pernikahan impianmu.</p>
+                            <button data-target="mood" class="btn-navigate self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Mulai Mendesain</button>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Event & Promo" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0 group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-card z-10"></div>
+                        <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
+                            <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Event & Promo</h3>
+                            <p class="text-xs text-textMuted mb-4 leading-relaxed">Temukan wedding fair, event seru, dan promo menarik dari vendor.</p>
+                            <button data-target="event" class="btn-navigate self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Lihat Event</button>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="relative rounded-2xl overflow-hidden bg-bgCream h-64 border border-borderLight group hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wedding Tools" class="absolute right-0 top-0 h-full w-2/3 object-cover object-right z-0 group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-card z-10"></div>
+                        <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
+                            <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Wedding Tools</h3>
+                            <p class="text-xs text-textMuted mb-4 leading-relaxed">Kelola checklist, tamu, dan budget dengan praktis.</p>
+                            <button class="self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Gunakan Tools</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-        </div>
-    </section>
+        <!-- ================= PAGE: VENDOR ================= -->
+        <section id="page-vendor" class="page-section hidden pt-10 pb-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-6">
+                <!-- Header Page -->
+                <div class="mb-10 text-center">
+                    <h1 class="text-3xl font-serif font-bold text-textDark mb-3">Direktori Vendor Terpercaya</h1>
+                    <p class="text-textMuted">Temukan vendor terbaik yang siap mewujudkan pernikahan impian Anda.</p>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Sidebar Filter -->
+                    <div class="w-full lg:w-1/4">
+                        <div class="bg-white p-6 rounded-2xl border border-borderLight shadow-sm sticky top-28">
+                            <h3 class="font-semibold text-textDark mb-4 border-b pb-2">Filter Pencarian</h3>
+                            <div class="mb-5">
+                                <label class="block text-sm text-textMuted mb-2">Kategori</label>
+                                <select class="w-full p-3 border border-borderLight rounded-lg text-sm focus:outline-none focus:border-primary">
+                                    <option>Semua Kategori</option>
+                                    <option>Venue</option>
+                                    <option>Photography</option>
+                                    <option>Catering</option>
+                                </select>
+                            </div>
+                            <div class="mb-5">
+                                <label class="block text-sm text-textMuted mb-2">Lokasi</label>
+                                <select class="w-full p-3 border border-borderLight rounded-lg text-sm focus:outline-none focus:border-primary">
+                                    <option>Pilih Kota</option>
+                                    <option>Jakarta</option>
+                                    <option>Bali</option>
+                                </select>
+                            </div>
+                            <button class="w-full bg-primary text-white py-3 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Terapkan Filter</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Vendor Grid -->
+                    <div class="w-full lg:w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Vendor Card 1 -->
+                        <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">Venue</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-serif font-semibold text-lg text-textDark">The Glass House</h3>
+                                    <div class="flex items-center gap-1 text-sm text-yellow-500">
+                                        <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">4.9</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> Jakarta Selatan</p>
+                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                                    <span class="text-sm font-semibold text-primary">Mulai Rp 50 Jt</span>
+                                    <button class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Vendor Card 2 -->
+                        <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">Photography</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-serif font-semibold text-lg text-textDark">Lumina Studio</h3>
+                                    <div class="flex items-center gap-1 text-sm text-yellow-500">
+                                        <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">4.8</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> Bandung</p>
+                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                                    <span class="text-sm font-semibold text-primary">Mulai Rp 15 Jt</span>
+                                    <button class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
+                                </div>
+                            </div>
+                        </div>
 
-    <!-- Value Propositions -->
-    <section class="border-t border-borderLight bg-gray-50/50 py-12">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 border border-gray-100">
-                    <i class="fa-solid fa-award text-primary text-lg"></i>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold text-textDark mb-1">Vendor Terpercaya</h4>
-                    <p class="text-xs text-textMuted">Terkurasi & berkualitas</p>
-                </div>
-            </div>
-            
-            <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 border border-gray-100">
-                    <i class="fa-solid fa-tags text-primary text-lg"></i>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold text-textDark mb-1">Harga Transparan</h4>
-                    <p class="text-xs text-textMuted">Tanpa biaya tersembunyi</p>
-                </div>
-            </div>
-            
-            <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 border border-gray-100">
-                    <i class="fa-solid fa-layer-group text-primary text-lg"></i>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold text-textDark mb-1">Pilihan Terlengkap</h4>
-                    <p class="text-xs text-textMuted">Semua kebutuhan pernikahan</p>
+                        <!-- Vendor Card 3 -->
+                        <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1546816007-6cb56227c4fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">Decoration</span>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-serif font-semibold text-lg text-textDark">Flora Magic Decors</h3>
+                                    <div class="flex items-center gap-1 text-sm text-yellow-500">
+                                        <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">5.0</span>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> Bali</p>
+                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                                    <span class="text-sm font-semibold text-primary">Mulai Rp 25 Jt</span>
+                                    <button class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="flex items-start gap-4">
-                <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 border border-gray-100">
-                    <i class="fa-solid fa-shield-halved text-primary text-lg"></i>
-                </div>
-                <div>
-                    <h4 class="text-sm font-semibold text-textDark mb-1">Aman & Nyaman</h4>
-                    <p class="text-xs text-textMuted">Transaksi aman & terpercaya</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer Auth Section -->
-    <footer class="py-12 border-t border-borderLight text-center">
+        <!-- ================= PAGE: WEDDING MOOD ================= -->
+        <section id="page-mood" class="page-section hidden pt-10 pb-20">
+            <div class="max-w-7xl mx-auto px-6">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-borderLight pb-6">
+                    <div>
+                        <h1 class="text-3xl font-serif font-bold text-textDark mb-2">Inspirasi Mood Board</h1>
+                        <p class="text-textMuted">Kumpulkan ide gaya dan tema dari seluruh dunia.</p>
+                    </div>
+                    <button class="mt-4 md:mt-0 px-6 py-2.5 bg-textDark text-white text-sm font-medium rounded-lg hover:bg-black transition-colors shadow-lg">
+                        <i class="fa-solid fa-plus mr-2"></i> Buat Board Baru
+                    </button>
+                </div>
+                
+                <!-- Masonry Gallery -->
+                <div class="masonry">
+                    <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                        </div>
+                    </div>
+                    <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                        </div>
+                    </div>
+                    <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                        </div>
+                    </div>
+                    <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
+                        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE: EVENT & PROMO ================= -->
+        <section id="page-event" class="page-section hidden pt-10 pb-20 bg-bgCream">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl font-serif font-bold text-textDark mb-3">Event & Promo Terbaru</h1>
+                    <p class="text-textMuted">Jangan lewatkan pameran pernikahan dan diskon eksklusif bulan ini.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Event Card 1 -->
+                    <div class="bg-white rounded-2xl flex flex-col sm:flex-row overflow-hidden border border-borderLight shadow-sm hover:shadow-lg transition">
+                        <div class="sm:w-2/5 h-48 sm:h-auto relative">
+                            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded">HOT EVENT</div>
+                        </div>
+                        <div class="sm:w-3/5 p-6 flex flex-col justify-center">
+                            <div class="text-xs text-primary font-semibold mb-2"><i class="fa-regular fa-calendar mr-1"></i> 20-22 Oktober 2026</div>
+                            <h3 class="font-serif text-xl font-semibold text-textDark mb-2">Jakarta Mega Wedding Festival</h3>
+                            <p class="text-sm text-textMuted mb-4">Temukan 300+ vendor pernikahan di JCC Senayan. Dapatkan cashback hingga Rp 50 Juta.</p>
+                            <button class="self-start text-sm font-medium text-primary hover:text-primaryHover transition flex items-center">
+                                Daftar Gratis <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Event Card 2 -->
+                    <div class="bg-white rounded-2xl flex flex-col sm:flex-row overflow-hidden border border-borderLight shadow-sm hover:shadow-lg transition">
+                        <div class="sm:w-2/5 h-48 sm:h-auto relative">
+                            <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 bg-primary text-white text-xs font-bold px-3 py-1 rounded">PROMO</div>
+                        </div>
+                        <div class="sm:w-3/5 p-6 flex flex-col justify-center">
+                            <div class="text-xs text-textMuted font-semibold mb-2"><i class="fa-solid fa-ticket mr-1"></i> Berlaku s/d 30 Nov</div>
+                            <h3 class="font-serif text-xl font-semibold text-textDark mb-2">Diskon 20% All Venue Bali</h3>
+                            <p class="text-sm text-textMuted mb-4">Wujudkan destiation wedding impian di Bali dengan diskon khusus partner Yustine.</p>
+                            <button class="self-start px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition">
+                                Klaim Promo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Value Propositions (Persistent on Home Only via CSS, but moved here generally for structure if needed. For now, kept inside Home) -->
+    
+    <!-- Footer Section -->
+    <footer class="mt-auto py-12 border-t border-borderLight text-center bg-white z-10 relative">
         <div class="max-w-3xl mx-auto px-6">
+            <h2 class="font-serif text-2xl text-primary font-semibold mb-6">YUSTINE</h2>
             <p class="text-sm text-textMuted mb-6 relative inline-block px-4">
                 <span class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-px bg-gray-200 -ml-12"></span>
-                Masuk / Daftar dengan
+                Daftar sekarang & nikmati kemudahannya
                 <span class="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-px bg-gray-200 -mr-12"></span>
             </p>
             
             <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-4 h-4">
                     Google
                 </button>
-                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
                     <i class="fa-brands fa-facebook text-blue-600 text-lg"></i>
                     Facebook
                 </button>
-                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
                     <i class="fa-brands fa-apple text-lg"></i>
                     Apple
                 </button>
@@ -320,5 +445,68 @@
         </div>
     </footer>
 
+    <!-- JavaScript for SPA Routing & Interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-section');
+            const btnNavigates = document.querySelectorAll('.btn-navigate');
+
+            // Function to change page
+            function navigateTo(targetId) {
+                // 1. Hide all pages
+                pages.forEach(page => {
+                    page.classList.add('hidden');
+                    page.classList.remove('block', 'animate-fade-in');
+                });
+                
+                // 2. Show target page
+                const targetPage = document.getElementById(`page-${targetId}`);
+                if(targetPage) {
+                    targetPage.classList.remove('hidden');
+                    targetPage.classList.add('block', 'animate-fade-in');
+                }
+                
+                // 3. Update active state on Navigation Bar
+                navLinks.forEach(link => {
+                    if(link.dataset.target === targetId && targetId !== 'home') {
+                        // For links other than logo
+                        link.classList.add('border-primary', 'text-textDark');
+                        link.classList.remove('border-transparent', 'text-textMuted');
+                    } else if (link.dataset.target === targetId && targetId === 'home') {
+                        // Explicit logic for home
+                        link.classList.add('border-primary', 'text-textDark');
+                    } else {
+                        // Reset other links
+                        if(link.hasAttribute('data-target')) {
+                            link.classList.remove('border-primary', 'text-textDark');
+                            link.classList.add('border-transparent');
+                        }
+                    }
+                });
+
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Add Click Event Listeners to Nav Links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.dataset.target;
+                    if(target) navigateTo(target);
+                });
+            });
+
+            // Add Click Event Listeners to Buttons in Cards
+            btnNavigates.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = btn.dataset.target;
+                    if(target) navigateTo(target);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
