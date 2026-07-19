@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yustine Wedding - Wujudkan Pernikahan Impianmu</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#B6977D', // Soft brown/gold
+                        primary: '#B6977D',
                         primaryHover: '#9A7D65',
-                        bgCream: '#F9F7F3', // Light cream background
+                        bgCream: '#F9F7F3',
                         textDark: '#333333',
                         textMuted: '#777777',
-                        borderLight: '#E8E8E8'
+                        borderLight: '#E8E8E8',
+                        successBg: '#EAF6EE', successText: '#1E8E4A',
+                        warnBg: '#FDF3E3', warnText: '#B9791E',
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -48,11 +51,13 @@
         .glass-search { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .bg-gradient-card { background: linear-gradient(90deg, rgba(249,247,243,1) 40%, rgba(249,247,243,0.3) 100%); }
-        /* Masonry Layout for Mood Board */
         .masonry { column-count: 1; column-gap: 1.5rem; }
         @media (min-width: 768px) { .masonry { column-count: 2; } }
         @media (min-width: 1024px) { .masonry { column-count: 3; } }
         .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
+        .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 9999px; display:inline-block; }
+        .modal-backdrop { background: rgba(51,51,51,0.45); }
+        .tool-tab.active { background:#B6977D; color:#fff; }
     </style>
 </head>
 <body class="font-sans text-textDark bg-white antialiased selection:bg-primary selection:text-white flex flex-col min-h-screen">
@@ -72,8 +77,9 @@
                 <a href="#" data-target="mood" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Wedding Mood</a>
                 <a href="#" data-target="vendor" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Vendor</a>
                 <a href="#" data-target="event" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Event & Promo</a>
-                <a href="#" class="hover:text-primary flex items-center gap-1 transition-colors pb-1">
-                    Wedding Tools <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                <a href="#" data-target="blog" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors">Wedding Blog</a>
+                <a href="#" data-target="tools" class="nav-link border-b-2 border-transparent pb-1 hover:text-primary transition-colors flex items-center gap-1">
+                    Wedding Tools
                 </a>
             </div>
 
@@ -83,15 +89,15 @@
                     <input type="text" placeholder="Cari vendor, artikel, dll" class="bg-transparent text-sm focus:outline-none w-48 text-textDark placeholder-gray-400">
                     <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm cursor-pointer hover:text-primary transition-colors"></i>
                 </div>
-                <button class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors">Masuk</button>
-                <button class="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primaryHover transition-colors shadow-md hover:shadow-lg">Daftar</button>
+                <button onclick="openAuth('login')" class="px-5 py-2 text-sm font-semibold text-primary border border-primary rounded-lg hover:bg-primary/5 transition-colors">Masuk</button>
+                <button onclick="openAuth('register')" class="px-5 py-2 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primaryHover transition-colors shadow-md hover:shadow-lg">Daftar</button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content Container (SPA Router targets these sections) -->
     <main class="flex-grow">
-        
+
         <!-- ================= PAGE: HOME ================= -->
         <section id="page-home" class="page-section block animate-fade-in">
             <!-- Hero Section -->
@@ -116,7 +122,7 @@
                     </div>
                 </div>
                 <div class="absolute top-0 right-0 w-full lg:w-[60%] h-full opacity-30 lg:opacity-100 pointer-events-none" style="background: linear-gradient(to right, #F9F7F3 0%, transparent 100%); z-index: 0;">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Wedding Bride" class="w-full h-full object-cover object-left mask-image-linear-left">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Wedding Bride" class="w-full h-full object-cover object-left">
                     <div class="absolute inset-0 bg-gradient-to-r from-bgCream via-transparent to-transparent"></div>
                 </div>
             </header>
@@ -129,7 +135,7 @@
                         <input type="text" placeholder="Cari vendor atau layanan..." class="w-full bg-transparent focus:outline-none text-sm">
                     </div>
                     <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
-                    
+
                     <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
                         <option>Semua Kategori</option>
                         <option>Venue</option>
@@ -137,14 +143,14 @@
                         <option>Decoration</option>
                     </select>
                     <div class="h-8 w-px bg-gray-200 hidden lg:block"></div>
-                    
+
                     <select class="w-full lg:w-48 px-4 py-3 text-sm text-textDark bg-transparent focus:outline-none cursor-pointer appearance-none">
                         <option>Semua Lokasi</option>
                         <option>Jakarta</option>
                         <option>Bali</option>
                         <option>Bandung</option>
                     </select>
-                    
+
                     <button data-target="vendor" class="btn-navigate w-full lg:w-auto px-8 py-3.5 bg-primary text-white font-medium rounded-xl hover:bg-primaryHover transition-colors shrink-0 shadow-md">
                         Cari Sekarang
                     </button>
@@ -212,10 +218,19 @@
                         <div class="relative z-20 p-6 flex flex-col justify-center h-full max-w-[75%]">
                             <h3 class="font-serif text-lg font-semibold text-textDark mb-2">Wedding Tools</h3>
                             <p class="text-xs text-textMuted mb-4 leading-relaxed">Kelola checklist, tamu, dan budget dengan praktis.</p>
-                            <button class="self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Gunakan Tools</button>
+                            <button data-target="tools" class="btn-navigate self-start px-4 py-2 bg-primary text-white text-xs font-medium rounded hover:bg-primaryHover transition">Gunakan Tools</button>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Blog Preview Section -->
+            <div class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-serif font-medium text-textDark">Wedding Blog Terbaru</h2>
+                    <button data-target="blog" class="btn-navigate text-sm font-medium text-primary hover:underline">Lihat Semua</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="homeBlogPreview"></div>
             </div>
         </section>
 
@@ -227,7 +242,7 @@
                     <h1 class="text-3xl font-serif font-bold text-textDark mb-3">Direktori Vendor Terpercaya</h1>
                     <p class="text-textMuted">Temukan vendor terbaik yang siap mewujudkan pernikahan impian Anda.</p>
                 </div>
-                
+
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- Sidebar Filter -->
                     <div class="w-full lg:w-1/4">
@@ -235,90 +250,30 @@
                             <h3 class="font-semibold text-textDark mb-4 border-b pb-2">Filter Pencarian</h3>
                             <div class="mb-5">
                                 <label class="block text-sm text-textMuted mb-2">Kategori</label>
-                                <select class="w-full p-3 border border-borderLight rounded-lg text-sm focus:outline-none focus:border-primary">
-                                    <option>Semua Kategori</option>
+                                <select id="vendorKategoriFilter" onchange="filterVendors()" class="w-full p-3 border border-borderLight rounded-lg text-sm focus:outline-none focus:border-primary">
+                                    <option value="">Semua Kategori</option>
                                     <option>Venue</option>
                                     <option>Photography</option>
                                     <option>Catering</option>
+                                    <option>Decoration</option>
                                 </select>
                             </div>
                             <div class="mb-5">
                                 <label class="block text-sm text-textMuted mb-2">Lokasi</label>
-                                <select class="w-full p-3 border border-borderLight rounded-lg text-sm focus:outline-none focus:border-primary">
-                                    <option>Pilih Kota</option>
+                                <select id="vendorLokasiFilter" onchange="filterVendors()" class="w-full p-3 border border-borderLight rounded-lg text-sm focus:outline-none focus:border-primary">
+                                    <option value="">Pilih Kota</option>
                                     <option>Jakarta</option>
+                                    <option>Jakarta Selatan</option>
+                                    <option>Bandung</option>
                                     <option>Bali</option>
                                 </select>
                             </div>
-                            <button class="w-full bg-primary text-white py-3 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Terapkan Filter</button>
+                            <button onclick="filterVendors()" class="w-full bg-primary text-white py-3 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Terapkan Filter</button>
                         </div>
                     </div>
-                    
-                    <!-- Vendor Grid -->
-                    <div class="w-full lg:w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Vendor Card 1 -->
-                        <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
-                            <div class="relative h-48 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">Venue</span>
-                            </div>
-                            <div class="p-5">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="font-serif font-semibold text-lg text-textDark">The Glass House</h3>
-                                    <div class="flex items-center gap-1 text-sm text-yellow-500">
-                                        <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">4.9</span>
-                                    </div>
-                                </div>
-                                <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> Jakarta Selatan</p>
-                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                                    <span class="text-sm font-semibold text-primary">Mulai Rp 50 Jt</span>
-                                    <button class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Vendor Card 2 -->
-                        <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
-                            <div class="relative h-48 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">Photography</span>
-                            </div>
-                            <div class="p-5">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="font-serif font-semibold text-lg text-textDark">Lumina Studio</h3>
-                                    <div class="flex items-center gap-1 text-sm text-yellow-500">
-                                        <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">4.8</span>
-                                    </div>
-                                </div>
-                                <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> Bandung</p>
-                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                                    <span class="text-sm font-semibold text-primary">Mulai Rp 15 Jt</span>
-                                    <button class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Vendor Card 3 -->
-                        <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
-                            <div class="relative h-48 overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1546816007-6cb56227c4fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                                <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">Decoration</span>
-                            </div>
-                            <div class="p-5">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="font-serif font-semibold text-lg text-textDark">Flora Magic Decors</h3>
-                                    <div class="flex items-center gap-1 text-sm text-yellow-500">
-                                        <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">5.0</span>
-                                    </div>
-                                </div>
-                                <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> Bali</p>
-                                <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                                    <span class="text-sm font-semibold text-primary">Mulai Rp 25 Jt</span>
-                                    <button class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Vendor Grid -->
+                    <div class="w-full lg:w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="vendorGrid"></div>
                 </div>
             </div>
         </section>
@@ -332,35 +287,35 @@
                         <h1 class="text-3xl font-serif font-bold text-textDark mb-2">Inspirasi Mood Board</h1>
                         <p class="text-textMuted">Kumpulkan ide gaya dan tema dari seluruh dunia.</p>
                     </div>
-                    <button class="mt-4 md:mt-0 px-6 py-2.5 bg-textDark text-white text-sm font-medium rounded-lg hover:bg-black transition-colors shadow-lg">
+                    <button onclick="openAuth('login')" class="mt-4 md:mt-0 px-6 py-2.5 bg-textDark text-white text-sm font-medium rounded-lg hover:bg-black transition-colors shadow-lg">
                         <i class="fa-solid fa-plus mr-2"></i> Buat Board Baru
                     </button>
                 </div>
-                
+
                 <!-- Masonry Gallery -->
                 <div class="masonry">
                     <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                            <button onclick="saveMood(this)" class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
                         </div>
                     </div>
                     <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                            <button onclick="saveMood(this)" class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
                         </div>
                     </div>
                     <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                            <button onclick="saveMood(this)" class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
                         </div>
                     </div>
                     <div class="masonry-item relative rounded-xl overflow-hidden group cursor-pointer">
                         <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Inspiration" class="w-full h-auto object-cover group-hover:scale-105 transition duration-500">
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <button class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
+                            <button onclick="saveMood(this)" class="bg-white text-textDark px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:bg-primary hover:text-white transition">Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -374,7 +329,7 @@
                     <h1 class="text-3xl font-serif font-bold text-textDark mb-3">Event & Promo Terbaru</h1>
                     <p class="text-textMuted">Jangan lewatkan pameran pernikahan dan diskon eksklusif bulan ini.</p>
                 </div>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <!-- Event Card 1 -->
                     <div class="bg-white rounded-2xl flex flex-col sm:flex-row overflow-hidden border border-borderLight shadow-sm hover:shadow-lg transition">
@@ -386,7 +341,7 @@
                             <div class="text-xs text-primary font-semibold mb-2"><i class="fa-regular fa-calendar mr-1"></i> 20-22 Oktober 2026</div>
                             <h3 class="font-serif text-xl font-semibold text-textDark mb-2">Jakarta Mega Wedding Festival</h3>
                             <p class="text-sm text-textMuted mb-4">Temukan 300+ vendor pernikahan di JCC Senayan. Dapatkan cashback hingga Rp 50 Juta.</p>
-                            <button class="self-start text-sm font-medium text-primary hover:text-primaryHover transition flex items-center">
+                            <button onclick="alert('Pendaftaran berhasil dicatat (contoh).')" class="self-start text-sm font-medium text-primary hover:text-primaryHover transition flex items-center">
                                 Daftar Gratis <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                             </button>
                         </div>
@@ -401,7 +356,7 @@
                             <div class="text-xs text-textMuted font-semibold mb-2"><i class="fa-solid fa-ticket mr-1"></i> Berlaku s/d 30 Nov</div>
                             <h3 class="font-serif text-xl font-semibold text-textDark mb-2">Diskon 20% All Venue Bali</h3>
                             <p class="text-sm text-textMuted mb-4">Wujudkan destiation wedding impian di Bali dengan diskon khusus partner Yustine.</p>
-                            <button class="self-start px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition">
+                            <button onclick="alert('Promo berhasil diklaim (contoh).')" class="self-start px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition">
                                 Klaim Promo
                             </button>
                         </div>
@@ -410,10 +365,90 @@
             </div>
         </section>
 
+        <!-- ================= PAGE: WEDDING BLOG ================= -->
+        <section id="page-blog" class="page-section hidden pt-10 pb-20">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl font-serif font-bold text-textDark mb-3">Wedding Blog</h1>
+                    <p class="text-textMuted">Tips, inspirasi, dan panduan lengkap untuk hari pernikahanmu.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blogGrid"></div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE: WEDDING TOOLS ================= -->
+        <section id="page-tools" class="page-section hidden pt-10 pb-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-10">
+                    <h1 class="text-3xl font-serif font-bold text-textDark mb-3">Wedding Tools</h1>
+                    <p class="text-textMuted">Kelola checklist, tamu, dan budget pernikahanmu dengan praktis.</p>
+                </div>
+
+                <!-- Tool tabs -->
+                <div class="flex justify-center gap-3 mb-10 flex-wrap">
+                    <button onclick="showTool('checklist')" data-tool="checklist" class="tool-tab active px-6 py-2.5 rounded-lg text-sm font-medium border border-primary text-primary transition">
+                        <i class="fa-solid fa-list-check mr-2"></i>Checklist
+                    </button>
+                    <button onclick="showTool('guestlist')" data-tool="guestlist" class="tool-tab px-6 py-2.5 rounded-lg text-sm font-medium border border-primary text-primary transition">
+                        <i class="fa-solid fa-users mr-2"></i>Guest List
+                    </button>
+                    <button onclick="showTool('budget')" data-tool="budget" class="tool-tab px-6 py-2.5 rounded-lg text-sm font-medium border border-primary text-primary transition">
+                        <i class="fa-solid fa-wallet mr-2"></i>Budget Estimator
+                    </button>
+                </div>
+
+                <!-- Checklist Tool -->
+                <div id="tool-checklist" class="tool-panel bg-white border border-borderLight rounded-2xl p-6 max-w-2xl mx-auto">
+                    <div class="flex gap-3 mb-5">
+                        <input type="text" id="checklistInput" placeholder="Tambah tugas persiapan..." class="flex-1 border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                        <button onclick="addChecklist()" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Tambah</button>
+                    </div>
+                    <div id="checklistList" class="space-y-2"></div>
+                    <div class="mt-4 text-xs text-textMuted" id="checklistProgress"></div>
+                </div>
+
+                <!-- Guest List Tool -->
+                <div id="tool-guestlist" class="tool-panel hidden bg-white border border-borderLight rounded-2xl p-6 max-w-3xl mx-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-5">
+                        <input type="text" id="guestName" placeholder="Nama tamu / grup" class="sm:col-span-2 border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                        <input type="number" id="guestJumlah" placeholder="Jumlah" class="border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                        <button onclick="addGuest()" class="bg-primary text-white px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Tambah</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+                                <th class="py-2 font-medium">Nama</th><th class="font-medium">Jumlah</th><th class="font-medium">RSVP</th><th class="font-medium text-right">Aksi</th>
+                            </tr></thead>
+                            <tbody id="guestTable"></tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 text-sm font-medium text-textDark" id="guestTotal"></div>
+                </div>
+
+                <!-- Budget Estimator Tool -->
+                <div id="tool-budget" class="tool-panel hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                        <div class="lg:col-span-2 bg-white border border-borderLight rounded-2xl p-6">
+                            <div class="flex flex-col sm:flex-row gap-3 mb-5">
+                                <input type="text" id="budgetName" placeholder="Nama pos (mis. Catering)" class="flex-1 border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                                <input type="number" id="budgetAmount" placeholder="Estimasi (Rp)" class="w-full sm:w-40 border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                                <button onclick="addBudget()" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Tambah</button>
+                            </div>
+                            <div id="budgetList" class="space-y-2"></div>
+                        </div>
+                        <div class="bg-white border border-borderLight rounded-2xl p-6">
+                            <h3 class="font-serif font-semibold mb-4">Ringkasan</h3>
+                            <div class="text-xs text-textMuted mb-1">Total Estimasi Budget</div>
+                            <div class="text-2xl font-bold text-primary" id="budgetTotal">Rp 0</div>
+                            <canvas id="chartBudget" class="mt-6"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Value Propositions (Persistent on Home Only via CSS, but moved here generally for structure if needed. For now, kept inside Home) -->
-    
     <!-- Footer Section -->
     <footer class="mt-auto py-12 border-t border-borderLight text-center bg-white z-10 relative">
         <div class="max-w-3xl mx-auto px-6">
@@ -423,90 +458,319 @@
                 Daftar sekarang & nikmati kemudahannya
                 <span class="absolute right-0 top-1/2 -translate-y-1/2 w-12 h-px bg-gray-200 -mr-12"></span>
             </p>
-            
+
             <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
+                <button onclick="alert('Login dengan Google (contoh).')" class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-4 h-4">
                     Google
                 </button>
-                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
+                <button onclick="alert('Login dengan Facebook (contoh).')" class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
                     <i class="fa-brands fa-facebook text-blue-600 text-lg"></i>
                     Facebook
                 </button>
-                <button class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
+                <button onclick="alert('Login dengan Apple (contoh).')" class="flex items-center gap-2 px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-medium hover:bg-gray-50 transition hover:shadow-sm">
                     <i class="fa-brands fa-apple text-lg"></i>
                     Apple
                 </button>
             </div>
-            
+
             <p class="text-xs text-textMuted">
                 Dengan melanjutkan, Anda menyetujui <a href="#" class="text-primary hover:underline">Syarat & Ketentuan</a> dan <a href="#" class="text-primary hover:underline">Kebijakan Privasi</a> kami.
+            </p>
+            <p class="text-[11px] text-gray-300 mt-6">
+                <a href="admin.html" target="_blank" class="hover:text-primary hover:underline">Admin Login</a>
             </p>
         </div>
     </footer>
 
+    <!-- ================= AUTH MODAL ================= -->
+    <div id="authBackdrop" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md p-8 relative">
+            <button onclick="closeAuth()" class="absolute top-5 right-5 text-gray-400 hover:text-textDark"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-6">
+                <span class="font-serif text-xl text-primary font-semibold">YUSTINE</span>
+                <p class="text-xs text-textMuted uppercase tracking-[0.3em]">Wedding</p>
+            </div>
+            <div class="flex border border-borderLight rounded-lg overflow-hidden mb-6 text-sm font-medium">
+                <button id="authTabLogin" onclick="switchAuthTab('login')" class="flex-1 py-2.5 bg-primary text-white transition">Masuk</button>
+                <button id="authTabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2.5 text-textMuted hover:bg-gray-50 transition">Daftar</button>
+            </div>
+            <form onsubmit="event.preventDefault(); alert((authMode==='login' ? 'Login' : 'Pendaftaran') + ' berhasil (contoh).'); closeAuth();" class="space-y-4">
+                <div id="authNameField" class="hidden">
+                    <label class="block text-sm text-textMuted mb-1.5">Nama Lengkap</label>
+                    <input type="text" class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                </div>
+                <div>
+                    <label class="block text-sm text-textMuted mb-1.5">Email</label>
+                    <input type="email" required class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                </div>
+                <div>
+                    <label class="block text-sm text-textMuted mb-1.5">Kata Sandi</label>
+                    <input type="password" required class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary">
+                </div>
+                <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg text-sm font-semibold hover:bg-primaryHover transition" id="authSubmitBtn">Masuk</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= BLOG READ MODAL ================= -->
+    <div id="blogBackdrop" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl w-full max-w-lg p-8 max-h-[85vh] overflow-y-auto relative">
+            <button onclick="document.getElementById('blogBackdrop').classList.add('hidden'); document.getElementById('blogBackdrop').classList.remove('flex');" class="absolute top-5 right-5 text-gray-400 hover:text-textDark"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="blogModalTitle" class="font-serif text-xl font-semibold mb-2"></h3>
+            <p id="blogModalDate" class="text-xs text-textMuted mb-4"></p>
+            <p id="blogModalBody" class="text-sm text-textMuted leading-relaxed"></p>
+        </div>
+    </div>
+
     <!-- JavaScript for SPA Routing & Interactions -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pages = document.querySelectorAll('.page-section');
-            const btnNavigates = document.querySelectorAll('.btn-navigate');
+        /* ---------------- DATA ---------------- */
+        const vendors = [
+            {nama:'The Glass House', kategori:'Venue', lokasi:'Jakarta Selatan', rating:4.9, harga:'Mulai Rp 50 Jt', img:'photo-1519225421980-715cb0215aed'},
+            {nama:'Lumina Studio', kategori:'Photography', lokasi:'Bandung', rating:4.8, harga:'Mulai Rp 15 Jt', img:'photo-1606800052052-a08af7148866'},
+            {nama:'Flora Magic Decors', kategori:'Decoration', lokasi:'Bali', rating:5.0, harga:'Mulai Rp 25 Jt', img:'photo-1546816007-6cb56227c4fb'},
+            {nama:'Sweet Bites Catering', kategori:'Catering', lokasi:'Jakarta', rating:4.7, harga:'Mulai Rp 18 Jt', img:'photo-1555244162-803834f70033'},
+            {nama:'Melody Entertainment', kategori:'Entertainment', lokasi:'Jakarta', rating:4.6, harga:'Mulai Rp 10 Jt', img:'photo-1470229722913-7c0e2dbbafd3'},
+            {nama:'Lumière Decoration', kategori:'Decoration', lokasi:'Bandung', rating:4.9, harga:'Mulai Rp 22 Jt', img:'photo-1519741497674-611481863552'},
+        ];
 
-            // Function to change page
-            function navigateTo(targetId) {
-                // 1. Hide all pages
-                pages.forEach(page => {
-                    page.classList.add('hidden');
-                    page.classList.remove('block', 'animate-fade-in');
-                });
-                
-                // 2. Show target page
-                const targetPage = document.getElementById(`page-${targetId}`);
-                if(targetPage) {
-                    targetPage.classList.remove('hidden');
-                    targetPage.classList.add('block', 'animate-fade-in');
-                }
-                
-                // 3. Update active state on Navigation Bar
-                navLinks.forEach(link => {
-                    if(link.dataset.target === targetId && targetId !== 'home') {
-                        // For links other than logo
-                        link.classList.add('border-primary', 'text-textDark');
-                        link.classList.remove('border-transparent', 'text-textMuted');
-                    } else if (link.dataset.target === targetId && targetId === 'home') {
-                        // Explicit logic for home
-                        link.classList.add('border-primary', 'text-textDark');
-                    } else {
-                        // Reset other links
-                        if(link.hasAttribute('data-target')) {
-                            link.classList.remove('border-primary', 'text-textDark');
-                            link.classList.add('border-transparent');
-                        }
-                    }
-                });
+        const blogPosts = [
+            {judul:'10 Tips Memilih Venue Pernikahan Impian', tanggal:'17 Jun 2024', img:'photo-1519225421980-715cb0215aed', excerpt:'Panduan praktis menentukan venue yang sesuai tema dan jumlah tamu.', body:'Memilih venue adalah keputusan pertama yang paling menentukan suasana pernikahanmu. Pertimbangkan kapasitas tamu, akses lokasi, ketersediaan tanggal, serta fasilitas pendukung seperti area parkir dan ruang rias. Selalu kunjungi venue langsung sebelum menandatangani kontrak, dan tanyakan detail biaya tambahan di luar paket dasar.'},
+            {judul:'Tren Dekorasi Pernikahan 2024', tanggal:'16 Jun 2024', img:'photo-1520854221256-17451cc331bf', excerpt:'Gaya dekorasi yang paling diminati calon pengantin tahun ini.', body:'Tahun ini, dekorasi bernuansa earthy tone dengan sentuhan bunga kering semakin populer. Banyak pasangan juga memilih konsep outdoor garden dengan pencahayaan hangat. Elemen personal seperti foto perjalanan hubungan turut ditambahkan untuk memberi sentuhan yang lebih intim.'},
+            {judul:'Checklist Persiapan Pernikahan Lengkap', tanggal:'15 Jun 2024', img:'photo-1511285560929-80b456fea0bc', excerpt:'Daftar tugas dari 12 bulan hingga H-1 hari pernikahan.', body:'Mulai dari 12 bulan sebelum hari-H, tentukan budget dan venue terlebih dahulu. Enam bulan sebelumnya, kunci vendor catering dan fotografer. Satu bulan menjelang hari-H, pastikan gaun sudah final fitting dan susunan acara telah dikonfirmasi ke semua vendor. Gunakan fitur Checklist kami untuk memantau progres persiapanmu.'},
+            {judul:'Inspirasi Gaun Pengantin Modern Minimalis', tanggal:'14 Jun 2024', img:'photo-1469334031218-e382a71b716b', excerpt:'Siluet sederhana namun tetap elegan untuk hari bahagiamu.', body:'Gaun minimalis dengan potongan clean dan bahan satin premium menjadi favorit pengantin modern. Detail seperti kancing mutiara di bagian belakang atau lengan sheer memberikan sentuhan mewah tanpa berlebihan.'},
+            {judul:'Cara Mengatur Budget Pernikahan yang Efektif', tanggal:'13 Jun 2024', img:'photo-1532453288672-3a27e9be9efd', excerpt:'Strategi alokasi dana agar pernikahan impian tetap terjangkau.', body:'Alokasikan sekitar 40% budget untuk venue dan catering, 20% untuk dekorasi, 15% untuk dokumentasi, dan sisanya untuk kebutuhan pendukung lain. Gunakan Budget Estimator kami untuk mencatat setiap pos secara rinci dan menghindari pengeluaran di luar rencana.'},
+            {judul:'Rangkaian Acara Adat yang Perlu Dipersiapkan', tanggal:'12 Jun 2024', img:'photo-1511795409834-ef04bbd61622', excerpt:'Memahami rangkaian prosesi adat agar acara berjalan khidmat.', body:'Setiap daerah memiliki rangkaian prosesi adat yang unik, mulai dari lamaran, siraman, hingga akad. Diskusikan bersama keluarga dan wedding organizer mengenai urutan acara agar semua persiapan busana dan perlengkapan adat dapat disiapkan tepat waktu.'},
+        ];
 
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+        /* ---------------- ROUTER ---------------- */
+        function navigateTo(targetId) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('block', 'animate-fade-in');
+            });
+            const targetPage = document.getElementById(`page-${targetId}`);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('block', 'animate-fade-in');
             }
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.dataset.target === targetId) {
+                    link.classList.add('border-primary', 'text-textDark');
+                    link.classList.remove('border-transparent', 'text-textMuted');
+                } else if (link.hasAttribute('data-target')) {
+                    link.classList.remove('border-primary', 'text-textDark');
+                    link.classList.add('border-transparent');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-            // Add Click Event Listeners to Nav Links
-            navLinks.forEach(link => {
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const target = link.dataset.target;
-                    if(target) navigateTo(target);
+                    if (target) navigateTo(target);
                 });
             });
-
-            // Add Click Event Listeners to Buttons in Cards
-            btnNavigates.forEach(btn => {
+            document.querySelectorAll('.btn-navigate').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     const target = btn.dataset.target;
-                    if(target) navigateTo(target);
+                    if (target) navigateTo(target);
                 });
             });
+
+            renderVendors(vendors);
+            renderBlog();
+            renderChecklist();
+            renderGuest();
+            renderBudget();
         });
+
+        /* ---------------- VENDOR ---------------- */
+        function renderVendors(list){
+            document.getElementById('vendorGrid').innerHTML = list.map(v => `
+                <div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/${v.img}?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-semibold px-3 py-1 rounded-full text-primary shadow">${v.kategori}</span>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif font-semibold text-lg text-textDark">${v.nama}</h3>
+                            <div class="flex items-center gap-1 text-sm text-yellow-500">
+                                <i class="fa-solid fa-star"></i> <span class="text-textDark font-medium">${v.rating}</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-textMuted mb-4"><i class="fa-solid fa-location-dot mr-1"></i> ${v.lokasi}</p>
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                            <span class="text-sm font-semibold text-primary">${v.harga}</span>
+                            <button onclick="alert('Menampilkan detail ${v.nama} (contoh).')" class="text-xs font-medium text-textDark border border-gray-200 px-3 py-1.5 rounded hover:border-primary hover:text-primary transition">Detail</button>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+        function filterVendors(){
+            const kat = document.getElementById('vendorKategoriFilter').value;
+            const lok = document.getElementById('vendorLokasiFilter').value;
+            renderVendors(vendors.filter(v => (!kat || v.kategori===kat) && (!lok || v.lokasi===lok)));
+        }
+
+        /* ---------------- BLOG ---------------- */
+        function blogCard(b, i){
+            return `<div class="bg-white rounded-2xl border border-borderLight overflow-hidden hover:shadow-xl transition duration-300 group">
+                <div class="h-48 overflow-hidden"><img src="https://images.unsplash.com/${b.img}?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>
+                <div class="p-5">
+                    <p class="text-xs text-primary font-semibold mb-2">${b.tanggal}</p>
+                    <h3 class="font-serif font-semibold text-textDark mb-2 leading-snug">${b.judul}</h3>
+                    <p class="text-xs text-textMuted mb-4 leading-relaxed">${b.excerpt}</p>
+                    <button onclick="readBlog(${i})" class="text-xs font-medium text-primary hover:underline">Baca Selengkapnya <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div></div>`;
+        }
+        function renderBlog(){
+            document.getElementById('blogGrid').innerHTML = blogPosts.map((b,i)=>blogCard(b,i)).join('');
+            document.getElementById('homeBlogPreview').innerHTML = blogPosts.slice(0,3).map((b,i)=>blogCard(b,i)).join('');
+        }
+        function readBlog(i){
+            const b = blogPosts[i];
+            document.getElementById('blogModalTitle').textContent = b.judul;
+            document.getElementById('blogModalDate').textContent = b.tanggal;
+            document.getElementById('blogModalBody').textContent = b.body;
+            document.getElementById('blogBackdrop').classList.remove('hidden');
+            document.getElementById('blogBackdrop').classList.add('flex');
+        }
+
+        /* ---------------- MOOD ---------------- */
+        function saveMood(btn){
+            btn.textContent = 'Tersimpan';
+            btn.classList.add('bg-primary','text-white');
+            btn.disabled = true;
+        }
+
+        /* ---------------- AUTH MODAL ---------------- */
+        let authMode = 'login';
+        function openAuth(mode){
+            switchAuthTab(mode);
+            document.getElementById('authBackdrop').classList.remove('hidden');
+            document.getElementById('authBackdrop').classList.add('flex');
+        }
+        function closeAuth(){
+            document.getElementById('authBackdrop').classList.add('hidden');
+            document.getElementById('authBackdrop').classList.remove('flex');
+        }
+        function switchAuthTab(mode){
+            authMode = mode;
+            const loginTab = document.getElementById('authTabLogin');
+            const registerTab = document.getElementById('authTabRegister');
+            const nameField = document.getElementById('authNameField');
+            const submitBtn = document.getElementById('authSubmitBtn');
+            if(mode === 'login'){
+                loginTab.classList.add('bg-primary','text-white'); loginTab.classList.remove('text-textMuted');
+                registerTab.classList.remove('bg-primary','text-white'); registerTab.classList.add('text-textMuted');
+                nameField.classList.add('hidden');
+                submitBtn.textContent = 'Masuk';
+            } else {
+                registerTab.classList.add('bg-primary','text-white'); registerTab.classList.remove('text-textMuted');
+                loginTab.classList.remove('bg-primary','text-white'); loginTab.classList.add('text-textMuted');
+                nameField.classList.remove('hidden');
+                submitBtn.textContent = 'Daftar';
+            }
+        }
+
+        /* ---------------- WEDDING TOOLS ---------------- */
+        function showTool(tool){
+            document.querySelectorAll('.tool-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('tool-'+tool).classList.remove('hidden');
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`[data-tool="${tool}"]`).classList.add('active');
+        }
+
+        // Checklist
+        let checklist = [
+            {task:'Booking venue', done:true},
+            {task:'Pilih vendor catering', done:true},
+            {task:'Fitting gaun pengantin', done:false},
+            {task:'Kirim undangan', done:false},
+        ];
+        function renderChecklist(){
+            document.getElementById('checklistList').innerHTML = checklist.map((c,i) => `
+                <label class="flex items-center gap-3 px-3 py-2.5 border border-borderLight rounded-lg cursor-pointer">
+                    <input type="checkbox" ${c.done?'checked':''} onchange="checklist[${i}].done=!checklist[${i}].done; renderChecklist();" class="w-4 h-4 accent-[#B6977D]">
+                    <span class="flex-1 text-sm ${c.done?'line-through text-textMuted':''}">${c.task}</span>
+                    <button onclick="checklist.splice(${i},1); renderChecklist();" class="text-gray-300 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                </label>`).join('');
+            const done = checklist.filter(c=>c.done).length;
+            document.getElementById('checklistProgress').textContent = `${done} dari ${checklist.length} tugas selesai`;
+        }
+        function addChecklist(){
+            const el = document.getElementById('checklistInput');
+            if(!el.value.trim()) return;
+            checklist.push({task: el.value.trim(), done:false});
+            el.value = '';
+            renderChecklist();
+        }
+
+        // Guest List
+        let guests = [
+            {nama:'Keluarga Besar Ayah', jumlah:12, rsvp:'Konfirmasi'},
+            {nama:'Teman Kantor', jumlah:20, rsvp:'Menunggu'},
+        ];
+        function renderGuest(){
+            document.getElementById('guestTable').innerHTML = guests.map((g,i) => `
+                <tr class="border-b border-borderLight last:border-0">
+                    <td class="py-3 font-medium">${g.nama}</td><td>${g.jumlah}</td>
+                    <td><span class="badge ${g.rsvp==='Konfirmasi' ? 'bg-successBg text-successText' : 'bg-warnBg text-warnText'}">${g.rsvp}</span></td>
+                    <td class="text-right space-x-3">
+                        <button onclick="guests[${i}].rsvp = guests[${i}].rsvp==='Konfirmasi'?'Menunggu':'Konfirmasi'; renderGuest();" class="text-xs text-primary font-medium hover:underline">Ubah</button>
+                        <button onclick="guests.splice(${i},1); renderGuest();" class="text-textMuted hover:text-red-500"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`).join('');
+            document.getElementById('guestTotal').textContent = 'Total tamu: ' + guests.reduce((a,g)=>a+Number(g.jumlah),0) + ' orang';
+        }
+        function addGuest(){
+            const nama = document.getElementById('guestName').value.trim();
+            const jumlah = parseInt(document.getElementById('guestJumlah').value);
+            if(!nama || !jumlah) return alert('Isi nama dan jumlah tamu.');
+            guests.push({nama, jumlah, rsvp:'Menunggu'});
+            document.getElementById('guestName').value=''; document.getElementById('guestJumlah').value='';
+            renderGuest();
+        }
+
+        // Budget Estimator
+        let budgetItems = [
+            {nama:'Venue', jumlah:50000000},
+            {nama:'Catering', jumlah:35000000},
+            {nama:'Dekorasi', jumlah:20000000},
+        ];
+        let budgetChart;
+        function rupiah(n){ return 'Rp ' + n.toLocaleString('id-ID'); }
+        function renderBudget(){
+            document.getElementById('budgetList').innerHTML = budgetItems.map((b,i) => `
+                <div class="flex items-center justify-between px-4 py-3 border border-borderLight rounded-lg">
+                    <span class="text-sm">${b.nama}</span>
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm font-medium">${rupiah(b.jumlah)}</span>
+                        <button onclick="budgetItems.splice(${i},1); renderBudget();" class="text-gray-300 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>`).join('');
+            const total = budgetItems.reduce((a,b)=>a+b.jumlah,0);
+            document.getElementById('budgetTotal').textContent = rupiah(total);
+            const ctx = document.getElementById('chartBudget');
+            const data = { labels: budgetItems.map(b=>b.nama), datasets:[{ data: budgetItems.map(b=>b.jumlah), backgroundColor:['#B6977D','#D9C3AE','#E8D9C9','#9A7D65','#C9AE94'] }] };
+            if(budgetChart){ budgetChart.data = data; budgetChart.update(); }
+            else { budgetChart = new Chart(ctx, { type:'doughnut', data, options:{ plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10} } } } } }); }
+        }
+        function addBudget(){
+            const nama = document.getElementById('budgetName').value.trim();
+            const jumlah = parseFloat(document.getElementById('budgetAmount').value);
+            if(!nama || !jumlah) return alert('Isi nama pos dan estimasi budget.');
+            budgetItems.push({nama, jumlah});
+            document.getElementById('budgetName').value=''; document.getElementById('budgetAmount').value='';
+            renderBudget();
+        }
     </script>
 </body>
 </html>

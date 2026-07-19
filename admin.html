@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yustine Wedding - Admin Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#B6977D',
+          primaryHover: '#9A7D65',
+          bgCream: '#F9F7F3',
+          textDark: '#333333',
+          textMuted: '#777777',
+          borderLight: '#E8E8E8',
+          successBg: '#EAF6EE', successText: '#1E8E4A',
+          warnBg: '#FDF3E3', warnText: '#B9791E',
+          dangerBg: '#FCEBEB', dangerText: '#D64545'
+        },
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          serif: ['"Playfair Display"', 'serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body{font-family:'Plus Jakarta Sans',sans-serif;}
+  .font-serif{font-family:'Playfair Display',serif;}
+  ::-webkit-scrollbar{width:6px;height:6px;}
+  ::-webkit-scrollbar-thumb{background:#E8E8E8;border-radius:10px;}
+  .sidebar-link.active{background:#F3ECE7;color:#B6977D;font-weight:600;}
+  .sidebar-link.active i{color:#B6977D;}
+  .page-view{display:none;}
+  .page-view.active{display:block;}
+  .submenu{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .submenu.open{max-height:300px;}
+  .badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:9999px;display:inline-block;}
+  .modal-backdrop{background:rgba(51,51,51,0.45);}
+  input[type=text],input[type=number],input[type=date],select,textarea{outline:none;}
+  input[type=text]:focus,input[type=number]:focus,input[type=date]:focus,select:focus,textarea:focus{border-color:#B6977D;}
+  .fade-in{animation:fadeIn .35s ease-out;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body class="bg-gray-50 text-textDark antialiased">
+
+<div class="flex min-h-screen">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside id="sidebar" class="w-72 bg-white border-r border-borderLight flex flex-col shrink-0 transition-all duration-300">
+    <div class="flex items-center justify-between px-6 py-5 border-b border-borderLight">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-full border border-primary flex items-center justify-center text-primary font-serif font-semibold">Y</div>
+        <div id="sidebar-title">
+          <div class="font-serif text-lg tracking-widest text-primary font-semibold leading-none">YUSTINE</div>
+          <div class="text-[9px] tracking-[0.3em] text-textMuted uppercase">Wedding</div>
+        </div>
+      </div>
+      <button onclick="toggleSidebar()" class="text-gray-400 hover:text-primary"><i class="fa-solid fa-angles-left"></i></button>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto px-4 py-5 space-y-1">
+      <div id="sidebar-labels" class="text-[11px] tracking-widest text-gray-400 font-semibold px-2 mb-2">MAIN MENU</div>
+
+      <button data-page="dashboard" onclick="goTo('dashboard')" class="sidebar-link active w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+        <i class="fa-solid fa-house w-4 text-center"></i><span class="label">Dashboard</span>
+      </button>
+
+      <div>
+        <button onclick="toggleSub('vendor')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-store w-4 text-center"></i><span class="label">Vendor</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron" id="chev-vendor"></i>
+        </button>
+        <div class="submenu pl-11 space-y-1" id="sub-vendor">
+          <button data-page="vendor" onclick="goTo('vendor')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Semua Vendor</button>
+          <button data-page="vendor-kategori" onclick="goTo('vendor-kategori')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Kategori Vendor</button>
+        </div>
+      </div>
+
+      <button data-page="mood" onclick="goTo('mood')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+        <i class="fa-solid fa-images w-4 text-center"></i><span class="label">Wedding Mood</span>
+      </button>
+
+      <div>
+        <button onclick="toggleSub('event')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-calendar-days w-4 text-center"></i><span class="label">Event & Promo</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron" id="chev-event"></i>
+        </button>
+        <div class="submenu pl-11 space-y-1" id="sub-event">
+          <button data-page="event" onclick="goTo('event')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Semua Event</button>
+        </div>
+      </div>
+
+      <button data-page="blog" onclick="goTo('blog')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+        <i class="fa-solid fa-pen-nib w-4 text-center"></i><span class="label">Wedding Blog</span>
+      </button>
+
+      <div>
+        <button onclick="toggleSub('tools')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-wrench w-4 text-center"></i><span class="label">Wedding Tools</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron rotate-180" id="chev-tools"></i>
+        </button>
+        <div class="submenu open pl-11 space-y-1" id="sub-tools">
+          <button data-page="checklist" onclick="goTo('checklist')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Checklist</button>
+          <button data-page="guestlist" onclick="goTo('guestlist')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Guest List</button>
+          <button data-page="budget" onclick="goTo('budget')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Budget Estimator</button>
+        </div>
+      </div>
+
+      <div>
+        <button onclick="toggleSub('promo')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-tags w-4 text-center"></i><span class="label">Promo & Deals</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron" id="chev-promo"></i>
+        </button>
+        <div class="submenu pl-11 space-y-1" id="sub-promo">
+          <button data-page="promo" onclick="goTo('promo')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Semua Promo</button>
+        </div>
+      </div>
+
+      <button data-page="pengguna" onclick="goTo('pengguna')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+        <i class="fa-solid fa-users w-4 text-center"></i><span class="label">Pengguna</span>
+      </button>
+
+      <div>
+        <button onclick="toggleSub('leads')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-envelope-open-text w-4 text-center"></i><span class="label">Pesanan & Leads</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron" id="chev-leads"></i>
+        </button>
+        <div class="submenu pl-11 space-y-1" id="sub-leads">
+          <button data-page="leads" onclick="goTo('leads')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Semua Leads</button>
+        </div>
+      </div>
+
+      <button data-page="testimoni" onclick="goTo('testimoni')" class="sidebar-link w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+        <i class="fa-regular fa-star w-4 text-center"></i><span class="label">Testimoni</span>
+      </button>
+
+      <div>
+        <button onclick="toggleSub('laporan')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-chart-column w-4 text-center"></i><span class="label">Laporan</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron" id="chev-laporan"></i>
+        </button>
+        <div class="submenu pl-11 space-y-1" id="sub-laporan">
+          <button data-page="laporan" onclick="goTo('laporan')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Ringkasan Laporan</button>
+        </div>
+      </div>
+
+      <div>
+        <button onclick="toggleSub('setting')" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg text-sm text-textDark hover:bg-gray-50 transition">
+          <span class="flex items-center gap-3"><i class="fa-solid fa-gear w-4 text-center"></i><span class="label">Pengaturan</span></span>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 chevron" id="chev-setting"></i>
+        </button>
+        <div class="submenu pl-11 space-y-1" id="sub-setting">
+          <button data-page="pengaturan" onclick="goTo('pengaturan')" class="sidebar-link w-full text-left py-1.5 text-sm text-textMuted hover:text-primary">Profil Admin</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="p-4">
+      <div id="sidebar-quote" class="bg-bgCream rounded-2xl p-6 text-center border border-borderLight">
+        <i class="fa-solid fa-leaf text-primary mb-2"></i>
+        <p class="text-xs text-textMuted leading-relaxed">Love is in the details,<br>we manage the rest.</p>
+        <i class="fa-solid fa-heart text-primary mt-2"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- Topbar -->
+    <header class="flex items-center justify-between bg-white border-b border-borderLight px-8 py-4 sticky top-0 z-30">
+      <div class="flex items-center gap-3 text-sm text-textMuted">
+        <i class="fa-solid fa-bars lg:hidden cursor-pointer" onclick="toggleSidebar()"></i>
+        <span id="topbar-crumb" class="font-medium text-textDark">Dashboard</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <button id="range-btn" class="hidden md:flex items-center gap-2 border border-borderLight rounded-lg px-4 py-2 text-sm text-textMuted hover:border-primary transition">
+          <i class="fa-regular fa-calendar text-primary"></i> 18 Mei 2024 – 17 Jun 2024 <i class="fa-solid fa-chevron-down text-[10px]"></i>
+        </button>
+        <div class="relative cursor-pointer" onclick="alert('3 notifikasi baru:\n- Vendor baru menunggu persetujuan\n- Lead baru masuk\n- Testimoni baru diposting')">
+          <i class="fa-regular fa-bell text-lg text-textMuted"></i>
+          <span class="absolute -top-1.5 -right-1.5 bg-primary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">3</span>
+        </div>
+        <div class="flex items-center gap-3 border-l border-borderLight pl-6">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-9 h-9 rounded-full object-cover">
+          <div class="leading-tight">
+            <div class="text-sm font-semibold text-textDark">Admin Yustine</div>
+            <div class="text-xs text-textMuted">Super Admin</div>
+          </div>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 p-8 space-y-8">
+
+      <!-- ========== DASHBOARD ========== -->
+      <section id="page-dashboard" class="page-view active fade-in space-y-6">
+        <div>
+          <h1 class="text-2xl font-serif font-bold">Dashboard</h1>
+          <p class="text-textMuted text-sm mt-1">Selamat datang kembali, Admin Yustine Wedding!</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div class="bg-white border border-borderLight rounded-2xl p-5 flex items-center gap-4">
+            <div class="w-12 h-12 bg-bgCream rounded-full flex items-center justify-center text-primary"><i class="fa-solid fa-shop"></i></div>
+            <div><div class="text-xs text-textMuted">Total Vendor</div><div class="text-xl font-bold">412</div><div class="text-[11px] text-successText"><i class="fa-solid fa-arrow-up"></i> 12.5% dari bulan lalu</div></div>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-5 flex items-center gap-4">
+            <div class="w-12 h-12 bg-bgCream rounded-full flex items-center justify-center text-primary"><i class="fa-solid fa-users"></i></div>
+            <div><div class="text-xs text-textMuted">Total Pengguna</div><div class="text-xl font-bold">2.839</div><div class="text-[11px] text-successText"><i class="fa-solid fa-arrow-up"></i> 18.7% dari bulan lalu</div></div>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-5 flex items-center gap-4">
+            <div class="w-12 h-12 bg-bgCream rounded-full flex items-center justify-center text-primary"><i class="fa-solid fa-envelope"></i></div>
+            <div><div class="text-xs text-textMuted">Total Leads</div><div class="text-xl font-bold">1.256</div><div class="text-[11px] text-successText"><i class="fa-solid fa-arrow-up"></i> 21.3% dari bulan lalu</div></div>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-5 flex items-center gap-4">
+            <div class="w-12 h-12 bg-bgCream rounded-full flex items-center justify-center text-primary"><i class="fa-solid fa-file-lines"></i></div>
+            <div><div class="text-xs text-textMuted">Total Blog Artikel</div><div class="text-xl font-bold">128</div><div class="text-[11px] text-successText"><i class="fa-solid fa-arrow-up"></i> 8.2% dari bulan lalu</div></div>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-5 flex items-center gap-4">
+            <div class="w-12 h-12 bg-bgCream rounded-full flex items-center justify-center text-primary"><i class="fa-solid fa-calendar-days"></i></div>
+            <div><div class="text-xs text-textMuted">Total Event</div><div class="text-xl font-bold">36</div><div class="text-[11px] text-successText"><i class="fa-solid fa-arrow-up"></i> 5.6% dari bulan lalu</div></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 bg-white border border-borderLight rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-serif font-semibold">Statistik Pengunjung</h3>
+              <select class="text-xs border border-borderLight rounded-lg px-3 py-1.5" onchange="alert('Rentang diperbarui: ' + this.value)">
+                <option>7 Hari Terakhir</option><option>30 Hari Terakhir</option><option>90 Hari Terakhir</option>
+              </select>
+            </div>
+            <canvas id="chartVisitor" height="120"></canvas>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-6">
+            <h3 class="font-serif font-semibold mb-4">Pengguna Baru</h3>
+            <canvas id="chartDonut" height="180"></canvas>
+            <div class="mt-4 space-y-2 text-xs">
+              <div class="flex justify-between"><span><i class="fa-solid fa-circle text-primary mr-2"></i>Google</span><span class="font-medium">1.620 (57%)</span></div>
+              <div class="flex justify-between"><span><i class="fa-solid fa-circle text-gray-400 mr-2"></i>Facebook</span><span class="font-medium">680 (24%)</span></div>
+              <div class="flex justify-between"><span><i class="fa-solid fa-circle text-[#E4C9A8] mr-2"></i>Email</span><span class="font-medium">359 (13%)</span></div>
+              <div class="flex justify-between"><span><i class="fa-solid fa-circle text-gray-200 mr-2"></i>Lainnya</span><span class="font-medium">180 (6%)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 bg-white border border-borderLight rounded-2xl p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-serif font-semibold">Vendor Terbaru</h3>
+              <button onclick="goTo('vendor')" class="text-xs text-primary font-medium hover:underline">Lihat Semua</button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+                  <th class="py-2 font-medium">Nama Vendor</th><th class="font-medium">Kategori</th><th class="font-medium">Lokasi</th><th class="font-medium">Status</th>
+                </tr></thead>
+                <tbody id="dashVendorTable"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-6">
+            <h3 class="font-serif font-semibold mb-4">Ringkasan Quick Links</h3>
+            <div class="space-y-2">
+              <button onclick="openModal('vendor')" class="w-full flex items-center justify-between px-4 py-3 border border-borderLight rounded-xl text-sm hover:border-primary hover:text-primary transition"><span><i class="fa-solid fa-plus mr-2"></i>Tambah Vendor</span><i class="fa-solid fa-chevron-right text-xs"></i></button>
+              <button onclick="openModal('event')" class="w-full flex items-center justify-between px-4 py-3 border border-borderLight rounded-xl text-sm hover:border-primary hover:text-primary transition"><span><i class="fa-solid fa-plus mr-2"></i>Buat Event</span><i class="fa-solid fa-chevron-right text-xs"></i></button>
+              <button onclick="openModal('blog')" class="w-full flex items-center justify-between px-4 py-3 border border-borderLight rounded-xl text-sm hover:border-primary hover:text-primary transition"><span><i class="fa-solid fa-plus mr-2"></i>Tulis Artikel Blog</span><i class="fa-solid fa-chevron-right text-xs"></i></button>
+              <button onclick="openModal('promo')" class="w-full flex items-center justify-between px-4 py-3 border border-borderLight rounded-xl text-sm hover:border-primary hover:text-primary transition"><span><i class="fa-solid fa-plus mr-2"></i>Buat Promo</span><i class="fa-solid fa-chevron-right text-xs"></i></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== VENDOR ========== -->
+      <section id="page-vendor" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Manajemen Vendor</h1><p class="text-textMuted text-sm mt-1">Kelola seluruh vendor yang terdaftar di platform.</p></div>
+          <button onclick="openModal('vendor')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Tambah Vendor</button>
+        </div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6">
+          <div class="flex flex-col sm:flex-row gap-3 mb-4">
+            <input type="text" id="vendorSearch" oninput="renderVendorTable()" placeholder="Cari nama vendor..." class="flex-1 border border-borderLight rounded-lg px-4 py-2.5 text-sm">
+            <select id="vendorFilterKategori" onchange="renderVendorTable()" class="border border-borderLight rounded-lg px-4 py-2.5 text-sm">
+              <option value="">Semua Kategori</option>
+              <option>Venue</option><option>Photography</option><option>Catering</option><option>Decoration</option><option>Entertainment</option>
+            </select>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+                <th class="py-2 font-medium">Nama Vendor</th><th class="font-medium">Kategori</th><th class="font-medium">Lokasi</th><th class="font-medium">Tanggal Daftar</th><th class="font-medium">Status</th><th class="font-medium text-right">Aksi</th>
+              </tr></thead>
+              <tbody id="vendorTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== VENDOR KATEGORI ========== -->
+      <section id="page-vendor-kategori" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Kategori Vendor</h1><p class="text-textMuted text-sm mt-1">Atur kategori yang tersedia untuk pendaftaran vendor.</p></div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="kategoriGrid"></div>
+        <button onclick="addKategori()" class="text-sm text-primary font-medium hover:underline"><i class="fa-solid fa-plus mr-1"></i>Tambah Kategori</button>
+      </section>
+
+      <!-- ========== WEDDING MOOD ========== -->
+      <section id="page-mood" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Wedding Mood Board</h1><p class="text-textMuted text-sm mt-1">Kelola koleksi inspirasi yang tampil di halaman utama.</p></div>
+          <button onclick="openModal('mood')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Tambah Inspirasi</button>
+        </div>
+        <div id="moodGrid" class="columns-1 md:columns-2 lg:columns-3 gap-5 space-y-5"></div>
+      </section>
+
+      <!-- ========== EVENT & PROMO ========== -->
+      <section id="page-event" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Event & Promo</h1><p class="text-textMuted text-sm mt-1">Kelola wedding fair dan event yang tayang di platform.</p></div>
+          <button onclick="openModal('event')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Buat Event</button>
+        </div>
+        <div id="eventGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+      </section>
+
+      <!-- ========== WEDDING BLOG ========== -->
+      <section id="page-blog" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Wedding Blog</h1><p class="text-textMuted text-sm mt-1">Kelola artikel yang tampil di Wedding Blog.</p></div>
+          <button onclick="openModal('blog')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Tulis Artikel</button>
+        </div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+              <th class="py-2 font-medium">Judul Artikel</th><th class="font-medium">Tanggal</th><th class="font-medium">Status</th><th class="font-medium text-right">Aksi</th>
+            </tr></thead>
+            <tbody id="blogTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========== CHECKLIST ========== -->
+      <section id="page-checklist" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Wedding Checklist</h1><p class="text-textMuted text-sm mt-1">Contoh checklist persiapan yang tersedia untuk pengguna.</p></div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6 max-w-2xl">
+          <div class="flex gap-3 mb-5">
+            <input type="text" id="checklistInput" placeholder="Tambah tugas baru..." class="flex-1 border border-borderLight rounded-lg px-4 py-2.5 text-sm">
+            <button onclick="addChecklist()" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Tambah</button>
+          </div>
+          <div id="checklistList" class="space-y-2"></div>
+          <div class="mt-4 text-xs text-textMuted" id="checklistProgress"></div>
+        </div>
+      </section>
+
+      <!-- ========== GUEST LIST ========== -->
+      <section id="page-guestlist" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Guest List</h1><p class="text-textMuted text-sm mt-1">Contoh pengelolaan daftar tamu undangan.</p></div>
+          <button onclick="openModal('guest')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Tambah Tamu</button>
+        </div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+              <th class="py-2 font-medium">Nama Tamu</th><th class="font-medium">Kategori</th><th class="font-medium">Jumlah</th><th class="font-medium">Status RSVP</th><th class="font-medium text-right">Aksi</th>
+            </tr></thead>
+            <tbody id="guestTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========== BUDGET ESTIMATOR ========== -->
+      <section id="page-budget" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Budget Estimator</h1><p class="text-textMuted text-sm mt-1">Contoh kalkulator estimasi budget pernikahan.</p></div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 bg-white border border-borderLight rounded-2xl p-6">
+            <div class="flex flex-col sm:flex-row gap-3 mb-5">
+              <input type="text" id="budgetName" placeholder="Nama pos (mis. Catering)" class="flex-1 border border-borderLight rounded-lg px-4 py-2.5 text-sm">
+              <input type="number" id="budgetAmount" placeholder="Estimasi (Rp)" class="w-full sm:w-40 border border-borderLight rounded-lg px-4 py-2.5 text-sm">
+              <button onclick="addBudget()" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Tambah</button>
+            </div>
+            <div id="budgetList" class="space-y-2"></div>
+          </div>
+          <div class="bg-white border border-borderLight rounded-2xl p-6">
+            <h3 class="font-serif font-semibold mb-4">Ringkasan</h3>
+            <div class="text-xs text-textMuted mb-1">Total Estimasi Budget</div>
+            <div class="text-2xl font-bold text-primary" id="budgetTotal">Rp 0</div>
+            <canvas id="chartBudget" class="mt-6"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== PROMO & DEALS ========== -->
+      <section id="page-promo" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Promo & Deals</h1><p class="text-textMuted text-sm mt-1">Kelola promo yang ditampilkan untuk pengguna.</p></div>
+          <button onclick="openModal('promo')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Buat Promo</button>
+        </div>
+        <div id="promoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- ========== PENGGUNA ========== -->
+      <section id="page-pengguna" class="page-view fade-in space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div><h1 class="text-2xl font-serif font-bold">Pengguna</h1><p class="text-textMuted text-sm mt-1">Kelola akun pengguna terdaftar di platform.</p></div>
+          <button onclick="openModal('pengguna')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-plus mr-2"></i>Tambah Pengguna</button>
+        </div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+              <th class="py-2 font-medium">Nama</th><th class="font-medium">Email</th><th class="font-medium">Peran</th><th class="font-medium">Status</th><th class="font-medium text-right">Aksi</th>
+            </tr></thead>
+            <tbody id="penggunaTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========== LEADS ========== -->
+      <section id="page-leads" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Pesanan & Leads</h1><p class="text-textMuted text-sm mt-1">Pantau leads yang masuk dari calon pengantin.</p></div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead><tr class="text-left text-textMuted border-b border-borderLight text-xs">
+              <th class="py-2 font-medium">Nama</th><th class="font-medium">Vendor Dituju</th><th class="font-medium">Tanggal</th><th class="font-medium">Status</th><th class="font-medium text-right">Aksi</th>
+            </tr></thead>
+            <tbody id="leadsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========== TESTIMONI ========== -->
+      <section id="page-testimoni" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Testimoni</h1><p class="text-textMuted text-sm mt-1">Moderasi testimoni yang dikirim oleh pengguna.</p></div>
+        <div id="testimoniGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+      </section>
+
+      <!-- ========== LAPORAN ========== -->
+      <section id="page-laporan" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Laporan</h1><p class="text-textMuted text-sm mt-1">Ringkasan performa platform Yustine Wedding.</p></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white border border-borderLight rounded-2xl p-6"><h3 class="font-serif font-semibold mb-4">Pertumbuhan Vendor per Bulan</h3><canvas id="chartLaporan1"></canvas></div>
+          <div class="bg-white border border-borderLight rounded-2xl p-6"><h3 class="font-serif font-semibold mb-4">Revenue dari Promo (Estimasi)</h3><canvas id="chartLaporan2"></canvas></div>
+        </div>
+        <button onclick="alert('Laporan lengkap sedang diunduh (contoh).')" class="bg-primary text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow"><i class="fa-solid fa-download mr-2"></i>Unduh Laporan Lengkap</button>
+      </section>
+
+      <!-- ========== PENGATURAN ========== -->
+      <section id="page-pengaturan" class="page-view fade-in space-y-6">
+        <div><h1 class="text-2xl font-serif font-bold">Pengaturan</h1><p class="text-textMuted text-sm mt-1">Kelola profil dan preferensi akun admin.</p></div>
+        <div class="bg-white border border-borderLight rounded-2xl p-6 max-w-2xl space-y-5">
+          <div class="flex items-center gap-4">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-16 h-16 rounded-full object-cover">
+            <button onclick="alert('Fitur unggah foto (contoh).')" class="text-sm border border-borderLight px-4 py-2 rounded-lg hover:border-primary hover:text-primary transition">Ganti Foto</button>
+          </div>
+          <div><label class="block text-sm text-textMuted mb-1.5">Nama Lengkap</label><input type="text" value="Admin Yustine" class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm"></div>
+          <div><label class="block text-sm text-textMuted mb-1.5">Email</label><input type="text" value="admin@yustinewedding.com" class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm"></div>
+          <div><label class="block text-sm text-textMuted mb-1.5">Peran</label><input type="text" value="Super Admin" disabled class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm bg-gray-50 text-textMuted"></div>
+          <button onclick="alert('Perubahan tersimpan (contoh).')" class="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition shadow">Simpan Perubahan</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ================= MODAL ================= -->
+<div id="modalBackdrop" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-2xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-center justify-between mb-5">
+      <h3 id="modalTitle" class="font-serif text-lg font-semibold"></h3>
+      <button onclick="closeModal()" class="text-gray-400 hover:text-textDark"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div id="modalBody" class="space-y-4"></div>
+    <div class="flex gap-3 mt-6">
+      <button onclick="closeModal()" class="flex-1 border border-borderLight py-2.5 rounded-lg text-sm font-medium hover:bg-gray-50 transition">Batal</button>
+      <button onclick="submitModal()" class="flex-1 bg-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-primaryHover transition">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------- DATA STORE (in-memory demo data) ---------------- */
+const store = {
+  vendors: [
+    {nama:'The Glass House', kategori:'Venue', lokasi:'Jakarta Selatan', tanggal:'2024-06-17', status:'Aktif'},
+    {nama:'Lumina Studio', kategori:'Photography', lokasi:'Bandung', tanggal:'2024-06-16', status:'Aktif'},
+    {nama:'Sweet Bites Catering', kategori:'Catering', lokasi:'Jakarta', tanggal:'2024-06-15', status:'Pending'},
+    {nama:'Lumière Decoration', kategori:'Decoration', lokasi:'Bandung', tanggal:'2024-06-14', status:'Aktif'},
+    {nama:'Melody Entertainment', kategori:'Entertainment', lokasi:'Jakarta', tanggal:'2024-06-13', status:'Nonaktif'},
+  ],
+  kategori: ['Venue','Catering','Photography','Decoration','Wedding Dress'],
+  mood: [
+    {img:'photo-1511285560929-80b456fea0bc', judul:'Garden Romance'},
+    {img:'photo-1522673607200-164d1b6ce486', judul:'Modern Minimalist'},
+    {img:'photo-1519741497674-611481863552', judul:'Classic Bride'},
+    {img:'photo-1469334031218-e382a71b716b', judul:'Rustic Outdoor'},
+  ],
+  events: [
+    {judul:'Jakarta Mega Wedding Festival', tanggal:'20-22 Oktober 2026', lokasi:'JCC Senayan', tag:'HOT EVENT', status:'Aktif'},
+    {judul:'Diskon 20% All Venue Bali', tanggal:'Berlaku s/d 30 Nov', lokasi:'Bali', tag:'PROMO', status:'Aktif'},
+  ],
+  blog: [
+    {judul:'10 Tips Memilih Venue Pernikahan Impian', tanggal:'17 Jun 2024', status:'Publikasi'},
+    {judul:'Tren Dekorasi Pernikahan 2024', tanggal:'16 Jun 2024', status:'Publikasi'},
+    {judul:'Checklist Persiapan Pernikahan Lengkap', tanggal:'15 Jun 2024', status:'Draft'},
+    {judul:'Inspirasi Gaun Pengantin Modern Minimalis', tanggal:'14 Jun 2024', status:'Publikasi'},
+    {judul:'Cara Mengatur Budget Pernikahan yang Efektif', tanggal:'13 Jun 2024', status:'Draft'},
+  ],
+  checklist: [
+    {task:'Booking venue', done:true},{task:'Pilih vendor catering', done:true},
+    {task:'Fitting gaun pengantin', done:false},{task:'Kirim undangan', done:false},
+  ],
+  guests: [
+    {nama:'Keluarga Besar Ayah', kategori:'Keluarga', jumlah:12, rsvp:'Konfirmasi'},
+    {nama:'Teman Kantor', kategori:'Kolega', jumlah:20, rsvp:'Menunggu'},
+  ],
+  budget: [
+    {nama:'Venue', jumlah:50000000},{nama:'Catering', jumlah:35000000},{nama:'Dekorasi', jumlah:20000000},
+  ],
+  promo: [
+    {judul:'Cashback Rp1 Juta Booking Venue', desc:'Berlaku untuk booking venue kategori premium.', tag:'Promo'},
+    {judul:'Gratis Sesi Foto Prewedding', desc:'Untuk paket photography di atas Rp15 Juta.', tag:'Bonus'},
+    {judul:'Diskon 15% Dekorasi Bali', desc:'Khusus destination wedding di Bali.', tag:'Diskon'},
+  ],
+  pengguna: [
+    {nama:'Sari Wulandari', email:'sari.w@email.com', peran:'Calon Pengantin', status:'Aktif'},
+    {nama:'Budi Santoso', email:'budi.s@email.com', peran:'Vendor', status:'Aktif'},
+    {nama:'Rina Kartika', email:'rina.k@email.com', peran:'Calon Pengantin', status:'Nonaktif'},
+  ],
+  leads: [
+    {nama:'Dewi & Andra', vendor:'The Glass House', tanggal:'17 Jun 2024', status:'Baru'},
+    {nama:'Fitri & Rendy', vendor:'Lumina Studio', tanggal:'16 Jun 2024', status:'Diproses'},
+    {nama:'Nadia & Fajar', vendor:'Sweet Bites Catering', tanggal:'15 Jun 2024', status:'Selesai'},
+  ],
+  testimoni: [
+    {nama:'Anisa & Bagus', teks:'Yustine Wedding sangat membantu kami menemukan vendor terbaik dalam waktu singkat!', status:'Menunggu'},
+    {nama:'Clara & Dimas', teks:'Fitur Wedding Mood memudahkan kami menyatukan visi dekorasi pernikahan.', status:'Disetujui'},
+  ],
+};
+
+const badgeClass = s => ({
+  'Aktif':'bg-successBg text-successText','Publikasi':'bg-successBg text-successText','Disetujui':'bg-successBg text-successText','Selesai':'bg-successBg text-successText','Konfirmasi':'bg-successBg text-successText',
+  'Pending':'bg-warnBg text-warnText','Draft':'bg-warnBg text-warnText','Diproses':'bg-warnBg text-warnText','Menunggu':'bg-warnBg text-warnText','Baru':'bg-warnBg text-warnText',
+  'Nonaktif':'bg-dangerBg text-dangerText',
+}[s] || 'bg-gray-100 text-textMuted');
+
+function badge(s){ return `<span class="badge ${badgeClass(s)}">${s}</span>`; }
+function rupiah(n){ return 'Rp ' + n.toLocaleString('id-ID'); }
+
+/* ---------------- NAVIGATION ---------------- */
+const crumbs = {dashboard:'Dashboard', vendor:'Vendor', 'vendor-kategori':'Vendor / Kategori', mood:'Wedding Mood', event:'Event & Promo', blog:'Wedding Blog',
+  checklist:'Wedding Tools / Checklist', guestlist:'Wedding Tools / Guest List', budget:'Wedding Tools / Budget Estimator',
+  promo:'Promo & Deals', pengguna:'Pengguna', leads:'Pesanan & Leads', testimoni:'Testimoni', laporan:'Laporan', pengaturan:'Pengaturan'};
+
+function goTo(page){
+  document.querySelectorAll('.page-view').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  document.querySelectorAll(`[data-page="${page}"]`).forEach(l=>l.classList.add('active'));
+  document.getElementById('topbar-crumb').textContent = crumbs[page] || page;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleSub(key){
+  const el = document.getElementById('sub-'+key);
+  const chev = document.getElementById('chev-'+key);
+  el.classList.toggle('open');
+  chev.classList.toggle('rotate-180');
+}
+
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const collapsed = sb.classList.toggle('w-72');
+  sb.classList.toggle('w-20');
+  document.querySelectorAll('#sidebar .label, #sidebar-labels, #sidebar-title, #sidebar-quote, .chevron').forEach(el=>el.classList.toggle('hidden'));
+}
+
+/* ---------------- RENDER: VENDOR ---------------- */
+function renderVendorTable(){
+  const q = (document.getElementById('vendorSearch')?.value||'').toLowerCase();
+  const kat = document.getElementById('vendorFilterKategori')?.value||'';
+  const rows = store.vendors.filter((v,i)=> v.nama.toLowerCase().includes(q) && (!kat || v.kategori===kat));
+  document.getElementById('vendorTable').innerHTML = rows.map((v)=>{
+    const i = store.vendors.indexOf(v);
+    return `<tr class="border-b border-borderLight last:border-0">
+      <td class="py-3 font-medium">${v.nama}</td><td>${v.kategori}</td><td>${v.lokasi}</td><td>${v.tanggal}</td><td>${badge(v.status)}</td>
+      <td class="text-right space-x-3">
+        <button onclick="editVendor(${i})" class="text-textMuted hover:text-primary"><i class="fa-solid fa-pen"></i></button>
+        <button onclick="deleteRow('vendors', ${i}, renderVendorTable)" class="text-textMuted hover:text-dangerText"><i class="fa-solid fa-trash"></i></button>
+      </td></tr>`;
+  }).join('') || `<tr><td colspan="6" class="py-6 text-center text-textMuted">Tidak ada vendor ditemukan.</td></tr>`;
+  document.getElementById('dashVendorTable').innerHTML = store.vendors.slice(0,5).map(v=>
+    `<tr class="border-b border-borderLight last:border-0"><td class="py-3 font-medium">${v.nama}</td><td>${v.kategori}</td><td>${v.lokasi}</td><td>${badge(v.status)}</td></tr>`).join('');
+}
+let editIndex = null;
+function editVendor(i){ editIndex = i; openModal('vendor', store.vendors[i]); }
+
+function renderKategori(){
+  document.getElementById('kategoriGrid').innerHTML = store.kategori.map((k,i)=>
+    `<div class="relative bg-white border border-borderLight rounded-2xl p-5 flex flex-col items-center text-center group">
+      <button onclick="deleteRow('kategori', ${i}, renderKategori)" class="absolute top-2 right-2 text-gray-300 hover:text-dangerText opacity-0 group-hover:opacity-100 transition"><i class="fa-solid fa-xmark text-xs"></i></button>
+      <i class="fa-solid fa-tag text-2xl text-primary mb-3"></i><span class="text-xs font-medium">${k}</span>
+    </div>`).join('');
+}
+function addKategori(){ const n = prompt('Nama kategori baru:'); if(n){ store.kategori.push(n); renderKategori(); } }
+
+/* ---------------- RENDER: MOOD ---------------- */
+function renderMood(){
+  document.getElementById('moodGrid').innerHTML = store.mood.map((m,i)=>
+    `<div class="relative rounded-xl overflow-hidden group break-inside-avoid">
+      <img src="https://images.unsplash.com/${m.img}?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-auto object-cover">
+      <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+        <span class="text-white text-sm font-medium">${m.judul}</span>
+        <button onclick="deleteRow('mood', ${i}, renderMood)" class="bg-white text-dangerText px-3 py-1.5 rounded-full text-xs font-semibold">Hapus</button>
+      </div></div>`).join('');
+}
+
+/* ---------------- RENDER: EVENT ---------------- */
+function renderEvent(){
+  document.getElementById('eventGrid').innerHTML = store.events.map((e,i)=>
+    `<div class="bg-white rounded-2xl border border-borderLight p-6 flex flex-col sm:flex-row gap-5">
+      <div class="sm:w-1/3 h-32 bg-bgCream rounded-xl flex items-center justify-center text-primary"><i class="fa-solid fa-calendar-days text-3xl"></i></div>
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-2"><span class="badge bg-bgCream text-primary">${e.tag}</span>${badge(e.status)}</div>
+        <h3 class="font-serif font-semibold text-lg mb-1">${e.judul}</h3>
+        <p class="text-xs text-textMuted mb-4"><i class="fa-regular fa-calendar mr-1"></i>${e.tanggal} · ${e.lokasi}</p>
+        <div class="flex gap-3 text-xs">
+          <button onclick="editEvent(${i})" class="text-primary font-medium hover:underline">Edit</button>
+          <button onclick="deleteRow('events', ${i}, renderEvent)" class="text-dangerText font-medium hover:underline">Hapus</button>
+        </div>
+      </div></div>`).join('');
+}
+function editEvent(i){ editIndex=i; openModal('event', store.events[i]); }
+
+/* ---------------- RENDER: BLOG ---------------- */
+function renderBlog(){
+  document.getElementById('blogTable').innerHTML = store.blog.map((b,i)=>
+    `<tr class="border-b border-borderLight last:border-0">
+      <td class="py-3 font-medium">${b.judul}</td><td>${b.tanggal}</td><td>${badge(b.status)}</td>
+      <td class="text-right space-x-3">
+        <button onclick="editBlog(${i})" class="text-textMuted hover:text-primary"><i class="fa-solid fa-pen"></i></button>
+        <button onclick="deleteRow('blog', ${i}, renderBlog)" class="text-textMuted hover:text-dangerText"><i class="fa-solid fa-trash"></i></button>
+      </td></tr>`).join('');
+}
+function editBlog(i){ editIndex=i; openModal('blog', store.blog[i]); }
+
+/* ---------------- CHECKLIST ---------------- */
+function renderChecklist(){
+  document.getElementById('checklistList').innerHTML = store.checklist.map((c,i)=>
+    `<label class="flex items-center gap-3 px-3 py-2.5 border border-borderLight rounded-lg cursor-pointer">
+      <input type="checkbox" ${c.done?'checked':''} onchange="toggleChecklist(${i})" class="w-4 h-4 accent-[#B6977D]">
+      <span class="flex-1 text-sm ${c.done?'line-through text-textMuted':''}">${c.task}</span>
+      <button onclick="deleteRow('checklist', ${i}, renderChecklist)" class="text-gray-300 hover:text-dangerText"><i class="fa-solid fa-xmark"></i></button>
+    </label>`).join('');
+  const done = store.checklist.filter(c=>c.done).length;
+  document.getElementById('checklistProgress').textContent = `${done} dari ${store.checklist.length} tugas selesai`;
+}
+function toggleChecklist(i){ store.checklist[i].done = !store.checklist[i].done; renderChecklist(); }
+function addChecklist(){
+  const v = document.getElementById('checklistInput').value.trim();
+  if(!v) return;
+  store.checklist.push({task:v, done:false});
+  document.getElementById('checklistInput').value='';
+  renderChecklist();
+}
+
+/* ---------------- GUEST LIST ---------------- */
+function renderGuest(){
+  document.getElementById('guestTable').innerHTML = store.guests.map((g,i)=>
+    `<tr class="border-b border-borderLight last:border-0">
+      <td class="py-3 font-medium">${g.nama}</td><td>${g.kategori}</td><td>${g.jumlah}</td><td>${badge(g.rsvp)}</td>
+      <td class="text-right"><button onclick="deleteRow('guests', ${i}, renderGuest)" class="text-textMuted hover:text-dangerText"><i class="fa-solid fa-trash"></i></button></td>
+    </tr>`).join('');
+}
+
+/* ---------------- BUDGET ---------------- */
+let budgetChart;
+function renderBudget(){
+  document.getElementById('budgetList').innerHTML = store.budget.map((b,i)=>
+    `<div class="flex items-center justify-between px-4 py-3 border border-borderLight rounded-lg">
+      <span class="text-sm">${b.nama}</span>
+      <div class="flex items-center gap-4"><span class="text-sm font-medium">${rupiah(b.jumlah)}</span>
+      <button onclick="deleteRow('budget', ${i}, renderBudget)" class="text-gray-300 hover:text-dangerText"><i class="fa-solid fa-xmark"></i></button></div>
+    </div>`).join('');
+  const total = store.budget.reduce((a,b)=>a+b.jumlah,0);
+  document.getElementById('budgetTotal').textContent = rupiah(total);
+  const ctx = document.getElementById('chartBudget');
+  const data = {labels: store.budget.map(b=>b.nama), datasets:[{data: store.budget.map(b=>b.jumlah), backgroundColor:['#B6977D','#D9C3AE','#E8D9C9','#9A7D65','#C9AE94']}]};
+  if(budgetChart){ budgetChart.data = data; budgetChart.update(); } else { budgetChart = new Chart(ctx, {type:'doughnut', data, options:{plugins:{legend:{position:'bottom', labels:{boxWidth:10, font:{size:10}}}}}}); }
+}
+function addBudget(){
+  const nama = document.getElementById('budgetName').value.trim();
+  const jumlah = parseFloat(document.getElementById('budgetAmount').value);
+  if(!nama || !jumlah) return alert('Isi nama pos dan estimasi budget.');
+  store.budget.push({nama, jumlah});
+  document.getElementById('budgetName').value=''; document.getElementById('budgetAmount').value='';
+  renderBudget();
+}
+
+/* ---------------- PROMO ---------------- */
+function renderPromo(){
+  document.getElementById('promoGrid').innerHTML = store.promo.map((p,i)=>
+    `<div class="bg-white border border-borderLight rounded-2xl p-6">
+      <span class="badge bg-bgCream text-primary mb-3 inline-block">${p.tag}</span>
+      <h3 class="font-serif font-semibold mb-2">${p.judul}</h3>
+      <p class="text-xs text-textMuted mb-4">${p.desc}</p>
+      <div class="flex gap-3 text-xs"><button onclick="editPromo(${i})" class="text-primary font-medium hover:underline">Edit</button><button onclick="deleteRow('promo', ${i}, renderPromo)" class="text-dangerText font-medium hover:underline">Hapus</button></div>
+    </div>`).join('');
+}
+function editPromo(i){ editIndex=i; openModal('promo', store.promo[i]); }
+
+/* ---------------- PENGGUNA ---------------- */
+function renderPengguna(){
+  document.getElementById('penggunaTable').innerHTML = store.pengguna.map((p,i)=>
+    `<tr class="border-b border-borderLight last:border-0">
+      <td class="py-3 font-medium">${p.nama}</td><td>${p.email}</td><td>${p.peran}</td><td>${badge(p.status)}</td>
+      <td class="text-right space-x-3">
+        <button onclick="togglePengguna(${i})" class="text-textMuted hover:text-primary text-xs font-medium">${p.status==='Aktif'?'Nonaktifkan':'Aktifkan'}</button>
+        <button onclick="deleteRow('pengguna', ${i}, renderPengguna)" class="text-textMuted hover:text-dangerText"><i class="fa-solid fa-trash"></i></button>
+      </td></tr>`).join('');
+}
+function togglePengguna(i){ store.pengguna[i].status = store.pengguna[i].status==='Aktif'?'Nonaktif':'Aktif'; renderPengguna(); }
+
+/* ---------------- LEADS ---------------- */
+function renderLeads(){
+  document.getElementById('leadsTable').innerHTML = store.leads.map((l,i)=>
+    `<tr class="border-b border-borderLight last:border-0">
+      <td class="py-3 font-medium">${l.nama}</td><td>${l.vendor}</td><td>${l.tanggal}</td><td>${badge(l.status)}</td>
+      <td class="text-right">
+        <select onchange="store.leads[${i}].status=this.value; renderLeads();" class="text-xs border border-borderLight rounded-lg px-2 py-1">
+          <option ${l.status==='Baru'?'selected':''}>Baru</option><option ${l.status==='Diproses'?'selected':''}>Diproses</option><option ${l.status==='Selesai'?'selected':''}>Selesai</option>
+        </select>
+      </td></tr>`).join('');
+}
+
+/* ---------------- TESTIMONI ---------------- */
+function renderTestimoni(){
+  document.getElementById('testimoniGrid').innerHTML = store.testimoni.map((t,i)=>
+    `<div class="bg-white border border-borderLight rounded-2xl p-6">
+      <div class="flex items-center justify-between mb-3"><h3 class="font-serif font-semibold">${t.nama}</h3>${badge(t.status)}</div>
+      <p class="text-sm text-textMuted mb-4">"${t.teks}"</p>
+      <div class="flex gap-3 text-xs">
+        <button onclick="store.testimoni[${i}].status='Disetujui'; renderTestimoni();" class="text-successText font-medium hover:underline">Setujui</button>
+        <button onclick="store.testimoni[${i}].status='Ditolak'; renderTestimoni();" class="text-dangerText font-medium hover:underline">Tolak</button>
+      </div></div>`).join('');
+}
+
+/* ---------------- generic delete ---------------- */
+function deleteRow(key, i, cb){
+  if(!confirm('Hapus data ini?')) return;
+  store[key].splice(i,1);
+  cb();
+}
+
+/* ---------------- MODAL SYSTEM ---------------- */
+const modalConfigs = {
+  vendor: {title:'Vendor', fields:[
+    {k:'nama', label:'Nama Vendor', type:'text'},
+    {k:'kategori', label:'Kategori', type:'select', opts:['Venue','Photography','Catering','Decoration','Entertainment']},
+    {k:'lokasi', label:'Lokasi', type:'text'},
+    {k:'status', label:'Status', type:'select', opts:['Aktif','Pending','Nonaktif']},
+  ], list:'vendors', render:renderVendorTable, extra:d=>{d.tanggal = new Date().toLocaleDateString('id-ID');}},
+  event: {title:'Event / Promo', fields:[
+    {k:'judul', label:'Judul', type:'text'}, {k:'tanggal', label:'Tanggal', type:'text'},
+    {k:'lokasi', label:'Lokasi', type:'text'}, {k:'tag', label:'Tag', type:'select', opts:['HOT EVENT','PROMO']},
+    {k:'status', label:'Status', type:'select', opts:['Aktif','Nonaktif']},
+  ], list:'events', render:renderEvent},
+  blog: {title:'Artikel Blog', fields:[
+    {k:'judul', label:'Judul Artikel', type:'text'}, {k:'status', label:'Status', type:'select', opts:['Draft','Publikasi']},
+  ], list:'blog', render:renderBlog, extra:d=>{d.tanggal = new Date().toLocaleDateString('id-ID');}},
+  mood: {title:'Inspirasi Mood', fields:[
+    {k:'judul', label:'Judul Inspirasi', type:'text'},
+  ], list:'mood', render:renderMood, extra:d=>{d.img='photo-1522673607200-164d1b6ce486';}},
+  guest: {title:'Tamu', fields:[
+    {k:'nama', label:'Nama Tamu', type:'text'}, {k:'kategori', label:'Kategori', type:'text'},
+    {k:'jumlah', label:'Jumlah', type:'number'}, {k:'rsvp', label:'Status RSVP', type:'select', opts:['Konfirmasi','Menunggu']},
+  ], list:'guests', render:renderGuest},
+  promo: {title:'Promo', fields:[
+    {k:'judul', label:'Judul Promo', type:'text'}, {k:'desc', label:'Deskripsi', type:'textarea'}, {k:'tag', label:'Tag', type:'text'},
+  ], list:'promo', render:renderPromo},
+  pengguna: {title:'Pengguna', fields:[
+    {k:'nama', label:'Nama', type:'text'}, {k:'email', label:'Email', type:'text'},
+    {k:'peran', label:'Peran', type:'select', opts:['Calon Pengantin','Vendor','Admin']}, {k:'status', label:'Status', type:'select', opts:['Aktif','Nonaktif']},
+  ], list:'pengguna', render:renderPengguna},
+};
+let currentModalKey = null;
+
+function openModal(key, existing){
+  currentModalKey = key;
+  if(!existing) editIndex = null;
+  const cfg = modalConfigs[key];
+  document.getElementById('modalTitle').textContent = (existing? 'Edit ' : 'Tambah ') + cfg.title;
+  document.getElementById('modalBody').innerHTML = cfg.fields.map(f=>{
+    const val = existing ? (existing[f.k] ?? '') : '';
+    if(f.type==='select'){
+      return `<div><label class="block text-sm text-textMuted mb-1.5">${f.label}</label>
+        <select data-field="${f.k}" class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm">
+          ${f.opts.map(o=>`<option ${o===val?'selected':''}>${o}</option>`).join('')}
+        </select></div>`;
+    } else if(f.type==='textarea'){
+      return `<div><label class="block text-sm text-textMuted mb-1.5">${f.label}</label>
+        <textarea data-field="${f.k}" rows="3" class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm">${val}</textarea></div>`;
+    } else {
+      return `<div><label class="block text-sm text-textMuted mb-1.5">${f.label}</label>
+        <input data-field="${f.k}" type="${f.type}" value="${val}" class="w-full border border-borderLight rounded-lg px-4 py-2.5 text-sm"></div>`;
+    }
+  }).join('');
+  document.getElementById('modalBackdrop').classList.remove('hidden');
+  document.getElementById('modalBackdrop').classList.add('flex');
+}
+function closeModal(){
+  document.getElementById('modalBackdrop').classList.add('hidden');
+  document.getElementById('modalBackdrop').classList.remove('flex');
+  editIndex = null;
+}
+function submitModal(){
+  const cfg = modalConfigs[currentModalKey];
+  const data = {};
+  document.querySelectorAll('#modalBody [data-field]').forEach(el=>{ data[el.dataset.field] = el.value; });
+  if(cfg.extra && editIndex===null) cfg.extra(data);
+  if(editIndex!==null){ Object.assign(store[cfg.list][editIndex], data); }
+  else { store[cfg.list].push(data); }
+  cfg.render();
+  closeModal();
+}
+
+/* ---------------- CHARTS ---------------- */
+function initCharts(){
+  new Chart(document.getElementById('chartVisitor'), {
+    type:'line',
+    data:{ labels:['11 Mei','12 Mei','13 Mei','14 Mei','15 Mei','16 Mei','17 Mei'],
+      datasets:[
+        {label:'Pengunjung', data:[850,1050,900,1150,1700,1750,1150], borderColor:'#B6977D', backgroundColor:'#B6977D22', tension:.4, fill:true},
+        {label:'Page Views', data:[600,650,550,700,900,1350,1000], borderColor:'#C9B9A8', borderDash:[5,4], tension:.4, fill:false},
+      ]},
+    options:{plugins:{legend:{position:'top', align:'start', labels:{boxWidth:10,font:{size:11}}}}, scales:{y:{grid:{color:'#F1EDE8'}}, x:{grid:{display:false}}}}
+  });
+  new Chart(document.getElementById('chartDonut'), {
+    type:'doughnut',
+    data:{ labels:['Google','Facebook','Email','Lainnya'], datasets:[{data:[57,24,13,6], backgroundColor:['#B6977D','#BDBDBD','#E4C9A8','#E8E8E8']}]},
+    options:{cutout:'70%', plugins:{legend:{display:false}}}
+  });
+  new Chart(document.getElementById('chartLaporan1'), {
+    type:'bar',
+    data:{ labels:['Jan','Feb','Mar','Apr','Mei','Jun'], datasets:[{label:'Vendor Baru', data:[24,30,28,35,40,45], backgroundColor:'#B6977D', borderRadius:6}]},
+    options:{plugins:{legend:{display:false}}, scales:{y:{grid:{color:'#F1EDE8'}}, x:{grid:{display:false}}}}
+  });
+  new Chart(document.getElementById('chartLaporan2'), {
+    type:'line',
+    data:{ labels:['Jan','Feb','Mar','Apr','Mei','Jun'], datasets:[{label:'Revenue', data:[80,120,100,150,210,245], borderColor:'#B6977D', backgroundColor:'#B6977D22', fill:true, tension:.4}]},
+    options:{plugins:{legend:{display:false}}, scales:{y:{grid:{color:'#F1EDE8'}}, x:{grid:{display:false}}}}
+  });
+}
+
+/* ---------------- INIT ---------------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderVendorTable(); renderKategori(); renderMood(); renderEvent(); renderBlog();
+  renderChecklist(); renderGuest(); renderBudget(); renderPromo(); renderPengguna(); renderLeads(); renderTestimoni();
+  initCharts();
+});
+</script>
+</body>
+</html>
